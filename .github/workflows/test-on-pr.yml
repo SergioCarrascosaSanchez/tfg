@@ -1,6 +1,6 @@
 name: test-on-pr
 on:
-  pull-request:
+  pull_request:
     branches: [main]
 jobs:
   execute_tests:
