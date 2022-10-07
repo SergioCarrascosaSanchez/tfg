@@ -1,0 +1,18 @@
+name: tests-push-ui
+on:
+  push:
+    branches: [priceapi/*]
+jobs:
+  execute_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node 16.15.1
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.15.1'
+      - name: Run ui tests
+        run: |
+              cd ./ui
+              npm i
+              npm run test-ci
