@@ -1,0 +1,18 @@
+name: tests-push-price-api
+on:
+  push:
+    branches: [priceapi/*]
+jobs:
+  execute_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name:  Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+      - name: Run prices-api tests
+        run: |
+              cd ./prices-api
+              mvn test
