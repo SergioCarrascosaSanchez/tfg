@@ -1,7 +1,7 @@
 name: tests-push-ui
 on:
   push:
-    branches: [priceapi/*]
+    branches: [ui/*]
 jobs:
   execute_tests:
     runs-on: ubuntu-latest

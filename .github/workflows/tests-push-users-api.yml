@@ -1,7 +1,7 @@
 name: tests-push-users-api
 on:
   push:
-    branches: [priceapi/*]
+    branches: [usersapi/*]
 jobs:
   execute_tests:
     runs-on: ubuntu-latest
