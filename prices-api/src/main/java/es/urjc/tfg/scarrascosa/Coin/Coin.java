@@ -1,9 +1,7 @@
 package es.urjc.tfg.scarrascosa.Coin;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.IntPredicate;
 
 public class Coin {
     
@@ -12,11 +10,13 @@ public class Coin {
     private static final int MAX_10m_PRICES = 50;
     private List<Double> listOf10mPrices;
     private List<Double> listOf1dPrices;
+    private List<Double> listOfAllPrices;
     
     public Coin(String ticker) {
         this.ticker = ticker;
         this.listOf10mPrices = new LinkedList<>();
         this.listOf1dPrices = new LinkedList<>();
+        this.listOfAllPrices = new LinkedList<>();
     }
 
     public String getTicker() {
@@ -53,6 +53,16 @@ public class Coin {
 
     public void delete1dPrices() {
         this.listOf1dPrices = new LinkedList<>();
+    }
+
+    public void addToListOfAllPrices(double price) {
+        this.listOfAllPrices.add(price);
+        
+    }
+
+    public List<Double> getListOfAllPrices() {
+        return this.listOfAllPrices;
+        
     }
 
 }
