@@ -1,7 +1,6 @@
 package es.urjc.tfg.scarrascosa;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -51,22 +50,22 @@ class CoinUnitaryTests {
     "10.0, 20.0, 30.0",
     "20.0, 10.0, 40.0"
     })
-    void testAddToPriceListOf10mPrices(double price1, double price2, double price3) {
+    void testAddToPriceListOf10sPrices(double price1, double price2, double price3) {
         
         String ticker = "SCSBUSD";
         Coin coin = new Coin(ticker);
         
-        assertThat(coin.getListOf10mPrices().size()).isEqualTo(0);
+        assertThat(coin.getListOf10sPrices().size()).isEqualTo(0);
         
         coin.addLastPrice(price1);
         coin.addLastPrice(price2);
         coin.addLastPrice(price3);
         
-        assertThat(coin.getListOf10mPrices()).isEqualTo(Arrays.asList(price1, price2, price3));
+        assertThat(coin.getListOf10sPrices()).isEqualTo(Arrays.asList(price1, price2, price3));
     }
     
     @Test
-    void testAddMaxPricesToListOf10mPrices() {
+    void testAddMaxPricesToListOf10sPrices() {
         
         String ticker = "SCSBUSD";
         Coin coin = new Coin(ticker);
@@ -81,7 +80,7 @@ class CoinUnitaryTests {
         
         coin.addLastPrice(50.0);
         
-        assertThat(coin.getListOf10mPrices()).isEqualTo(list);
+        assertThat(coin.getListOf10sPrices()).isEqualTo(list);
         
     }
     
@@ -91,41 +90,41 @@ class CoinUnitaryTests {
         String ticker = "SCSBUSD";
         Coin coin = new Coin(ticker);
         
-        assertThat(coin.getListOf1dPrices().size()).isEqualTo(0);
+        assertThat(coin.getListOf30mPrices().size()).isEqualTo(0);
         
         double price1 = 10.0;
         double price2 = 20.0;
         double price3 = 15.0;
         
-        coin.add1dPrice(price1);
-        coin.add1dPrice(price2);
-        coin.add1dPrice(price3);
+        coin.add30mPrice(price1);
+        coin.add30mPrice(price2);
+        coin.add30mPrice(price3);
         
-        assertThat(coin.getListOf1dPrices()).isEqualTo(Arrays.asList(price1, price2, price3));
+        assertThat(coin.getListOf30mPrices()).isEqualTo(Arrays.asList(price1, price2, price3));
         
     }
     
     @Test
-    void testDeleteAll1dPrices() {
+    void testDeleteAll30mPrices() {
         
         String ticker = "SCSBUSD";
         Coin coin = new Coin(ticker);
         
-        assertThat(coin.getListOf1dPrices().size()).isEqualTo(0);
+        assertThat(coin.getListOf30mPrices().size()).isEqualTo(0);
         
         double price1 = 10.0;
         double price2 = 20.0;
         double price3 = 15.0;
         
-        coin.add1dPrice(price1);
-        coin.add1dPrice(price2);
-        coin.add1dPrice(price3);
+        coin.add30mPrice(price1);
+        coin.add30mPrice(price2);
+        coin.add30mPrice(price3);
         
-        assertThat(coin.getListOf1dPrices()).isEqualTo(Arrays.asList(price1, price2, price3));
+        assertThat(coin.getListOf30mPrices()).isEqualTo(Arrays.asList(price1, price2, price3));
         
-        coin.delete1dPrices();
+        coin.delete30mPrices();
         
-        assertThat(coin.getListOf1dPrices()).isEqualTo(Arrays.asList());
+        assertThat(coin.getListOf30mPrices()).isEqualTo(Arrays.asList());
     }
     
     @Test

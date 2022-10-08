@@ -7,15 +7,15 @@ public class Coin {
     
     private String ticker;
     private double lastPrice;
-    private static final int MAX_10m_PRICES = 50;
-    private List<Double> listOf10mPrices;
-    private List<Double> listOf1dPrices;
+    private static final int MAX_10s_PRICES = 50;
+    private List<Double> listOf10sPrices;
+    private List<Double> listOf30mPrices;
     private List<Double> listOfAllPrices;
     
     public Coin(String ticker) {
         this.ticker = ticker;
-        this.listOf10mPrices = new LinkedList<>();
-        this.listOf1dPrices = new LinkedList<>();
+        this.listOf10sPrices = new LinkedList<>();
+        this.listOf30mPrices = new LinkedList<>();
         this.listOfAllPrices = new LinkedList<>();
     }
 
@@ -25,34 +25,34 @@ public class Coin {
     
     public void addLastPrice(double price) {
         this.lastPrice = price;
-        addToListOf10mPrices(price);
+        addToListOf10sPrices(price);
     }
     
     public double getLastPrice() {
         return lastPrice;
     }
 
-    public List<Double> getListOf10mPrices() {
-        return this.listOf10mPrices;
+    public List<Double> getListOf10sPrices() {
+        return this.listOf10sPrices;
     }
     
-    public void addToListOf10mPrices(double price) {
-        if(listOf10mPrices.size() == MAX_10m_PRICES) {
-            listOf10mPrices.remove(0);
+    public void addToListOf10sPrices(double price) {
+        if(listOf10sPrices.size() == MAX_10s_PRICES) {
+            listOf10sPrices.remove(0);
         }
-        this.listOf10mPrices.add(price);
+        this.listOf10sPrices.add(price);
     }
 
-    public void add1dPrice(double price) {
-        this.listOf1dPrices.add(price);
+    public void add30mPrice(double price) {
+        this.listOf30mPrices.add(price);
     }
 
-    public List<Double> getListOf1dPrices() {
-        return this.listOf1dPrices;
+    public List<Double> getListOf30mPrices() {
+        return this.listOf30mPrices;
     }
 
-    public void delete1dPrices() {
-        this.listOf1dPrices = new LinkedList<>();
+    public void delete30mPrices() {
+        this.listOf30mPrices = new LinkedList<>();
     }
 
     public void addToListOfAllPrices(double price) {
