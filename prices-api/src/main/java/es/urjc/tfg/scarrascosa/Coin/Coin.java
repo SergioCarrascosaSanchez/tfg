@@ -3,13 +3,32 @@ package es.urjc.tfg.scarrascosa.Coin;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+@Entity
 public class Coin {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String ticker;
     private double lastPrice;
     private static final int MAX_10s_PRICES = 50;
+    @ElementCollection
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Double> listOf10sPrices;
+    @ElementCollection
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Double> listOf30mPrices;
+    @ElementCollection
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Double> listOfAllPrices;
     
     public Coin(String ticker) {
@@ -18,7 +37,11 @@ public class Coin {
         this.listOf30mPrices = new LinkedList<>();
         this.listOfAllPrices = new LinkedList<>();
     }
-
+    
+    public Long getId() {
+        return this.id;
+    }
+    
     public String getTicker() {
         return this.ticker;
     }
