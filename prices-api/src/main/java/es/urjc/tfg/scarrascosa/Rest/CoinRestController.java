@@ -49,7 +49,6 @@ public class CoinRestController {
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        
     }
     
     @GetMapping("/30m/{ticker}")
@@ -60,6 +59,20 @@ public class CoinRestController {
             Coin coin = optionalCoin.get();
             PricesResponseDTO response = new PricesResponseDTO();
             response.setPrices(coin.getListOf30mPrices());
+            return new ResponseEntity<PricesResponseDTO>(response, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    @GetMapping("/All/{ticker}")
+    public ResponseEntity<PricesResponseDTO> getAllPricesByTicker(@PathVariable String ticker) {
+        
+        Optional<Coin> optionalCoin = this.coinRepository.findByTicker(ticker);
+        if(optionalCoin.isPresent()) {
+            Coin coin = optionalCoin.get();
+            PricesResponseDTO response = new PricesResponseDTO();
+            response.setPrices(coin.getListOfAllPrices());
             return new ResponseEntity<PricesResponseDTO>(response, HttpStatus.OK);
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

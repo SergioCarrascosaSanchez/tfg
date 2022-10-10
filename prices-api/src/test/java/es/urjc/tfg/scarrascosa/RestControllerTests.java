@@ -2,12 +2,9 @@ package es.urjc.tfg.scarrascosa;
 
 import static io.restassured.path.json.JsonPath.from;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -70,7 +67,8 @@ class RestControllerTests {
     @CsvSource({
     "prices-api/last/NFBUSD1",
     "prices-api/10s/NFBUSD2",
-    "prices-api/30m/NFBUSD3"
+    "prices-api/30m/NFBUSD3",
+    "prices-api/30m/NFBUSD4"
     })
     void getPriceTestNotFound(String endpoint) {
         
@@ -145,6 +143,43 @@ class RestControllerTests {
         Response response2 =
                 when().
                     get("/prices-api/30m/{ticker}",ticker).
+                then().
+                    statusCode(200).extract().response();
+        
+        List<Float> priceResponse2 = from(response2.getBody().asString()).get("prices");
+        List<Double> priceResponseDoubles = priceResponse2.stream().map(floatNumber -> Double.valueOf(floatNumber.toString())).toList();
+        assertThat(priceResponseDoubles).isEqualTo(Arrays.asList(price1, price2));
+             
+    }
+    
+    @Test
+    void getAllPricesTest() {
+        
+        String ticker = "SCSBUSD6";
+        Double price1 = 10.0;
+        Double price2 = 1275.12;
+        
+        Coin coin = new Coin(ticker);
+        
+        this.coinRepository.save(coin);
+        
+        Response response =
+                when().
+                    get("/prices-api/All/{ticker}",ticker).
+                then().
+                    statusCode(200).extract().response();
+        
+        List<Float> priceResponse = from(response.getBody().asString()).get("prices");
+        assertThat(priceResponse).isEqualTo(Arrays.asList());
+        
+        coin.addToListOfAllPrices(price1);
+        coin.addToListOfAllPrices(price2);
+        
+        this.coinRepository.save(coin);
+        
+        Response response2 =
+                when().
+                    get("/prices-api/All/{ticker}",ticker).
                 then().
                     statusCode(200).extract().response();
         
