@@ -21,7 +21,7 @@ public class CoinRestController {
     @Autowired
     private CoinRepository coinRepository;
     
-    @GetMapping("/{ticker}/last")
+    @GetMapping("/last/{ticker}")
     public ResponseEntity<PriceResponseDTO> getLastPriceByTicker(@PathVariable String ticker) {
         
         Optional<Coin> optionalCoin = this.coinRepository.findByTicker(ticker);

@@ -49,7 +49,7 @@ class RestControllerTests {
         
         Response response =
                 when().
-                    get("/prices-api/{ticker}/last",ticker).
+                    get("/prices-api/last/{ticker}",ticker).
                 then().
                     statusCode(200).extract().response();
         
