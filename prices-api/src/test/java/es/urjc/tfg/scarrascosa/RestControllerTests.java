@@ -5,6 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +71,44 @@ class RestControllerTests {
         
         when().
             get("/prices-api/{ticker}/last",ticker).
+        then().
+            statusCode(404);
+    }
+    
+    @Test
+    void get10sPricesTest() {
+        
+        String ticker = "SCSBUSD3";
+        Double price1 = 10.0;
+        Double price2 = 1275.12;
+        
+        Coin coin = new Coin(ticker);
+        coin.addLastPrice(price1);
+        coin.addLastPrice(price2);
+        
+        this.coinRepository.save(coin);
+        
+        
+        
+        Response response =
+                when().
+                    get("/prices-api/10s/{ticker}",ticker).
+                then().
+                    statusCode(200).extract().response();
+        
+        List<Float> priceResponse = from(response.getBody().asString()).get("prices");
+        List<Double> priceResponseDoubles = priceResponse.stream().map(floatNumber -> Double.valueOf(floatNumber.toString())).toList();
+        assertThat(priceResponseDoubles).isEqualTo(Arrays.asList(price1, price2));
+             
+    }
+    
+    @Test
+    void get10sPricesTestNotFound() {
+        
+        String ticker = "SCSBUSD4";
+        
+        when().
+            get("/prices-api/10s/{ticker}",ticker).
         then().
             statusCode(404);
     }

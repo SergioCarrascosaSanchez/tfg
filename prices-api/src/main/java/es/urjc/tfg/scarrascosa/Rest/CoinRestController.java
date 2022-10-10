@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.urjc.tfg.scarrascosa.Coin.Coin;
 import es.urjc.tfg.scarrascosa.Coin.CoinRepository;
 import es.urjc.tfg.scarrascosa.DTO.PriceResponseDTO;
+import es.urjc.tfg.scarrascosa.DTO.PricesResponseDTO;
 
 @RestController
 @RequestMapping("/prices-api")
@@ -30,6 +31,21 @@ public class CoinRestController {
             PriceResponseDTO response = new PriceResponseDTO();
             response.setPrice(coin.getLastPrice());
             return new ResponseEntity<PriceResponseDTO>(response, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        
+    }
+    
+    @GetMapping("/10s/{ticker}")
+    public ResponseEntity<PricesResponseDTO> get10sPricesByTicker(@PathVariable String ticker) {
+        
+        Optional<Coin> optionalCoin = this.coinRepository.findByTicker(ticker);
+        if(optionalCoin.isPresent()) {
+            Coin coin = optionalCoin.get();
+            PricesResponseDTO response = new PricesResponseDTO();
+            response.setPrices(coin.getListOf10sPrices());
+            return new ResponseEntity<PricesResponseDTO>(response, HttpStatus.OK);
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
