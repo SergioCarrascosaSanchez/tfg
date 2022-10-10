@@ -87,21 +87,31 @@ class RestControllerTests {
         Double price2 = 1275.12;
         
         Coin coin = new Coin(ticker);
+        
+        this.coinRepository.save(coin);
+        
+        Response response =
+                when().
+                    get("/prices-api/30m/{ticker}",ticker).
+                then().
+                    statusCode(200).extract().response();
+        
+        List<Float> priceResponse = from(response.getBody().asString()).get("prices");
+        assertThat(priceResponse).isEqualTo(Arrays.asList());
+        
         coin.addLastPrice(price1);
         coin.addLastPrice(price2);
         
         this.coinRepository.save(coin);
         
-        
-        
-        Response response =
+        Response response2 =
                 when().
                     get("/prices-api/10s/{ticker}",ticker).
                 then().
                     statusCode(200).extract().response();
         
-        List<Float> priceResponse = from(response.getBody().asString()).get("prices");
-        List<Double> priceResponseDoubles = priceResponse.stream().map(floatNumber -> Double.valueOf(floatNumber.toString())).toList();
+        List<Float> priceResponse2 = from(response2.getBody().asString()).get("prices");
+        List<Double> priceResponseDoubles = priceResponse2.stream().map(floatNumber -> Double.valueOf(floatNumber.toString())).toList();
         assertThat(priceResponseDoubles).isEqualTo(Arrays.asList(price1, price2));
              
     }
