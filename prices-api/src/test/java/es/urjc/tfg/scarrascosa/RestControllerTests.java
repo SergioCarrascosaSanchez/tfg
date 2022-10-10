@@ -68,8 +68,9 @@ class RestControllerTests {
     
     @ParameterizedTest
     @CsvSource({
-    "prices-api/last/SCSBUSD2",
-    "prices-api/10s/SCSBUSD3"
+    "prices-api/last/NFBUSD1",
+    "prices-api/10s/NFBUSD2",
+    "prices-api/30m/NFBUSD3"
     })
     void getPriceTestNotFound(String endpoint) {
         
@@ -92,7 +93,7 @@ class RestControllerTests {
         
         Response response =
                 when().
-                    get("/prices-api/30m/{ticker}",ticker).
+                    get("/prices-api/10s/{ticker}",ticker).
                 then().
                     statusCode(200).extract().response();
         
@@ -140,8 +141,6 @@ class RestControllerTests {
         coin.add30mPrice(price2);
         
         this.coinRepository.save(coin);
-        
-        
         
         Response response2 =
                 when().
