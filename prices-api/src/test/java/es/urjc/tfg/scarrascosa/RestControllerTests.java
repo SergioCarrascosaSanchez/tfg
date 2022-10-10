@@ -11,6 +11,8 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -64,13 +66,15 @@ class RestControllerTests {
         
     }
     
-    @Test
-    void getLastPriceTestNotFound() {
-        
-        String ticker = "SCSBUSD2";
+    @ParameterizedTest
+    @CsvSource({
+    "prices-api/last/SCSBUSD2",
+    "prices-api/10s/SCSBUSD3"
+    })
+    void getPriceTestNotFound(String endpoint) {
         
         when().
-            get("/prices-api/{ticker}/last",ticker).
+            get(endpoint).
         then().
             statusCode(404);
     }
@@ -78,7 +82,7 @@ class RestControllerTests {
     @Test
     void get10sPricesTest() {
         
-        String ticker = "SCSBUSD3";
+        String ticker = "SCSBUSD4";
         Double price1 = 10.0;
         Double price2 = 1275.12;
         
@@ -100,17 +104,6 @@ class RestControllerTests {
         List<Double> priceResponseDoubles = priceResponse.stream().map(floatNumber -> Double.valueOf(floatNumber.toString())).toList();
         assertThat(priceResponseDoubles).isEqualTo(Arrays.asList(price1, price2));
              
-    }
-    
-    @Test
-    void get10sPricesTestNotFound() {
-        
-        String ticker = "SCSBUSD4";
-        
-        when().
-            get("/prices-api/10s/{ticker}",ticker).
-        then().
-            statusCode(404);
     }
 
 }
