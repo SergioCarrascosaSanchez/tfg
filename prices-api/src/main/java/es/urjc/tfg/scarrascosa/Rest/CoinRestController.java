@@ -52,4 +52,19 @@ public class CoinRestController {
         
     }
     
+    @GetMapping("/30m/{ticker}")
+    public ResponseEntity<PricesResponseDTO> get30mPricesByTicker(@PathVariable String ticker) {
+        
+        Optional<Coin> optionalCoin = this.coinRepository.findByTicker(ticker);
+        if(optionalCoin.isPresent()) {
+            Coin coin = optionalCoin.get();
+            PricesResponseDTO response = new PricesResponseDTO();
+            response.setPrices(coin.getListOf30mPrices());
+            return new ResponseEntity<PricesResponseDTO>(response, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        
+    }
+    
 }

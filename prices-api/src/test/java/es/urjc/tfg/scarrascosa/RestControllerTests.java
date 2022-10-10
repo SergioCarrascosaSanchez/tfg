@@ -105,5 +105,45 @@ class RestControllerTests {
         assertThat(priceResponseDoubles).isEqualTo(Arrays.asList(price1, price2));
              
     }
+    
+    @Test
+    void get30mPricesTest() {
+        
+        String ticker = "SCSBUSD5";
+        Double price1 = 10.0;
+        Double price2 = 1275.12;
+        
+        Coin coin = new Coin(ticker);
+        
+        this.coinRepository.save(coin);
+        
+        Response response =
+                when().
+                    get("/prices-api/30m/{ticker}",ticker).
+                then().
+                    statusCode(200).extract().response();
+        
+        List<Float> priceResponse = from(response.getBody().asString()).get("prices");
+        assertThat(priceResponse).isEqualTo(Arrays.asList());
+        
+        coin.add30mPrice(price1);
+        coin.add30mPrice(price2);
+        
+        this.coinRepository.save(coin);
+        
+        
+        
+        Response response2 =
+                when().
+                    get("/prices-api/30m/{ticker}",ticker).
+                then().
+                    statusCode(200).extract().response();
+        
+        List<Float> priceResponse2 = from(response2.getBody().asString()).get("prices");
+        List<Double> priceResponseDoubles = priceResponse2.stream().map(floatNumber -> Double.valueOf(floatNumber.toString())).toList();
+        assertThat(priceResponseDoubles).isEqualTo(Arrays.asList(price1, price2));
+             
+    }
+    
 
 }
