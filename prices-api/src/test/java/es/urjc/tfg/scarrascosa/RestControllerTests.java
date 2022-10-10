@@ -59,5 +59,16 @@ class RestControllerTests {
             
         
     }
+    
+    @Test
+    void getLastPriceTestNotFound() {
+        
+        String ticker = "SCSBUSD2";
+        
+        when().
+            get("/prices-api/{ticker}/last",ticker).
+        then().
+            statusCode(404);
+    }
 
 }
