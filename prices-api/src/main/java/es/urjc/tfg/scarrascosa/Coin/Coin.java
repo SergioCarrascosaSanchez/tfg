@@ -31,6 +31,8 @@ public class Coin {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Double> listOfAllPrices;
     
+    public Coin() {}
+    
     public Coin(String ticker) {
         this.ticker = ticker;
         this.listOf10sPrices = new LinkedList<>();
