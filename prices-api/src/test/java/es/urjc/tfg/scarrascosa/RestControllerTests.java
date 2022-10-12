@@ -153,7 +153,7 @@ class RestControllerTests {
     }
     
     @Test
-    void getAllPricesTest() {
+    void get1dPricesTest() {
         
         String ticker = "SCSBUSD6";
         Double price1 = 10.0;
@@ -165,21 +165,21 @@ class RestControllerTests {
         
         Response response =
                 when().
-                    get("/prices-api/All/{ticker}",ticker).
+                    get("/prices-api/1d/{ticker}",ticker).
                 then().
                     statusCode(200).extract().response();
         
         List<Float> priceResponse = from(response.getBody().asString()).get("prices");
         assertThat(priceResponse).isEqualTo(Arrays.asList());
         
-        coin.addToListOfAllPrices(price1);
-        coin.addToListOfAllPrices(price2);
+        coin.add1dPrice(price1);
+        coin.add1dPrice(price2);
         
         this.coinRepository.save(coin);
         
         Response response2 =
                 when().
-                    get("/prices-api/All/{ticker}",ticker).
+                    get("/prices-api/1d/{ticker}",ticker).
                 then().
                     statusCode(200).extract().response();
         

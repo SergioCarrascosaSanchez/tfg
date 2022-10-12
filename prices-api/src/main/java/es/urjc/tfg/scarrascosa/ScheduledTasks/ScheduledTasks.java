@@ -75,7 +75,7 @@ public class ScheduledTasks {
     }
     
     @Scheduled(cron = "0 0 0 1 * ?")
-    public void fetchAllValues() {
+    public void fetch1dValues() {
         
         List<BinanceResponseDTO> responseFilteredList = fetchApiCall();
         
@@ -86,12 +86,12 @@ public class ScheduledTasks {
             Optional<Coin> optionalCoin = this.coinRepo.findByTicker(symbol);
             if(optionalCoin.isPresent()) {
                 Coin coin = optionalCoin.get();
-                coin.addToListOfAllPrices(value);
+                coin.add1dPrice(value);
                 this.coinRepo.save(coin);
             }
             else {
                 Coin coin = new Coin(symbol);
-                coin.addToListOfAllPrices(value);
+                coin.add1dPrice(value);
                 this.coinRepo.save(coin);
             }
         }

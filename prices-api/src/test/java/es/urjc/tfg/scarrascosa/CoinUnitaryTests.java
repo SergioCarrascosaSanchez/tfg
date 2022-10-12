@@ -128,19 +128,19 @@ class CoinUnitaryTests {
     }
     
     @Test
-    void testAddToAllPrices() {
+    void testAddTo1dPrices() {
         
         String ticker = "SCSBUSD";
         Coin coin = new Coin(ticker);
         
-        assertThat(coin.getListOfAllPrices().size()).isEqualTo(0);
+        assertThat(coin.getListOf1dPrices().size()).isEqualTo(0);
         
         double price1 = 10.0;
         double price2 = 20.0;
-        coin.addToListOfAllPrices(price1);
-        coin.addToListOfAllPrices(price2);
+        coin.add1dPrice(price1);
+        coin.add1dPrice(price2);
         
-        assertThat(coin.getListOfAllPrices()).isEqualTo(Arrays.asList(price1, price2));
+        assertThat(coin.getListOf1dPrices()).isEqualTo(Arrays.asList(price1, price2));
         
     }
 

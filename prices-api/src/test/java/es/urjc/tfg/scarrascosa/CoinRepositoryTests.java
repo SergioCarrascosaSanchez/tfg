@@ -32,8 +32,8 @@ class CoinRepositoryTests {
         coin.addLastPrice(price2);
         coin.add30mPrice(price3);
         coin.add30mPrice(price4);
-        coin.addToListOfAllPrices(price5);
-        coin.addToListOfAllPrices(price6);
+        coin.add1dPrice(price5);
+        coin.add1dPrice(price6);
         
         Coin savedCoin = this.coinRepository.save(coin);
         
@@ -46,7 +46,7 @@ class CoinRepositoryTests {
         assertThat(optionalCoin.get().getLastPrice()).isEqualTo(price2);
         assertThat(Arrays.asList(optionalCoin.get().getListOf10sPrices().toArray())).isEqualTo(Arrays.asList(price1, price2));
         assertThat(Arrays.asList(optionalCoin.get().getListOf30mPrices().toArray())).isEqualTo(Arrays.asList(price3, price4));
-        assertThat(Arrays.asList(optionalCoin.get().getListOfAllPrices().toArray())).isEqualTo(Arrays.asList(price5, price6));
+        assertThat(Arrays.asList(optionalCoin.get().getListOf1dPrices().toArray())).isEqualTo(Arrays.asList(price5, price6));
         
     }
     

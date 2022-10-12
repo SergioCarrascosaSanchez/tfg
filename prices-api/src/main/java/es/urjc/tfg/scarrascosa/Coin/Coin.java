@@ -29,7 +29,7 @@ public class Coin {
     private List<Double> listOf30mPrices;
     @ElementCollection
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Double> listOfAllPrices;
+    private List<Double> listOf1dPrices;
     
     public Coin() {}
     
@@ -37,7 +37,7 @@ public class Coin {
         this.ticker = ticker;
         this.listOf10sPrices = new LinkedList<>();
         this.listOf30mPrices = new LinkedList<>();
-        this.listOfAllPrices = new LinkedList<>();
+        this.listOf1dPrices = new LinkedList<>();
     }
     
     public Long getId() {
@@ -80,13 +80,13 @@ public class Coin {
         this.listOf30mPrices = new LinkedList<>();
     }
 
-    public void addToListOfAllPrices(double price) {
-        this.listOfAllPrices.add(price);
+    public void add1dPrice(double price) {
+        this.listOf1dPrices.add(price);
         
     }
 
-    public List<Double> getListOfAllPrices() {
-        return this.listOfAllPrices;
+    public List<Double> getListOf1dPrices() {
+        return this.listOf1dPrices;
         
     }
 
