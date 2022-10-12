@@ -87,6 +87,7 @@ public class ScheduledTasks {
             if(optionalCoin.isPresent()) {
                 Coin coin = optionalCoin.get();
                 coin.add1dPrice(value);
+                coin.delete30mPrices();
                 this.coinRepo.save(coin);
             }
             else {
