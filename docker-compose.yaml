@@ -1,0 +1,54 @@
+services:
+  prices-api:
+    build:
+      context: ./prices-api
+      dockerfile: ./Dockerfile
+    environment:    
+      - POSTGRES_HOST=pg      
+      - POSTGRES_DB=pg
+      - POSTGRES_USER=pg
+      - POSTGRES_PASSWORD=pg123
+      - POSTGRES_PORT=5432
+    ports:
+      - "8080:8080"
+    depends_on:
+      - pg
+  users-api:
+    build:
+      context: ./users-api
+      dockerfile: ./Dockerfile
+    environment:    
+      - POSTGRES_HOST=pg      
+      - POSTGRES_DB=pg
+      - POSTGRES_USER=pg
+      - POSTGRES_PASSWORD=pg123
+      - POSTGRES_PORT=5432
+    ports:
+      - "8081:8081"
+    depends_on:
+      - pg
+  ui:
+    build:
+      context: ./ui
+      dockerfile: ./Dockerfile
+    ports:
+      - "80:80"
+    links:
+      - prices-api
+      - users-api
+    depends_on:
+      - prices-api
+      - users-api
+  pg:
+    image: "postgres:9.6-alpine"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_HOST=pg      
+      - POSTGRES_DB=pg
+      - POSTGRES_USER=pg
+      - POSTGRES_PASSWORD=pg123
+    volumes:
+       - ./data:/var/lib/postgresql/data
+volumes:
+  postgres-data:
