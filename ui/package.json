@@ -3,6 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "proxy": {
+    "/prices-api/.*":{
+      "target": "http://prices-api:8080/"
+    },
+    "/users-api/.*":{
+      "target": "http://users-api:8081/"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
