@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest"
 import { cleanup, render, screen } from "@testing-library/react";
 import { MarketPage, MarketName, popularCryptocurrencies, popularCryptocurrenciesPrices } from '../src/pages/MarketPage/MarketPage'
+import { options, appName } from "../src/components/Navbar/Navbar"
 
 describe('MarketPage', () => {
     
@@ -10,9 +11,30 @@ describe('MarketPage', () => {
       render(<MarketPage/>)
     });
 
-    it('should render title', () => {
+    it('should render appName + options', () => {
         render(<MarketPage/>)
-        expect(screen.getByText(MarketName).tagName).toBe("H1")
+    
+        screen.getByText(appName)
+        expect(document.getElementById(`${appName}Navbar`).firstChild.textContent).toBe(appName);
+        options.forEach(option => {
+          expect(document.getElementById(`${option}Navbar`).firstChild.textContent).toBe(option);
+        })
+      })
+
+    it('should render only one MarketName as h1 title', () => {
+        render(<MarketPage/>)
+        let h1MarketName
+        screen.getAllByText(MarketName).forEach(element => {
+            if((element.tagName === "H1")){
+                if(h1MarketName === undefined){
+                    h1MarketName = true
+                }
+                else{
+                    h1MarketName = false
+                }
+            }
+        })
+        expect(h1MarketName).toBe(true)
     });
 
     it('should render textbox to search', () => {
