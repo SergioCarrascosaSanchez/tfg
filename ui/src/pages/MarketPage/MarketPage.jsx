@@ -1,5 +1,6 @@
 import { TextField, Button, Box, Typography, Card } from "@mui/joy";
 import { Navbar } from "../../components/Navbar/Navbar";
+import { Chart } from '../../components/Chart/Chart';
 
 export const MarketName = "Mercados"
 export const popularCryptocurrencies = ["BTC", "ETH", "BNB", "XRP", "DOGE", "ADA", "SOL", "MATIC", "DOT"]
@@ -31,7 +32,9 @@ export const MarketPage = () => {
                             <Typography level="h2" component="h2" sx={{gridColumn:1, textAlign: "left"}}>{cryto}</Typography>
                             <Typography level="h2" id={`${cryto}Price`} sx={{gridColumn:2, textAlign: "right"}}>{popularCryptocurrenciesPrices[cryto]}</Typography>
                         </Box>
-                        <Box element="div" id={`${cryto}Graph`} sx={{width: "250px", height: "200px", backgroundColor: "#cfcfcf", margin: "auto", borderRadius: "12px"}}></Box>
+                        <Box element="div" id={`${cryto}Graph`} sx={{width: "250px", height: "auto", margin: "auto", borderRadius: "12px"}}>
+                            <Chart data={[17759.71,17317.15,17420.93,17108.63,16908.92,16637.5,16654.63,15779.58,15658.35,16223.22,16103.96,16286.2,16612.69,16586.98]}/>
+                        </Box>
                     </Card>
                 )}
                 </Box>
