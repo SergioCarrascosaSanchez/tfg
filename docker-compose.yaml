@@ -49,6 +49,6 @@ services:
       - POSTGRES_USER=pg
       - POSTGRES_PASSWORD=pg123
     volumes:
-       - ./data:/var/lib/postgresql/data
+       - postgres-data:/var/lib/postgresql/data
 volumes:
   postgres-data:
