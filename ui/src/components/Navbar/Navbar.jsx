@@ -14,14 +14,14 @@ export const Navbar = () => {
                 }}>
 
                 <ListItem>
-                    <Typography textColor="white" level="h6">
+                    <Typography textColor="white" level="h6" id={`${appName}Navbar`}>
                         {appName}
                     </Typography>
                 </ListItem>
                 
                 {options.map(option => (
-                    <ListItem key={option} sx={{mx: "auto"}}>
-                        <Typography textColor="white" level="h6">
+                    <ListItem key={`${option}Navbar}`} sx={{mx: "auto"}}>
+                        <Typography textColor="white" level="h6" id={`${option}Navbar`}>
                             {option}
                         </Typography>
                     </ListItem>

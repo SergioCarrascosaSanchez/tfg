@@ -15,9 +15,9 @@ describe('Navbar', () => {
     render(<Navbar/>)
 
     screen.getByText(appName)
-
+    expect(document.getElementById(`${appName}Navbar`).firstChild.textContent).toBe(appName);
     options.forEach(option => {
-      screen.getByText(option)
+      expect(document.getElementById(`${option}Navbar`).firstChild.textContent).toBe(option);
     })
   })
 

@@ -1,4 +1,6 @@
 import {extendTheme } from '@mui/joy/styles';
+import {createGetCssVar} from '@mui/joy/styles/extendTheme'
+const getCssVar = createGetCssVar("joy");
 
 export const customTheme = extendTheme({
     colorSchemes: {
@@ -27,6 +29,14 @@ export const customTheme = extendTheme({
         letterSpacing: 'var(--joy-letterSpacing-xs)',
         color: 'var(--joy-palette-text-primary)',
         fontWeight: 'var(--joy-fontWeight-lg)',
+      },
+      h2:{
+        fontFamily: getCssVar('fontFamily-display'),
+        fontWeight: getCssVar('fontWeight-xl'),
+        fontSize: getCssVar('fontSize-xl3'),
+        lineHeight: getCssVar('lineHeight-sm'),
+        letterSpacing: getCssVar('letterSpacing-sm'),
+        color: getCssVar('palette-text-primary')
       }
     },
   });
