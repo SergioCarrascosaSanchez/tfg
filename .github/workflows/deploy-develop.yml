@@ -1,12 +1,14 @@
-name: testing-push
+name: deploy-develop
 on:
   push:
-    branches: [develop, feature/*]
+    branches: [develop]
+
 jobs:
-  execute_tests:
+  test_and_deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      
       - name:  Set up JDK 17
         uses: actions/setup-java@v2
         with:
@@ -29,3 +31,15 @@ jobs:
               cd ./ui
               npm i
               npm run test-ci
+
+      - name: Get Okteto CLI
+        run: curl https://get.okteto.com -sSfL | sh
+          
+      - name: Okteto login
+        run: okteto context --token ${{ secrets.OKTETO_TOKEN }} use
+        
+      - name: Go to namespace
+        run: okteto namespace --personal tfg-dev-sergiocarrascosasanchez
+        
+      - name: Deploy
+        run: okteto deploy --wait --build

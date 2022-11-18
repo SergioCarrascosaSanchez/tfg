@@ -4,10 +4,10 @@ services:
       context: ./prices-api
       dockerfile: ./Dockerfile
     environment:    
-      - POSTGRES_HOST=pg      
-      - POSTGRES_DB=pg
-      - POSTGRES_USER=pg
-      - POSTGRES_PASSWORD=pg123
+      - POSTGRES_HOST=${DB_HOST}      
+      - POSTGRES_DB=${DB_DB}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
       - POSTGRES_PORT=5432
     ports:
       - "8080:8080"
@@ -18,10 +18,10 @@ services:
       context: ./users-api
       dockerfile: ./Dockerfile
     environment:    
-      - POSTGRES_HOST=pg      
-      - POSTGRES_DB=pg
-      - POSTGRES_USER=pg
-      - POSTGRES_PASSWORD=pg123
+      - POSTGRES_HOST=${DB_HOST}      
+      - POSTGRES_DB=${DB_DB}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
       - POSTGRES_PORT=5432
     ports:
       - "8081:8081"
@@ -44,10 +44,10 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_HOST=pg      
-      - POSTGRES_DB=pg
-      - POSTGRES_USER=pg
-      - POSTGRES_PASSWORD=pg123
+      - POSTGRES_HOST=${DB_HOST}      
+      - POSTGRES_DB=${DB_DB}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
     volumes:
        - postgres-data:/var/lib/postgresql/data
 volumes:
