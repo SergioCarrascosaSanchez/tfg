@@ -1,31 +1,21 @@
 package es.urjc.tfg.scarrascosa.Student;
 
-public class Student {
-    private String name;
-    private String email;
+import javax.persistence.Entity;
+
+import es.urjc.tfg.scarrascosa.UserProfile.UserProfile;
+
+@Entity
+public class Student extends UserProfile{
+    
     private double balance;
     
+    public Student() {}
     
-    public Student(String name, String email, double initBalance) {
-        this.name = name;
-        this.email = email;
+    public Student(String name, String email, double initBalance, String password, String... roles) {
+        super(name, email, password, roles);
         this.balance = initBalance;
-        
     }
     
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public double getBalance() {
         return balance;
     }
@@ -33,5 +23,4 @@ public class Student {
     public void setBalance(double balance) {
         this.balance = balance;
     }
-
 }
