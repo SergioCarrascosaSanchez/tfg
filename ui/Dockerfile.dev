@@ -12,9 +12,7 @@ RUN npm install
 
 COPY . ./
 
-ARG ENV
-
-RUN npm run build${ENV}
+RUN npm run build
 
 FROM nginx:1.23.2-alpine
 
