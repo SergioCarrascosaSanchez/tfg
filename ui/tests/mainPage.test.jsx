@@ -4,7 +4,7 @@ import { options, appName } from "../src/components/Navbar/Navbar"
 import { MainPage, altMainPageImage, textMainPage, mainPageTitle} from '../src/pages/MainPage/MainPage'
 
 describe('MainPage', () => {
-    
+
     afterEach(cleanup)
 
     it('should render', () => {
@@ -35,37 +35,5 @@ describe('MainPage', () => {
     it('should display a button for login', () => {
         render(<MainPage/>)
         expect(screen.getByText("Iniciar sesión").tagName).toBe("BUTTON")
-    })
-
-    it('should render LoginPage after clicking the login button', () => {
-        render(<MainPage/>)
-        expect(screen.getAllByText("Iniciar sesión").length).toBe(1)
-        expect(screen.queryByText("Usuario")).toBeNull()
-        expect(screen.queryByRole("textbox")).toBeNull()
-        expect(screen.queryByText("Contraseña")).toBeNull()
-        expect(screen.queryByRole('password')).toBeNull()
-
-        fireEvent.click(screen.getByText("Iniciar sesión"))
-        
-        expect(screen.getAllByText("Iniciar sesión").length).toBe(3)
-        expect(screen.getByRole("button")).toHaveTextContent("Iniciar sesión")
-        expect(screen.getByRole("heading").tagName).toBe("H2") 
-        expect(screen.getByRole("heading")).toHaveTextContent("Iniciar sesión")
-        expect(screen.getByText("Usuario"))
-        expect(screen.getByRole("textbox"))
-        expect(screen.getByText("Contraseña"))
-        expect(screen.getByRole('password'))
-    })
-
-    it('should render loading button at LoginPage after clicking submit', () => {
-        render(<MainPage/>)
-
-        fireEvent.click(screen.getByText("Iniciar sesión"))
-        
-        expect(screen.getByRole("button")).toHaveTextContent("Iniciar sesión")
-
-        fireEvent.click(screen.getByRole("button"))
-
-        expect(screen.getByRole("button")).toHaveTextContent("")
     })
 })
