@@ -39,7 +39,7 @@ jobs:
         run: okteto context --token ${{ secrets.OKTETO_TOKEN }} use
         
       - name: Go to namespace
-        run: okteto namespace --personal tfg-dev-sergiocarrascosasanchez
+        run: okteto namespace --personal tfg-preprod-sergiocarrascosasanchez
         
       - name: Deploy
-        run: okteto deploy --wait --build
+        run: okteto deploy --file docker-compose.preprod.yaml --wait --build

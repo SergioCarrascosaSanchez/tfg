@@ -1,10 +1,10 @@
-import { cleanup, render, screen } from "@testing-library/react"
+import { cleanup, render, screen, fireEvent } from "@testing-library/react"
 import { describe, it } from "vitest"
 import { options, appName } from "../src/components/Navbar/Navbar"
 import { MainPage, altMainPageImage, textMainPage, mainPageTitle} from '../src/pages/MainPage/MainPage'
 
 describe('MainPage', () => {
-    
+
     afterEach(cleanup)
 
     it('should render', () => {
