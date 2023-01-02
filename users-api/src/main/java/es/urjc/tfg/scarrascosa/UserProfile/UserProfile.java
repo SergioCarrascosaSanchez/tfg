@@ -1,5 +1,6 @@
 package es.urjc.tfg.scarrascosa.UserProfile;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -30,7 +31,7 @@ public class UserProfile {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.roles = List.of(roles);
+        this.roles = Arrays.asList(roles);
     }
     
     public Long getId() {
