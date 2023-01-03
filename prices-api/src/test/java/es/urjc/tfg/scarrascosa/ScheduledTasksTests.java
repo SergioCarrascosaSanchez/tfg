@@ -21,7 +21,7 @@ class ScheduledTasksTests {
     @Test
     void testGetByLastValuesEvery10s() {
         await()
-        .between(Duration.ofSeconds(9), Duration.ofSeconds(11))
+        .between(Duration.ofSeconds(0), Duration.ofSeconds(11))
         .untilAsserted(() -> verify(scheduledTasks, times(1)).fetchLastValues());
 
         verify(scheduledTasks, times(1)).fetchApiCall();

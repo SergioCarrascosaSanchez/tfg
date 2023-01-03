@@ -9,6 +9,8 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
       - POSTGRES_PORT=5432
+      - PRICES_URL=${PRICES_URL}
+      - PRICES_PASS=${PRICES_PASS}
     ports:
       - "8080:8080"
     depends_on:

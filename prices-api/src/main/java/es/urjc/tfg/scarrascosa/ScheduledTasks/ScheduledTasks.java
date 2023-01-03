@@ -5,8 +5,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -16,19 +22,49 @@ import es.urjc.tfg.scarrascosa.Coin.CoinRepository;
 import es.urjc.tfg.scarrascosa.DTO.BinanceResponseDTO;
 
 @Component
+@EnableScheduling
 public class ScheduledTasks {
     
     @Autowired
     private CoinRepository coinRepo;
     
+    @Autowired
+    Environment env;
+    
+    @Value("${prices.url}")
+    private String url;
+    
+    @Value("${prices.password}")
+    private String pass;
+    
     private RestTemplate restTemplate = new RestTemplate();
     
     public List<BinanceResponseDTO> fetchApiCall(){
-        ResponseEntity<BinanceResponseDTO[]> response = restTemplate.exchange("https://api.binance.com/api/v3/ticker/price", HttpMethod.GET, null, BinanceResponseDTO[].class);
+        
+        ResponseEntity<BinanceResponseDTO[]> response;
+        
+        if(Arrays.stream(env.getActiveProfiles()).anyMatch(
+                env -> (env.equalsIgnoreCase("prod")))){
+            
+            String requestJson = "{\"key\":\""+this.pass+"\"}";
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
+            
+            response = restTemplate.exchange(url, HttpMethod.POST, entity, BinanceResponseDTO[].class);
+            
+        }else{
+            String requestJson = "{\"key\":\""+this.pass+"\"}";
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
+            
+            response = restTemplate.exchange(url, HttpMethod.POST, entity, BinanceResponseDTO[].class);
+        }
         return Arrays.stream(response.getBody()).filter(coin -> coin.getSymbol().endsWith("BUSD")).toList();
     }
     
-    @Scheduled(fixedRate = 10000, initialDelay = 10000)
+    @Scheduled(cron = "1/10 * * * * ?")
     public void fetchLastValues() {
         
         List<BinanceResponseDTO> responseFilteredList = fetchApiCall();
@@ -51,7 +87,7 @@ public class ScheduledTasks {
         }
     }
     
-    @Scheduled(fixedRate = 1800000 ,initialDelay = 15000)
+    @Scheduled(cron = "0 0/30 * * * ?")
     public void fetch30mValues() {
         
         List<BinanceResponseDTO> responseFilteredList = fetchApiCall();
@@ -74,7 +110,7 @@ public class ScheduledTasks {
         }
     }
     
-    @Scheduled(cron = "0 0 0 1 * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
     public void fetch1dValues() {
         
         List<BinanceResponseDTO> responseFilteredList = fetchApiCall();
