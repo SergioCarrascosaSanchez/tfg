@@ -54,12 +54,7 @@ public class ScheduledTasks {
             response = restTemplate.exchange(url, HttpMethod.POST, entity, BinanceResponseDTO[].class);
             
         }else{
-            String requestJson = "{\"key\":\""+this.pass+"\"}";
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
-            
-            response = restTemplate.exchange(url, HttpMethod.POST, entity, BinanceResponseDTO[].class);
+            response = restTemplate.exchange(url, HttpMethod.GET, null, BinanceResponseDTO[].class);
         }
         return Arrays.stream(response.getBody()).filter(coin -> coin.getSymbol().endsWith("BUSD")).toList();
     }
