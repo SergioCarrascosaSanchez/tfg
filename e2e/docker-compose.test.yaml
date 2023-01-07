@@ -31,8 +31,6 @@ services:
       - users-api
   cypress:
     image: "cypress/included:9.7.0"
-    build:
-      context: .
     depends_on:
       - ui
     environment:
