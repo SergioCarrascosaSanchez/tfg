@@ -1,0 +1,42 @@
+version: '3.2'
+# run Cypress tests and exit with command
+#   docker-compose up --exit-code-from cypress
+services:
+  prices-api:
+    build:
+      context: ../prices-api
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - "8080:8080"
+  users-api:
+    build:
+      context: ../users-api
+      dockerfile: ./Dockerfile.dev
+    environment:    
+      - ADMIN_PASS=contraseña1
+      - USER_PASS=contraseña2
+    ports:
+      - "8081:8081"
+  ui:
+    build:
+      context: ../ui
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - "80:80"
+    links:
+      - prices-api
+      - users-api
+    depends_on:
+      - prices-api
+      - users-api
+  cypress:
+    image: "cypress/included:9.7.0"
+    build:
+      context: .
+    depends_on:
+      - ui
+    environment:
+      - CYPRESS_baseUrl=http://ui:80
+    working_dir: /e2e
+    volumes:
+      - ./:/e2e
