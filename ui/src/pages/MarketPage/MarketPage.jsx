@@ -1,7 +1,9 @@
 import { TextField, Button, Box, Typography } from "@mui/joy";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { CoinChartCard } from "../../components/CoinChartCard/CoinChartCard";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+import { stringBUSD } from "../../utils/stringBUSD";
 
 export const MarketName = "Mercados";
 export const popularCryptocurrencies = [
@@ -16,6 +18,12 @@ export const popularCryptocurrencies = [
   "DOT",
 ];
 export const MarketPage = () => {
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+  const handleSubmit = () => {
+    navigate(`/${stringBUSD(search)}`);
+  };
+
   return (
     <>
       <Navbar />
@@ -33,9 +41,15 @@ export const MarketPage = () => {
         >
           <TextField
             sx={{ gridColumn: 1 }}
+            onChange={(e) => setSearch(e.target.value)}
             placeholder="Buscar criptomoneda"
           ></TextField>
-          <Button sx={{ gridColumn: 2, minWidth: "90px" }}>Buscar</Button>
+          <Button
+            onClick={handleSubmit}
+            sx={{ gridColumn: 2, minWidth: "90px" }}
+          >
+            Buscar
+          </Button>
         </Box>
         <Box
           component="ul"
@@ -55,8 +69,12 @@ export const MarketPage = () => {
           }}
         >
           {popularCryptocurrencies.map((coin) => (
-            <Link to={`/coins/${coin}`} style={{ textDecoration: "none" }}>
-              <CoinChartCard key={coin} name={coin} time={"30m"} />
+            <Link
+              to={`/coins/${coin}`}
+              key={coin}
+              style={{ textDecoration: "none" }}
+            >
+              <CoinChartCard name={coin} time={"30m"} />
             </Link>
           ))}
         </Box>

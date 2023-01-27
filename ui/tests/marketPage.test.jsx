@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 import {
   MarketPage,
@@ -6,6 +6,7 @@ import {
   popularCryptocurrencies,
 } from "../src/pages/MarketPage/MarketPage";
 import { options, appName } from "../src/components/Navbar/Navbar";
+import { MemoryRouter } from "react-router-dom";
 
 describe("MarketPage", () => {
   vi.mock("../src/hooks/useGetPrice", () => {
@@ -32,10 +33,17 @@ describe("MarketPage", () => {
     };
   });
 
+  beforeEach(() => {
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <MarketPage />
+      </MemoryRouter>
+    );
+  });
+
   afterEach(cleanup);
 
   it("should render appName + options", () => {
-    render(<MarketPage />);
     screen.getByText(appName);
     expect(
       document.getElementById(`${appName}Navbar`).firstChild.textContent
@@ -48,7 +56,6 @@ describe("MarketPage", () => {
   });
 
   it("should render only one MarketName as h1 title", () => {
-    render(<MarketPage />);
     let h1MarketName;
     screen.getAllByText(MarketName).forEach((element) => {
       if (element.tagName === "H1") {
@@ -63,17 +70,14 @@ describe("MarketPage", () => {
   });
 
   it("should render textbox to search", () => {
-    render(<MarketPage />);
     screen.getByRole("textbox");
   });
 
   it("should render textbox a button to search", () => {
-    render(<MarketPage />);
     expect(screen.getByRole("button")).toHaveTextContent("Buscar");
   });
 
   it("should render name of each popularCryptocurrencies", () => {
-    render(<MarketPage />);
     popularCryptocurrencies.forEach((cryto) => {
       screen.getByText(cryto);
     });
