@@ -1,6 +1,7 @@
 import { TextField, Button, Box, Typography } from "@mui/joy";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { CoinChartCard } from "../../components/CoinChartCard/CoinChartCard";
+import { Link } from "react-router-dom";
 
 export const MarketName = "Mercados";
 export const popularCryptocurrencies = [
@@ -54,7 +55,9 @@ export const MarketPage = () => {
           }}
         >
           {popularCryptocurrencies.map((coin) => (
-            <CoinChartCard key={coin} name={coin} time={"30m"} />
+            <Link to={`/coins/${coin}`} style={{ textDecoration: "none" }}>
+              <CoinChartCard key={coin} name={coin} time={"30m"} />
+            </Link>
           ))}
         </Box>
       </Box>
