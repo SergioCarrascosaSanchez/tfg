@@ -10,10 +10,16 @@ const name = "BTCBUSD";
 describe("CoinChartCard Error", () => {
   vi.mock("../../src/hooks/useGetPrice", () => {
     const useGetPrice = vi.fn();
-    useGetPrice.mockReturnValue({
+    useGetPrice.mockReturnValueOnce({
       loading: false,
       error: true,
       statusCode: null,
+      data: {},
+    });
+    useGetPrice.mockReturnValueOnce({
+      loading: false,
+      error: true,
+      statusCode: 400,
       data: {},
     });
     return {
@@ -23,7 +29,15 @@ describe("CoinChartCard Error", () => {
 
   afterEach(cleanup);
 
-  it("should render card and spinner", () => {
+  it("should render error message when unexpected error", () => {
+    render(<CoinChartCard name={name} time="30m" />);
+    screen.getByText(`${CoinChartCardErrorMessage}${name}`);
+    expect(() => screen.getByRole("progressbar")).toThrow(
+      'Unable to find an accessible element with the role "progressbar"'
+    );
+  });
+
+  it("should render error message when not found", () => {
     render(<CoinChartCard name={name} time="30m" />);
     screen.getByText(`${CoinChartCardErrorMessage}${name}`);
     expect(() => screen.getByRole("progressbar")).toThrow(

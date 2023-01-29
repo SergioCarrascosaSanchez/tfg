@@ -22,6 +22,7 @@ export function useGetPrice(time, ticker) {
         } else {
           setStatusCode(res.status);
           setLoading(false);
+          setError(true)
         }
       })
       .catch((err) => {
