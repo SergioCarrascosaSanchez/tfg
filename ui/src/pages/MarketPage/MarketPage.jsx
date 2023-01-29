@@ -21,7 +21,7 @@ export const MarketPage = () => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const handleSubmit = () => {
-    navigate(`/${stringBUSD(search)}`);
+    navigate(`/coins/${stringBUSD(search)}`);
   };
 
   return (
