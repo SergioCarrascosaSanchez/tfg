@@ -9,6 +9,9 @@ lerna-debug.log*
 
 coverage
 
+cypress
+cypress.config.js
+
 node_modules
 dist
 dist-ssr
