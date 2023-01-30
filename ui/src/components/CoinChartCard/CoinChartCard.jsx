@@ -14,6 +14,7 @@ export const CoinChartCard = ({ name, time }) => {
         key={`${name}Card`}
         component="li"
         variant="outlined"
+        data-testid={`${name}CoinChartCard`}
         sx={{
           py: "50px",
           display: "grid",
@@ -26,7 +27,12 @@ export const CoinChartCard = ({ name, time }) => {
   }
   if (data.error) {
     return (
-      <Card key={`${name}Card`} component="li" variant="outlined">
+      <Card
+        key={`${name}Card`}
+        component="li"
+        variant="outlined"
+        data-testid={`${name}CoinChartCard`}
+      >
         <Typography level="h2" component="h2">
           {`${CoinChartCardErrorMessage}${name}`}
         </Typography>
@@ -34,7 +40,12 @@ export const CoinChartCard = ({ name, time }) => {
     );
   }
   return (
-    <Card key={`${name}Card`} component="li" variant="outlined">
+    <Card
+      key={`${name}Card`}
+      component="li"
+      variant="outlined"
+      data-testid={`${name}CoinChartCard`}
+    >
       <Box
         sx={{
           display: "grid",
