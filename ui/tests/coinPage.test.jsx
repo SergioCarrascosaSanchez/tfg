@@ -1,12 +1,22 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
-import { options, appName } from '../src/components/Navbar/Navbar'
+import { options, appName } from "../src/components/Navbar/Navbar";
 import { CoinPage } from "../src/pages/CoinPage/CoinPage";
 
+const coinName = "BTC";
 
-const coin = "BTC";
+describe("CoinPage", () => {
+  vi.mock("react-router-dom", () => {
+    const useParams = vi.fn();
+    const coinName = "BTC";
+    useParams.mockReturnValue({
+      coin: coinName,
+    });
+    return {
+      useParams,
+    };
+  });
 
-describe("MainPage", () => {
   afterEach(cleanup);
 
   it("should render", () => {
@@ -14,28 +24,28 @@ describe("MainPage", () => {
   });
 
   it("should render coin name", () => {
-    render(<CoinPage name={coin} />);
-    screen.getByText(coin);
+    render(<CoinPage />);
+    screen.getByText(coinName);
   });
 
   it("should render coin price", () => {
-    render(<CoinPage name={coin} />);
-    screen.getByTestId(`${coin}Price`);
+    render(<CoinPage />);
+    screen.getByTestId(`${coinName}Price`);
   });
 
   it("should render coin image", () => {
-    render(<CoinPage name={coin} />);
-    screen.getByAltText(coin);
+    render(<CoinPage />);
+    screen.getByAltText(coinName);
   });
 
   it("should render navbar elements", () => {
-    render(<CoinPage name={coin} />);
+    render(<CoinPage />);
     options.forEach((option) => screen.getByText(option));
     screen.getByText(appName);
   });
 
   it("should render coin graph", () => {
-    render(<CoinPage name={coin} />);
-    screen.getByTestId(`${coin}Graph`);
+    render(<CoinPage />);
+    screen.getByTestId(`${coinName}Graph`);
   });
 });
