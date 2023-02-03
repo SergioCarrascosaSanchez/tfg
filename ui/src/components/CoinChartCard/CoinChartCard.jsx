@@ -70,7 +70,7 @@ export const CoinChartCard = ({ name, time }) => {
         </Typography>
 
         <Typography level="h2" sx={{ gridColumn: 3, textAlign: "right" }}>
-          {data.data.prices[data.data.prices.length - 1]}
+          {data.data[data.data.length - 1]}
         </Typography>
       </Box>
       <Box
@@ -85,7 +85,7 @@ export const CoinChartCard = ({ name, time }) => {
           placeContent: "center",
         }}
       >
-        <Chart data={data.data.prices} />
+        <Chart data={data.data} />
       </Box>
     </Card>
   );

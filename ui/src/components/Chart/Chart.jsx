@@ -45,7 +45,7 @@ const options = {
 };
 export const Chart = (props) => {
   const data = props.data;
-  const filledData = [...data];
+  const filledData = data;
   const labels = filledData;
   let color;
   if (data[0] > data[data.length - 1]) {

@@ -3,10 +3,13 @@ import { Chart } from "../../components/Chart/Chart";
 import { Box, Typography } from "@mui/joy";
 import Avatar from "@mui/joy/Avatar";
 import { useParams } from "react-router-dom";
+import { useGetPrice } from "../../hooks/useGetPrice";
 
 export const CoinPage = () => {
+
   const urlParams = useParams();
   const name = urlParams.coin;
+  const data = useGetPrice("10s", `${name}BUSD`, true);
   return (
     <>
       <Navbar />
@@ -39,7 +42,7 @@ export const CoinPage = () => {
             data-testid={`${name}Price`}
             sx={{ gridColumn: 3, textAlign: "right" }}
           >
-            {"12876.0"}
+            {`${data.data[data.data.length-1]} $`}
           </Typography>
         </Box>
         <Box
@@ -52,7 +55,7 @@ export const CoinPage = () => {
             placeContent: "center",
           }}
         >
-          <Chart data={[1, 2, 3, 1, 3, 6, 1, 4, 7, 1, 47, 3, 6]} />
+          <Chart data={data.data} />
         </Box>
       </Box>
     </>
