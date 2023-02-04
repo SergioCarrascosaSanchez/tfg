@@ -55,7 +55,7 @@ export const CoinPage = () => {
             placeContent: "center",
           }}
         >
-          <Chart data={data.data} />
+          <Chart data={data.data} padding={true}/>
         </Box>
       </Box>
     </>

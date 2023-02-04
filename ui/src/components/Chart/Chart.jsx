@@ -53,8 +53,10 @@ export const Chart = (props) => {
   } else {
     color = "#4caf50";
   }
-  while (filledData.length < 48) {
-    filledData.push(undefined);
+  if (props.padding === false) {
+    while (filledData.length < 48) {
+      filledData.push(undefined);
+    }
   }
   const chartData = {
     labels,
