@@ -85,7 +85,7 @@ export const CoinChartCard = ({ name, time }) => {
           placeContent: "center",
         }}
       >
-        <Chart data={data.data} padding={false}/>
+        <Chart data={data.data} refresh={false}/>
       </Box>
     </Card>
   );

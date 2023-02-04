@@ -6,7 +6,7 @@ export function useGetPrice(time, coin, refresh) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [statusCode, setStatusCode] = useState(null);
-  const [data, setData] = useState([0]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     fetch(`${URL}/${time}/${coin}`, {
