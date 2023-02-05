@@ -4,9 +4,14 @@ import { Box, Typography } from "@mui/joy";
 import Avatar from "@mui/joy/Avatar";
 import { useParams } from "react-router-dom";
 import { useGetPrice } from "../../hooks/useGetPrice";
+import CircularProgress from "@mui/joy/CircularProgress";
+
+export const coinNotFoundErrorMessage =
+  "No se ha encontrado una moneda con este nombre";
+
+export const coinErrorMessage = "Ha ocurrido un error";
 
 export const CoinPage = () => {
-
   const urlParams = useParams();
   const name = urlParams.coin;
   const data = useGetPrice("10s", `${name}BUSD`, true);
@@ -37,26 +42,49 @@ export const CoinPage = () => {
             {name}
           </Typography>
 
-          <Typography
-            level="display2"
-            data-testid={`${name}Price`}
-            sx={{ gridColumn: 3, textAlign: "right" }}
+          {data.data.length > 0 ? (
+            <Typography
+              level="display2"
+              data-testid={`${name}Price`}
+              sx={{ gridColumn: 3, textAlign: "right" }}
+            >
+              {`${data.data[data.data.length - 1]} $`}
+            </Typography>
+          ) : (
+            <></>
+          )}
+        </Box>
+
+        {data.loading ? (
+          <Box sx={{ display: "grid", placeContent: "center" }}>
+            <CircularProgress />
+          </Box>
+        ) : data.error && data.statusCode === 404 ? (
+          <Box sx={{ display: "grid", placeContent: "center" }}>
+            <Typography level="p" component="p" textColor="neutral.500">
+              {coinNotFoundErrorMessage}
+            </Typography>
+          </Box>
+        ) : data.error ? (
+          <Box sx={{ display: "grid", placeContent: "center" }}>
+            <Typography level="p" component="p" textColor="neutral.500">
+              {coinErrorMessage}
+            </Typography>
+          </Box>
+        ) : (
+          <Box
+            element="div"
+            data-testid={`${name}Graph`}
+            sx={{
+              maxWidth: "1000px",
+              borderRadius: "12px",
+              dispay: "grid",
+              placeContent: "center",
+            }}
           >
-            {`${data.data[data.data.length-1]} $`}
-          </Typography>
-        </Box>
-        <Box
-          element="div"
-          data-testid={`${name}Graph`}
-          sx={{
-            maxWidth: "1000px",
-            borderRadius: "12px",
-            dispay: "grid",
-            placeContent: "center",
-          }}
-        >
-          <Chart data={data.data} refresh={true}/>
-        </Box>
+            <Chart data={data.data} refresh={true} />
+          </Box>
+        )}
       </Box>
     </>
   );

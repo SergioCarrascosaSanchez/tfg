@@ -1,7 +1,7 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
-import { options, appName } from "../src/components/Navbar/Navbar";
-import { CoinPage } from "../src/pages/CoinPage/CoinPage";
+import { options, appName } from "../../src/components/Navbar/Navbar";
+import { CoinPage } from "../../src/pages/CoinPage/CoinPage";
 
 const coinName = "BTC";
 
@@ -17,7 +17,7 @@ describe("CoinPage", () => {
     };
   });
 
-  vi.mock("../src/hooks/useGetPrice", () => {
+  vi.mock("../../src/hooks/useGetPrice", () => {
     const useGetPrice = vi.fn();
     useGetPrice.mockReturnValue({
       loading: false,
