@@ -42,7 +42,7 @@ export const CoinPage = () => {
             {name}
           </Typography>
 
-          {data.data.length > 0 ? (
+          {data.data.length > 0 && (
             <Typography
               level="display2"
               data-testid={`${name}Price`}
@@ -50,8 +50,6 @@ export const CoinPage = () => {
             >
               {`${data.data[data.data.length - 1]} $`}
             </Typography>
-          ) : (
-            <></>
           )}
         </Box>
 
