@@ -1,10 +1,22 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
-import { CoinChartCard } from "../../src/components/CoinChartCard/CoinChartCard";
+import { options, appName } from "../../src/components/Navbar/Navbar";
+import { CoinPage } from "../../src/pages/CoinPage/CoinPage";
 
-const name = "BTCBUSD";
+const coinName = "BTC";
 
-describe("CoinChartCard Loading", () => {
+describe("CoinPage", () => {
+  vi.mock("react-router-dom", () => {
+    const useParams = vi.fn();
+    const coinName = "BTC";
+    useParams.mockReturnValue({
+      coin: coinName,
+    });
+    return {
+      useParams,
+    };
+  });
+
   vi.mock("../../src/hooks/useGetPrice", () => {
     const useGetPrice = vi.fn();
     useGetPrice.mockReturnValue({
@@ -29,11 +41,17 @@ describe("CoinChartCard Loading", () => {
 
   afterEach(cleanup);
 
-  it("should render card and spinner", () => {
-    render(<CoinChartCard name={name} time="30m" />);
-    screen.getByText(name);
-    screen.getByRole("img", { name: `${name}` });
-    screen.getByText("22844");
-    screen.getByTestId(`${name}Graph`);
+  it("should render coin name, coin price, coin image, coin graph", () => {
+    render(<CoinPage />);
+    screen.getByText(coinName);
+    screen.getByTestId(`${coinName}Price`);
+    screen.getByAltText(coinName);
+    screen.getByTestId(`${coinName}Graph`);
+  });
+
+  it("should render navbar elements", () => {
+    render(<CoinPage />);
+    options.forEach((option) => screen.getByText(option));
+    screen.getByText(appName);
   });
 });
