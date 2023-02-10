@@ -3,7 +3,7 @@ const assetsURL = `${import.meta.env.VITE_ASSETS_URL}`;
 export const CoinLogo = ({ coin, size }) => {
   return (
     <img
-      src={`../${assetsURL}/${coin}.png`}
+      src={`../${assetsURL}/CoinLogos/${coin}.png`}
       alt={coin}
       style={
         size === "xs"
