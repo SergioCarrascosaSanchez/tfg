@@ -1,9 +1,9 @@
-const assetsURL = `${import.meta.env.VITE_ASSETS_URL}`;
+import { CoinLogoFinder } from "./CoinLogoFinder";
 
 export const CoinLogo = ({ coin, size }) => {
   return (
     <img
-      src={`../${assetsURL}/CoinLogos/${coin}.png`}
+      src={CoinLogoFinder[coin] || CoinLogoFinder["DefaultCoin"]}
       alt={coin}
       style={
         size === "xs"
@@ -14,11 +14,6 @@ export const CoinLogo = ({ coin, size }) => {
           ? { width: "50px", height: "50px", borderRadius:"50%" }
           : size === "xl" && { width: "60px", height: "60px", borderRadius:"50%" }
       }
-      onError={(currentTarget) => {
-        console.log(currentTarget.target.src);
-        currentTarget.target.onerror = null; //prevents looping
-        currentTarget.target.src = `../src/assets/CoinLogos/DefaultCoin.png`;
-      }}
     />
   );
 };
