@@ -1,10 +1,10 @@
 import { Navbar } from "../../components/Navbar/Navbar";
 import { Chart } from "../../components/Chart/Chart";
 import { Box, Typography } from "@mui/joy";
-import Avatar from "@mui/joy/Avatar";
 import { useParams } from "react-router-dom";
 import { useGetPrice } from "../../hooks/useGetPrice";
 import CircularProgress from "@mui/joy/CircularProgress";
+import { CoinLogo } from "../../components/CoinLogo/CoinLogo";
 
 export const coinNotFoundErrorMessage =
   "No se ha encontrado una moneda con este nombre";
@@ -27,12 +27,9 @@ export const CoinPage = () => {
             marginBottom: 5,
           }}
         >
-          <Avatar
-            alt={String(name)}
-            src={`/static/CoinLogos/${name}.png `}
-            size="xl"
-            sx={{ gridColumn: 1, margin: "auto" }}
-          />
+          <Box sx={{ gridColumn: 1, display: "grid", placeContent: "center" }}>
+            <CoinLogo coin={name} />
+          </Box>
 
           <Typography
             level="display2"

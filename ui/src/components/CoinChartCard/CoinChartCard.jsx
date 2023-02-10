@@ -1,8 +1,8 @@
 import { Chart } from "../../components/Chart/Chart";
-import Avatar from "@mui/joy/Avatar";
 import { Box, Typography, Card } from "@mui/joy";
 import { useGetPrice } from "../../hooks/useGetPrice";
 import CircularProgress from "@mui/joy/CircularProgress";
+import { CoinLogo } from "../CoinLogo/CoinLogo";
 
 export const CoinChartCardErrorMessage = "Ha ocurrido un error con ";
 
@@ -54,12 +54,9 @@ export const CoinChartCard = ({ name, time }) => {
           marginBottom: 2,
         }}
       >
-        <Avatar
-          alt={String(name)}
-          src={`/static/CoinLogos/${name}.png `}
-          size="sm"
-          sx={{ gridColumn: 1, margin: "auto" }}
-        />
+        <Box sx={{ gridColumn: 1, display: "grid", placeContent: "center" }}>
+          <CoinLogo coin={name} />
+        </Box>
 
         <Typography
           level="h2"
@@ -85,7 +82,7 @@ export const CoinChartCard = ({ name, time }) => {
           placeContent: "center",
         }}
       >
-        <Chart data={data.data} refresh={false}/>
+        <Chart data={data.data} refresh={false} />
       </Box>
     </Card>
   );
