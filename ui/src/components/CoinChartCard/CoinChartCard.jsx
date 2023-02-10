@@ -55,7 +55,7 @@ export const CoinChartCard = ({ name, time }) => {
         }}
       >
         <Box sx={{ gridColumn: 1, display: "grid", placeContent: "center" }}>
-          <CoinLogo coin={name} />
+          <CoinLogo coin={name} size="xs"/>
         </Box>
 
         <Typography

@@ -28,7 +28,7 @@ export const CoinPage = () => {
           }}
         >
           <Box sx={{ gridColumn: 1, display: "grid", placeContent: "center" }}>
-            <CoinLogo coin={name} />
+            <CoinLogo coin={name} size="xl"/>
           </Box>
 
           <Typography
