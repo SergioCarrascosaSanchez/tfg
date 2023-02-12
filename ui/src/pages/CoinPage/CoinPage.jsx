@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useGetPrice } from "../../hooks/useGetPrice";
 import CircularProgress from "@mui/joy/CircularProgress";
 import { CoinLogo } from "../../components/CoinLogo/CoinLogo";
+import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage";
 
 export const coinNotFoundErrorMessage =
   "No se ha encontrado una moneda con este nombre";
@@ -28,7 +29,7 @@ export const CoinPage = () => {
           }}
         >
           <Box sx={{ gridColumn: 1, display: "grid", placeContent: "center" }}>
-            <CoinLogo coin={name} size="xl"/>
+            <CoinLogo coin={name} size="xl" />
           </Box>
 
           <Typography
@@ -55,17 +56,9 @@ export const CoinPage = () => {
             <CircularProgress />
           </Box>
         ) : data.error && data.statusCode === 404 ? (
-          <Box sx={{ display: "grid", placeContent: "center" }}>
-            <Typography level="p" component="p" textColor="neutral.500">
-              {coinNotFoundErrorMessage}
-            </Typography>
-          </Box>
+          <ErrorMessage message={coinNotFoundErrorMessage} center={true} />
         ) : data.error ? (
-          <Box sx={{ display: "grid", placeContent: "center" }}>
-            <Typography level="p" component="p" textColor="neutral.500">
-              {coinErrorMessage}
-            </Typography>
-          </Box>
+          <ErrorMessage message={coinErrorMessage} center={true} />
         ) : (
           <Box
             element="div"
