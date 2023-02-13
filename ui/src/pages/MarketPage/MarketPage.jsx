@@ -1,22 +1,40 @@
 import { TextField, Button, Box, Typography } from "@mui/joy";
 import { Navbar } from "../../components/Navbar/Navbar";
-import { CoinChartCard } from "../../components/CoinChartCard/CoinChartCard";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { stringBUSD } from "../../utils/stringBUSD";
+import { PanelOfCoinChartCard } from "../../components/PanelOfCoinChartCard/PanelOfCoinChartCard";
 
 export const MarketName = "Mercados";
 export const popularCryptocurrencies = [
-  "BTC",
-  "ETH",
-  "BNB",
-  "XRP",
-  "DOGE",
-  "ADA",
-  "SOL",
-  "MATIC",
-  "DOT",
-];
+  {
+    coin: "BTC",
+  },
+  {
+    coin: "ETH",
+  },
+  {
+    coin: "BNB",
+  },
+  {
+    coin: "XRP",
+  },
+  {
+    coin: "DOGE",
+  },
+  {
+    coin: "ADA",
+  },
+  {
+    coin: "SOL",
+  },
+  {
+    coin: "MATIC",
+  },
+  {
+    coin: "DOT",
+  },
+]
 export const MarketPage = () => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
@@ -51,33 +69,7 @@ export const MarketPage = () => {
             Buscar
           </Button>
         </Box>
-        <Box
-          component="ul"
-          sx={{
-            display: "grid",
-            gridTemplateColumns: {
-              xs: "repeat(1, 1fr)",
-              s: "repeat(2, 1fr)",
-              md: "repeat(2, 1fr)",
-              lg: "repeat(2, 1fr)",
-              xl: "repeat(3, 1fr)",
-            },
-            columnGap: "40px",
-            rowGap: "30px",
-            p: 0,
-            my: 4,
-          }}
-        >
-          {popularCryptocurrencies.map((coin) => (
-            <Link
-              to={`/coins/${coin}`}
-              key={coin}
-              style={{ textDecoration: "none" }}
-            >
-              <CoinChartCard name={coin} time={"30m"} />
-            </Link>
-          ))}
-        </Box>
+        <PanelOfCoinChartCard coins={popularCryptocurrencies}/>
       </Box>
     </>
   );

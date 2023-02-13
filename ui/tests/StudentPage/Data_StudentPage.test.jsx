@@ -5,18 +5,17 @@ import {
   StudentPage,
   StudentInvestmentsTitle,
 } from "../../src/pages/StudentPage/StudentPage";
+import React from "react";
 
 const studentName = "Sergio";
 
 describe("StudentPage when succesful api call", () => {
-  vi.mock("react-router-dom", () => {
-    const useParams = vi.fn();
-    const studentName = "Sergio";
-    useParams.mockReturnValue({
-      student: studentName,
-    });
+  vi.mock('react-router-dom', async () => {
     return {
-      useParams,
+      ...vi.importMock('react-router-dom'),
+      useParams: vi.fn().mockReturnValue({student: "Sergio"}),
+      Link: ({ children, to }) =>
+        <a href={to}>{children}</a>,
     };
   });
 
