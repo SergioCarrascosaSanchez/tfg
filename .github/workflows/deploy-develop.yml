@@ -2,6 +2,7 @@ name: deploy-develop
 on:
   push:
     branches: [develop]
+  workflow_dispatch:
 
 jobs:
   test_and_deploy:
