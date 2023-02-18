@@ -17,11 +17,12 @@ class StudentUnitTests {
     "St2, st2@email.com, 50000.0, hk23g4g2376324yu324g76gsdfy"
     })
     void constructorTest(String name, String email, double balance, String password) {
-        Student student = new Student(name, email, balance, password);
+        Student student = new Student(name, email, balance, password, "USER");
                
         assertThat(student.getName()).isEqualTo(name);
         assertThat(student.getEmail()).isEqualTo(email);
         assertThat(student.getBalance()).isEqualTo(balance);   
         assertThat(student.getPassword()).isEqualTo(password);
+        assertThat(student.getPortfolio().size()).isEqualTo(0);
     }
 }
