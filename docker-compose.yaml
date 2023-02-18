@@ -20,15 +20,17 @@ services:
       context: ./users-api
       dockerfile: ./Dockerfile
     environment:    
-      - POSTGRES_HOST=${DB_HOST}      
-      - POSTGRES_DB=${DB_DB}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_HOST=${DB_HOST_2}      
+      - POSTGRES_DB=${DB_DB_2}
+      - POSTGRES_USER=${DB_USER_2}
+      - POSTGRES_PASSWORD=${DB_PASS_2}
       - POSTGRES_PORT=5432
+      - ADMIN_PASS=${ADMIN_PASS}
+      - USER_PASS=${USER_PASS}
     ports:
       - "8081:8081"
     depends_on:
-      - pg
+      - pg2
   ui:
     build:
       context: ./ui
@@ -52,9 +54,19 @@ services:
       - POSTGRES_DB=${DB_DB}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
-      - ADMIN_PASS=${ADMIN_PASS}
-      - USER_PASS=${USER_PASS}
     volumes:
        - postgres-data:/var/lib/postgresql/data
+  pg2:
+    image: "postgres:9.6-alpine"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_HOST=${DB_HOST_2}      
+      - POSTGRES_DB=${DB_DB_2}
+      - POSTGRES_USER=${DB_USER_2}
+      - POSTGRES_PASSWORD=${DB_PASS_2}
+    volumes:
+       - postgres-data2:/var/lib/postgresql/data2
 volumes:
   postgres-data:
+  postgres-data2:
