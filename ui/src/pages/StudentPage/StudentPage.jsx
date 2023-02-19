@@ -12,7 +12,7 @@ export const StudentInvestmentsTitle = "Mis inversiones";
 
 export const StudentPage = () => {
   const student = useParams().student;
-  const userData = useGetUserData();
+  const userData = useGetUserData(student);
   return (
     <>
       <Navbar />
