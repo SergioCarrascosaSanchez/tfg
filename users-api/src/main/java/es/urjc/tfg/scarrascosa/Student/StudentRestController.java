@@ -24,20 +24,8 @@ public class StudentRestController {
     public ResponseEntity<StudentDTO> getUserDataByUsername (@PathVariable String username ) {
         Optional<Student> optional = repo.findByName(username);
         if (optional.isPresent()) {
-            Student student = optional.get();
-            
-            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (principal instanceof UserDetails) {
-                String authUsername = ((UserDetails)principal).getUsername();
-                if(authUsername.equals(username)) {
-                    return ResponseEntity.ok(new StudentDTO(student.getBalance(), student.getPortfolio()));
-                }
-                else {
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-                }
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
+            Student student = optional.get(); 
+            return ResponseEntity.ok(new StudentDTO(student.getBalance(), student.getPortfolio()));
         }
         else {
             return ResponseEntity.notFound().build();
