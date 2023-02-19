@@ -27,7 +27,7 @@ describe("StudentPage when succesful api call", () => {
       statusCode: 200,
       data: {
         balance: 1000.0,
-        coins: [
+        portfolio: [
           {
             coin: "BTC",
             quantity: 10,

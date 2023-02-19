@@ -31,7 +31,7 @@ export const StudentPage = () => {
           <h1>{student}</h1>
           <h2>{`Balance: ${userData.data.balance}$`}</h2>
           <h2>{StudentInvestmentsTitle}</h2>
-          <PanelOfCoinChartCard coins = {userData.data.coins}/>
+          <PanelOfCoinChartCard coins = {userData.data.portfolio}/>
         </>
       )}
     </>
