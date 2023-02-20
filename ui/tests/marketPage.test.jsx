@@ -79,7 +79,7 @@ describe("MarketPage", () => {
 
   it("should render name of each popularCryptocurrencies", () => {
     popularCryptocurrencies.forEach((cryto) => {
-      screen.getByText(cryto);
+      screen.getByText(cryto.coin);
     });
   });
 });
