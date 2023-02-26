@@ -4,8 +4,9 @@ import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import { useBuyCoin } from "../../hooks/useBuyCoin";
 
 export const PurchaseMenuTitle = "Transacción";
+const URL = `${import.meta.env.VITE_USERS_API_URL}`;
 
-export const PurchaseMenu = () => {
+export const PurchaseMenu = ({price, coin}) => {
   const [quantity, setQuantity] = useState(0);
   const [justification, setJustification] = useState("");
   const [incorrectQuantity, setIncorrectQuantity] = useState(false);
@@ -13,6 +14,10 @@ export const PurchaseMenu = () => {
   const [purchaseError, setPurchaseError] = useState(false);
   const [successfulPurchase, setSuccessfulPurchase] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const username = localStorage.getItem('username');
+  
+  const buyCoin = useBuyCoin()
 
   useEffect(() => {
     if (successfulPurchase) {
@@ -23,7 +28,7 @@ export const PurchaseMenu = () => {
     }
   }, [successfulPurchase]);
 
-  const handleSubmit = async () => {
+  async function handleSubmit() {
     setLoading(true);
     if ((quantity <= 0) && (justification === "")){
       setIncorrectQuantity(true);
@@ -40,12 +45,16 @@ export const PurchaseMenu = () => {
     else {
       setIncorrectQuantity(false);
       setIncorrectJustification(false)
-      const data = useBuyCoin();
-      data.statusCode === 200 ? (
+      const data = await buyCoin(username, coin, quantity, price)
+      if(data.statusCode === 200){
         setSuccessfulPurchase(true)
-      ) : (
+        setPurchaseError(false)
+      }
+      else{
         setPurchaseError(true)
-      )
+        setSuccessfulPurchase(false)
+      }
+      
     }
     setLoading(false);
   };

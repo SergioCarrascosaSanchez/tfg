@@ -76,7 +76,7 @@ export const CoinPage = () => {
               <Chart data={data.data} refresh={true} />
             </Box>
             <Box sx={{ gridColumn: 3 }}>
-              <PurchaseMenu />
+              <PurchaseMenu price={data.data[data.data.length - 1]} coin={name}/>
             </Box>
           </Box>
         )}
