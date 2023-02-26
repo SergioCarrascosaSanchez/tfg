@@ -48,7 +48,7 @@ export const LoginForm = () => {
 
   if (!loading) {
     LoadingButton = (
-      <Button variant="solid" onClick={handleSubmit}>
+      <Button variant="solid" onClick={handleSubmit} data-testid="submitLoginButton">
         Iniciar sesión
       </Button>
     );
