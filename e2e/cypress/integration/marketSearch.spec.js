@@ -1,4 +1,4 @@
-describe("Market Page", () => {
+describe("marketSearch", () => {
   beforeEach(() => {
     cy.visit("/market");
   })
