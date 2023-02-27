@@ -32,4 +32,5 @@ jobs:
       - name: Execute Docker Compose Cypress
         run: |
               cd ./e2e
+              docker-compose -f docker-compose.test.yaml build
               docker-compose -f docker-compose.test.yaml up --exit-code-from cypress
