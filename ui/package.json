@@ -16,6 +16,7 @@
     "build": "vite build",
     "buildpreprod": "vite build --mode preprod",
     "buildprod": "vite build --mode prod",
+    "buildtest": "vite build --mode test",
     "test": "vitest",
     "test-ci": "vitest run",
     "coverage": "vitest run --coverage"

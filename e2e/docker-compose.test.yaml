@@ -17,7 +17,9 @@ services:
   ui:
     build:
       context: ../ui
-      dockerfile: ./Dockerfile.dev
+      args:
+          ENV: test
+      dockerfile: ./Dockerfile
     ports:
       - "80:80"
     links:
