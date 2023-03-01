@@ -1,6 +1,6 @@
 describe("Complete app", () => {
   before(() => {
-    cy.wait(30000);
+    cy.wait(60000);
   });
 
   describe("BuyCoin", () => {
