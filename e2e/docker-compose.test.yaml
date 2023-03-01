@@ -12,15 +12,14 @@ services:
     build:
       context: ../users-api
       dockerfile: ./Dockerfile.dev
-    environment:    
-      - ADMIN_PASS=contraseña1
-      - USER_PASS=contraseña2
     ports:
       - "8081:8081"
   ui:
     build:
       context: ../ui
-      dockerfile: ./Dockerfile.dev
+      args:
+          ENV: test
+      dockerfile: ./Dockerfile
     ports:
       - "80:80"
     links:

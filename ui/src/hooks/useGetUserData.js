@@ -15,6 +15,8 @@ export function useGetUserData(username) {
       .then((res) => {
         if (res.status === 200) {
           res.json().then((resData) => {
+            const roundedBalance = resData.balance.toFixed(2);
+            resData.balance = roundedBalance
             setStatusCode(res.status);
             setData(resData);
             setLoading(false);

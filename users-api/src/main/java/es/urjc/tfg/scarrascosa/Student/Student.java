@@ -31,4 +31,24 @@ public class Student extends UserProfile{
     public HashMap<String, Double> getPortfolio() {
         return portfolio;
     }
+    
+    public double getQuantity(String ticker) {
+        if(this.portfolio.containsKey(ticker)) {
+            return this.portfolio.get(ticker);
+        }
+        else {
+            return 0.0;
+        }
+    }
+    
+    public void addToPortfolio (String ticker, double quantity, double price) throws Exception {
+        if((quantity*price)<=this.balance) {
+            this.setBalance(this.balance - (quantity*price));
+            this.portfolio.put(ticker, this.getQuantity(ticker)+quantity);
+        }
+        else {
+            throw new Exception("not enough balance");
+        }
+    }
+ 
 }
