@@ -1,5 +1,7 @@
 package es.urjc.tfg.scarrascosa.Auth;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,9 +19,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.urjc.tfg.scarrascosa.DTO.LoginFormUserDTO;
+import es.urjc.tfg.scarrascosa.DTO.SignUpDTO;
+import es.urjc.tfg.scarrascosa.Student.Student;
+import es.urjc.tfg.scarrascosa.UserProfile.UserProfile;
+import es.urjc.tfg.scarrascosa.UserProfile.UserProfileRepository;
 
 @RestController
 public class AuthRestController {
+    
+    @Autowired
+    private UserProfileRepository repo;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     
     @Autowired
     private AuthenticationManager authManager;
@@ -43,5 +56,22 @@ public class AuthRestController {
         } catch (BadCredentialsException ex) {
             return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);
         }
+    }
+    
+    @PostMapping("/signup")
+    public ResponseEntity<HttpStatus> signup(@RequestBody SignUpDTO dto) {
+        Optional<UserProfile> optionalUserProfile = this.repo.findByName(dto.getUsername());
+        if(optionalUserProfile.isEmpty()) {
+            if(dto.getRoles().contains("STUDENT")) {
+                Student student = new Student(dto.getUsername(), dto.getEmail(), dto.getInitialBalance(), passwordEncoder.encode(dto.getPassword()), "STUDENT");
+                this.repo.save(student);
+                return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+            }      
+            return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+        }
+        else {
+            return new ResponseEntity<HttpStatus>(HttpStatus.CONFLICT);
+        }
+        
     }
 }
