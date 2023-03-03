@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import es.urjc.tfg.scarrascosa.Student.Student;
 
 public interface UserProfileRepository extends JpaRepository<UserProfile, Long> {
-    Optional<Student> findByName(String name);
+    Optional<UserProfile> findByName(String name);
 }
