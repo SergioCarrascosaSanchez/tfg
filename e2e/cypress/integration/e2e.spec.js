@@ -5,13 +5,30 @@ describe("Complete app", () => {
 
   describe("BuyCoin", () => {
     it("Buy coin", () => {
+      cy.request({
+        method: 'POST',
+        url: 'http://users-api:8081/signup',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: {
+          "username":"UserTest",
+          "email":"UserTest@UserTest.com",
+          "password":"elrijjkfh",
+          "initialBalance":1000,
+          "roles": ["STUDENT"]
+      },
+      })
+        .its('status')
+        .should('equal', 200)
+
       cy.visit("/");
       cy.contains("Iniciar sesión").click();
-      cy.get('[name="username"]').type("User");
-      cy.get('[name="password"]').type("'testpass'");
+      cy.get('[name="username"]').type("UserTest");
+      cy.get('[name="password"]').type("elrijjkfh");
       cy.get('[data-testid="submitLoginButton"]').click();
 
-      cy.contains("User");
+      cy.contains("UserTest");
       cy.contains("Portfolio de inversion:");
       cy.contains("Balance:")
         .invoke("text")
@@ -35,8 +52,8 @@ describe("Complete app", () => {
       cy.contains("Comprar").click();
       cy.contains("Transacción realizada con éxito!");
 
-      cy.visit("/students/User");
-      cy.contains("User");
+      cy.visit("/students/UserTest");
+      cy.contains("UserTest");
       cy.contains("Portfolio de inversion:");
       cy.contains("Balance:")
         .invoke("text")
