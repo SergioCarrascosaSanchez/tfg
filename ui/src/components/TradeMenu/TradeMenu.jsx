@@ -6,7 +6,7 @@ import { useBuyCoin } from "../../hooks/useBuyCoin";
 export const TradeMenuTitle = "Transacción";
 const URL = `${import.meta.env.VITE_USERS_API_URL}`;
 
-export const TradeMenu = ({price, coin}) => {
+export const TradeMenu = ({ price, coin }) => {
   const [quantity, setQuantity] = useState(0);
   const [justification, setJustification] = useState("");
   const [incorrectQuantity, setIncorrectQuantity] = useState(false);
@@ -15,9 +15,9 @@ export const TradeMenu = ({price, coin}) => {
   const [successfulPurchase, setSuccessfulPurchase] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const username = localStorage.getItem('username');
-  
-  const buyCoin = useBuyCoin()
+  const username = localStorage.getItem("username");
+
+  const buyCoin = useBuyCoin();
 
   useEffect(() => {
     if (successfulPurchase) {
@@ -30,34 +30,29 @@ export const TradeMenu = ({price, coin}) => {
 
   async function handleSubmit() {
     setLoading(true);
-    if ((quantity <= 0) && (justification === "")){
+    if (quantity <= 0 && justification === "") {
       setIncorrectQuantity(true);
-      setIncorrectJustification(true)
-    }
-    else if (quantity <= 0) {
+      setIncorrectJustification(true);
+    } else if (quantity <= 0) {
       setIncorrectQuantity(true);
-      setIncorrectJustification(false)
-    } 
-    else if (justification === ""){
-      setIncorrectJustification(true)
+      setIncorrectJustification(false);
+    } else if (justification === "") {
+      setIncorrectJustification(true);
       setIncorrectQuantity(false);
-    }
-    else {
+    } else {
       setIncorrectQuantity(false);
-      setIncorrectJustification(false)
-      const data = await buyCoin(username, coin, quantity, price)
-      if(data.statusCode === 200){
-        setSuccessfulPurchase(true)
-        setPurchaseError(false)
+      setIncorrectJustification(false);
+      const data = await buyCoin(username, coin, quantity, price);
+      if (data.statusCode === 200) {
+        setSuccessfulPurchase(true);
+        setPurchaseError(false);
+      } else {
+        setPurchaseError(true);
+        setSuccessfulPurchase(false);
       }
-      else{
-        setPurchaseError(true)
-        setSuccessfulPurchase(false)
-      }
-      
     }
     setLoading(false);
-  };
+  }
   return (
     <Box
       sx={{
@@ -71,13 +66,16 @@ export const TradeMenu = ({price, coin}) => {
         {TradeMenuTitle}
       </Typography>
       {incorrectQuantity && (
-        <ErrorMessage message={"Cantidad no valida"} form={true}/>
+        <ErrorMessage message={"Cantidad no valida"} form={true} />
       )}
       {incorrectJustification && (
-        <ErrorMessage message={"La justificacion es obligatoria"} form={true}/>
+        <ErrorMessage message={"La justificacion es obligatoria"} form={true} />
       )}
       {purchaseError && (
-        <ErrorMessage message={"Error al ejecutar la transaccion"} form={true}/>
+        <ErrorMessage
+          message={"Error al ejecutar la transaccion"}
+          form={true}
+        />
       )}
       {successfulPurchase && (
         <Typography level="p2" textColor="green">
@@ -99,7 +97,12 @@ export const TradeMenu = ({price, coin}) => {
       {loading ? (
         <Button variant="solid" onClick={handleSubmit} loading></Button>
       ) : (
-        <Button variant="solid" onClick={handleSubmit}>
+        <Button
+          variant="solid"
+          color="success"
+          onClick={handleSubmit}
+          data-testid={`PurchaseButton`}
+        >
           Comprar
         </Button>
       )}
