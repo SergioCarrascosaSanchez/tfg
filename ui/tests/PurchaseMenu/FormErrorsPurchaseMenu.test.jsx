@@ -12,11 +12,14 @@ import {
 } from "../../src/components/TradeMenu/TradeMenu";
 
 describe("TradeMenu", () => {
-  vi.mock("../../src/hooks/useBuyCoin", () => {
-    const useBuyCoin = vi.fn();
-    useBuyCoin.mockReturnValue(() => {});
+  vi.mock("../../src/hooks/useTradeCoin", () => {
+    const useTradeCoin = vi.fn();
+    useTradeCoin.mockReturnValue({
+      BuyCoin: vi.fn().mockReturnValue({}),
+      SellCoin: vi.fn().mockReturnValue({})
+    });
     return {
-      useBuyCoin,
+      useTradeCoin,
     };
   });
 
@@ -32,7 +35,7 @@ describe("TradeMenu", () => {
     expect(
       screen.queryByText("La justificacion es obligatoria")
     ).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button"));
+    fireEvent.click(screen.getByTestId("PurchaseButton"));
     expect(
       screen.queryByText("La justificacion es obligatoria")
     ).not.toBeInTheDocument();
@@ -49,7 +52,7 @@ describe("TradeMenu", () => {
       screen.queryByText("La justificacion es obligatoria")
     ).not.toBeInTheDocument();
     expect(screen.queryByText("Cantidad no valida")).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button"));
+    fireEvent.click(screen.getByTestId("PurchaseButton"));
     expect(screen.queryByText("Cantidad no valida")).not.toBeInTheDocument();
     screen.getByText("La justificacion es obligatoria");
   });
@@ -62,7 +65,7 @@ describe("TradeMenu", () => {
       screen.queryByText("La justificacion es obligatoria")
     ).not.toBeInTheDocument();
     expect(screen.queryByText("Cantidad no valida")).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button"));
+    fireEvent.click(screen.getByTestId("PurchaseButton"));
     screen.getByText("Cantidad no valida");
     screen.getByText("La justificacion es obligatoria");
   });

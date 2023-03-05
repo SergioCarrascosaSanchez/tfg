@@ -12,13 +12,14 @@ import {
 } from "../../src/components/TradeMenu/TradeMenu";
 
 describe("TradeMenu", () => {
-  vi.mock("../../src/hooks/useBuyCoin", () => {
-    const useBuyCoin = vi.fn();
-    useBuyCoin.mockReturnValue(function (username, coin, quantity, price){
-      return ({ statusCode: 200, error: false });
+  vi.mock("../../src/hooks/useTradeCoin", () => {
+    const useTradeCoin = vi.fn();
+    useTradeCoin.mockReturnValue({
+      BuyCoin: vi.fn().mockReturnValue({ statusCode: 200, error: false }),
+      SellCoin: vi.fn().mockReturnValue({})
     });
     return {
-      useBuyCoin,
+      useTradeCoin,
     };
   });
 
@@ -36,7 +37,7 @@ describe("TradeMenu", () => {
     expect(
       screen.queryByText("Transacción realizada con éxito!")
     ).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button"));
+    fireEvent.click(screen.getByTestId("PurchaseButton"));
     await waitFor(() => {
       screen.getByText("Transacción realizada con éxito!");
     }, { timeout: 2000 });

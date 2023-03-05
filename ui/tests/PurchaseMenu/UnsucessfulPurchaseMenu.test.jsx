@@ -12,13 +12,14 @@ import {
 } from "../../src/components/TradeMenu/TradeMenu";
 
 describe("PurchaseMenu", () => {
-  vi.mock("../../src/hooks/useBuyCoin", () => {
-    const useBuyCoin = vi.fn();
-    useBuyCoin.mockReturnValue(function (username, coin, quantity, price){
-      return ({ statusCode: 402, error: true });
+  vi.mock("../../src/hooks/useTradeCoin", () => {
+    const useTradeCoin = vi.fn();
+    useTradeCoin.mockReturnValue({
+      BuyCoin: vi.fn().mockReturnValue({ statusCode: 402, error: true }),
+      SellCoin: vi.fn().mockReturnValue({})
     });
     return {
-      useBuyCoin,
+      useTradeCoin,
     };
   });
 
@@ -36,7 +37,7 @@ describe("PurchaseMenu", () => {
     expect(
       screen.queryByText("Error al ejecutar la transaccion")
     ).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button"));
+    fireEvent.click(screen.getByTestId("PurchaseButton"));
     await waitFor(() => {
       screen.getByText("Error al ejecutar la transaccion");
     }, { timeout: 2000 });

@@ -1,7 +1,7 @@
 import { Typography, Box, TextField, Textarea, Button } from "@mui/joy";
 import { useState, useEffect } from "react";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
-import { useBuyCoin } from "../../hooks/useBuyCoin";
+import { useTradeCoin } from "../../hooks/useTradeCoin";
 
 export const TradeMenuTitle = "Transacción";
 const URL = `${import.meta.env.VITE_USERS_API_URL}`;
@@ -17,8 +17,7 @@ export const TradeMenu = ({ price, coin }) => {
 
   const username = localStorage.getItem("username");
 
-  const buyCoin = useBuyCoin();
-
+  const {BuyCoin, SellCoin} = useTradeCoin();
   useEffect(() => {
     if (successfulPurchase) {
       const timeoutId = setTimeout(() => {
@@ -28,7 +27,7 @@ export const TradeMenu = ({ price, coin }) => {
     }
   }, [successfulPurchase]);
 
-  async function handleSubmit() {
+  async function handleSubmit(event) {
     setLoading(true);
     if (quantity <= 0 && justification === "") {
       setIncorrectQuantity(true);
@@ -42,7 +41,13 @@ export const TradeMenu = ({ price, coin }) => {
     } else {
       setIncorrectQuantity(false);
       setIncorrectJustification(false);
-      const data = await buyCoin(username, coin, quantity, price);
+      let data;
+      if(event.target.name === "PurchaseButton"){
+        data = await BuyCoin(username, coin, quantity, price);
+      }
+      else{
+        data = await SellCoin(username, coin, quantity, price);
+      }
       if (data.statusCode === 200) {
         setSuccessfulPurchase(true);
         setPurchaseError(false);
@@ -101,9 +106,23 @@ export const TradeMenu = ({ price, coin }) => {
           variant="solid"
           color="success"
           onClick={handleSubmit}
-          data-testid={`PurchaseButton`}
+          name="PurchaseButton"
+          data-testid="PurchaseButton"
         >
           Comprar
+        </Button>
+      )}
+      {loading ? (
+        <Button variant="solid" onClick={handleSubmit} loading></Button>
+      ) : (
+        <Button
+          variant="solid"
+          color="danger"
+          onClick={handleSubmit}
+          name="SellButton"
+          data-testid="SellButton"
+        >
+          Vender
         </Button>
       )}
     </Box>

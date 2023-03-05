@@ -51,7 +51,8 @@ describe("CoinPage", () => {
     screen.getByText(TradeMenuTitle);
     screen.getByPlaceholderText("Cantidad");
     screen.getByPlaceholderText("Justificacion");
-    screen.getByRole("button");
+    screen.getByTestId("PurchaseButton")
+    screen.getByTestId("SellButton");
   });
 
   it("should render navbar elements", () => {
