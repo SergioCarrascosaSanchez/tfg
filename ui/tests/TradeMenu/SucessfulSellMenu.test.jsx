@@ -15,8 +15,8 @@ describe("TradeMenu", () => {
   vi.mock("../../src/hooks/useTradeCoin", () => {
     const useTradeCoin = vi.fn();
     useTradeCoin.mockReturnValue({
-      BuyCoin: vi.fn().mockReturnValue({ statusCode: 402, error: true }),
-      SellCoin: vi.fn().mockReturnValue({})
+      BuyCoin: vi.fn().mockReturnValue({}),
+      SellCoin: vi.fn().mockReturnValue({ statusCode: 200, error: false })
     });
     return {
       useTradeCoin,
@@ -25,7 +25,7 @@ describe("TradeMenu", () => {
 
   afterEach(cleanup);
 
-  it("should render error message when unsuccesful purchase", async () => {
+  it("should render message when succesful sell", async () => {
     render(<TradeMenu coin={"BTC"} price={1} />);
     screen.getByText(TradeMenuTitle);
     fireEvent.change(screen.getByPlaceholderText("Cantidad"), {
@@ -35,11 +35,11 @@ describe("TradeMenu", () => {
       target: { value: "Test" },
     });
     expect(
-      screen.queryByText("Error al ejecutar la transaccion")
+      screen.queryByText("Transacción realizada con éxito!")
     ).not.toBeInTheDocument();
-    fireEvent.click(screen.getByTestId("PurchaseButton"));
+    fireEvent.click(screen.getByTestId("SellButton"));
     await waitFor(() => {
-      screen.getByText("Error al ejecutar la transaccion");
+      screen.getByText("Transacción realizada con éxito!");
     }, { timeout: 2000 });
   });
 });
