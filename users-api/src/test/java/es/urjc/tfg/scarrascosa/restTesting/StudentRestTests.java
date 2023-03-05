@@ -203,7 +203,7 @@ public class StudentRestTests {
     void SellCoinNotQuantityEnoughTest() throws JSONException {
         
         String username = "User";        
-        String coin = "TestCoin3";
+        String coin = "TestCoin4";
         double quantity = 2.0;
         double price = 0.4055;
         
