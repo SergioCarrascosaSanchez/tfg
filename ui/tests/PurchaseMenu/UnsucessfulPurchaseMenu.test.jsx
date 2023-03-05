@@ -7,9 +7,9 @@ import {
 } from "@testing-library/react";
 import { describe, it } from "vitest";
 import {
-  PurchaseMenu,
-  PurchaseMenuTitle,
-} from "../../src/components/PurchaseMenu/PurchaseMenu";
+  TradeMenu,
+  TradeMenuTitle,
+} from "../../src/components/TradeMenu/TradeMenu";
 
 describe("PurchaseMenu", () => {
   vi.mock("../../src/hooks/useBuyCoin", () => {
@@ -25,8 +25,8 @@ describe("PurchaseMenu", () => {
   afterEach(cleanup);
 
   it("should render error message when unsuccesful purchase", async () => {
-    render(<PurchaseMenu coin={"BTC"} price={1} />);
-    screen.getByText(PurchaseMenuTitle);
+    render(<TradeMenu coin={"BTC"} price={1} />);
+    screen.getByText(TradeMenuTitle);
     fireEvent.change(screen.getByPlaceholderText("Cantidad"), {
       target: { value: 1 },
     });

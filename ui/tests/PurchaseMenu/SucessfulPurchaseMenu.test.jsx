@@ -7,11 +7,11 @@ import {
 } from "@testing-library/react";
 import { describe, it } from "vitest";
 import {
-  PurchaseMenu,
-  PurchaseMenuTitle,
-} from "../../src/components/PurchaseMenu/PurchaseMenu";
+  TradeMenu,
+  TradeMenuTitle,
+} from "../../src/components/TradeMenu/TradeMenu";
 
-describe("PurchaseMenu", () => {
+describe("TradeMenu", () => {
   vi.mock("../../src/hooks/useBuyCoin", () => {
     const useBuyCoin = vi.fn();
     useBuyCoin.mockReturnValue(function (username, coin, quantity, price){
@@ -25,8 +25,8 @@ describe("PurchaseMenu", () => {
   afterEach(cleanup);
 
   it("should render message when succesful purchase", async () => {
-    render(<PurchaseMenu coin={"BTC"} price={1} />);
-    screen.getByText(PurchaseMenuTitle);
+    render(<TradeMenu coin={"BTC"} price={1} />);
+    screen.getByText(TradeMenuTitle);
     fireEvent.change(screen.getByPlaceholderText("Cantidad"), {
       target: { value: 1 },
     });

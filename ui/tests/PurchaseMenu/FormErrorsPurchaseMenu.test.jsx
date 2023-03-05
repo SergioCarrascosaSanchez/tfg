@@ -7,11 +7,11 @@ import {
 } from "@testing-library/react";
 import { describe, it } from "vitest";
 import {
-  PurchaseMenu,
-  PurchaseMenuTitle,
-} from "../../src/components/PurchaseMenu/PurchaseMenu";
+  TradeMenu,
+  TradeMenuTitle,
+} from "../../src/components/TradeMenu/TradeMenu";
 
-describe("PurchaseMenu", () => {
+describe("TradeMenu", () => {
   vi.mock("../../src/hooks/useBuyCoin", () => {
     const useBuyCoin = vi.fn();
     useBuyCoin.mockReturnValue(() => {});
@@ -22,8 +22,8 @@ describe("PurchaseMenu", () => {
 
   afterEach(cleanup);
   it("should render error when empty quantity", () => {
-    render(<PurchaseMenu coin={"BTC"} price={1} />);
-    screen.getByText(PurchaseMenuTitle);
+    render(<TradeMenu coin={"BTC"} price={1} />);
+    screen.getByText(TradeMenuTitle);
     screen.getByPlaceholderText("Cantidad");
     fireEvent.change(screen.getByPlaceholderText("Justificacion"), {
       target: { value: "Test" },
@@ -39,8 +39,8 @@ describe("PurchaseMenu", () => {
     screen.getByText("Cantidad no valida");
   });
   it("should render error when empty justification", () => {
-    render(<PurchaseMenu coin={"BTC"} price={1} />);
-    screen.getByText(PurchaseMenuTitle);
+    render(<TradeMenu coin={"BTC"} price={1} />);
+    screen.getByText(TradeMenuTitle);
     screen.getByPlaceholderText("Justificacion");
     fireEvent.change(screen.getByPlaceholderText("Cantidad"), {
       target: { value: 1 },
@@ -54,8 +54,8 @@ describe("PurchaseMenu", () => {
     screen.getByText("La justificacion es obligatoria");
   });
   it("should render two errors when empty justification and empty quantity", () => {
-    render(<PurchaseMenu coin={"BTC"} price={1} />);
-    screen.getByText(PurchaseMenuTitle);
+    render(<TradeMenu coin={"BTC"} price={1} />);
+    screen.getByText(TradeMenuTitle);
     screen.getByPlaceholderText("Cantidad");
     screen.getByPlaceholderText("Justificacion");
     expect(

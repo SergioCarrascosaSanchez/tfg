@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import { useBuyCoin } from "../../hooks/useBuyCoin";
 
-export const PurchaseMenuTitle = "Transacción";
+export const TradeMenuTitle = "Transacción";
 const URL = `${import.meta.env.VITE_USERS_API_URL}`;
 
-export const PurchaseMenu = ({price, coin}) => {
+export const TradeMenu = ({price, coin}) => {
   const [quantity, setQuantity] = useState(0);
   const [justification, setJustification] = useState("");
   const [incorrectQuantity, setIncorrectQuantity] = useState(false);
@@ -68,7 +68,7 @@ export const PurchaseMenu = ({price, coin}) => {
       }}
     >
       <Typography sx={{ lineHeight: "15px" }} level="h2">
-        {PurchaseMenuTitle}
+        {TradeMenuTitle}
       </Typography>
       {incorrectQuantity && (
         <ErrorMessage message={"Cantidad no valida"} form={true}/>
