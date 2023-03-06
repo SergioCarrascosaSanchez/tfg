@@ -1,0 +1,5 @@
+{
+  "defaultCommandTimeout": 60000,
+  "video": false,
+  "screenshots": false
+}

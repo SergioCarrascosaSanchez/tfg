@@ -3,16 +3,34 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "proxy": {
+    "/prices-api/.*":{
+      "target": "http://prices-api:8080/"
+    },
+    "/users-api/.*":{
+      "target": "http://users-api:8081/"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "buildpreprod": "vite build --mode preprod",
+    "buildprod": "vite build --mode prod",
+    "buildtest": "vite build --mode test",
     "test": "vitest",
     "test-ci": "vitest run",
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/joy": "^5.0.0-alpha.52",
+    "@mui/system": "^5.10.12",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.2",
+    "chart.js": "^3.9.1",
+    "react-chartjs-2": "^4.3.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -21,6 +39,7 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.1.0",
+    "@vitest/coverage-c8": "^0.24.4",
     "jsdom": "^20.0.1",
     "vite": "^3.1.0",
     "vitest": "^0.23.4"

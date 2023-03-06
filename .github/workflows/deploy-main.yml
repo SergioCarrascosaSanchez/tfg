@@ -1,0 +1,23 @@
+name: deploy-develop
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get Okteto CLI
+        run: curl https://get.okteto.com -sSfL | sh
+          
+      - name: Okteto login
+        run: okteto context --token ${{ secrets.OKTETO_TOKEN }} use
+        
+      - name: Go to namespace
+        run: okteto namespace --personal tfg-prod-sergiocarrascosasanchez
+        
+      - name: Deploy
+        run: okteto deploy --file docker-compose.yaml --wait --build
