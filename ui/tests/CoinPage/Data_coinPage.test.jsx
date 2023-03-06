@@ -2,7 +2,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
 import { options, appName } from "../../src/components/Navbar/Navbar";
 import { CoinPage } from "../../src/pages/CoinPage/CoinPage";
-import { PurchaseMenuTitle } from "../../src/components/PurchaseMenu/PurchaseMenu";
+import { TradeMenuTitle } from "../../src/components/TradeMenu/TradeMenu";
 
 const coinName = "BTC";
 
@@ -48,10 +48,11 @@ describe("CoinPage", () => {
     screen.getByTestId(`${coinName}Price`);
     screen.getByAltText(coinName);
     screen.getByTestId(`${coinName}Graph`);
-    screen.getByText(PurchaseMenuTitle);
+    screen.getByText(TradeMenuTitle);
     screen.getByPlaceholderText("Cantidad");
     screen.getByPlaceholderText("Justificacion");
-    screen.getByRole("button");
+    screen.getByTestId("PurchaseButton")
+    screen.getByTestId("SellButton");
   });
 
   it("should render navbar elements", () => {

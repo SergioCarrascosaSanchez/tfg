@@ -6,7 +6,7 @@ import { useGetPrice } from "../../hooks/useGetPrice";
 import CircularProgress from "@mui/joy/CircularProgress";
 import { CoinLogo } from "../../components/CoinLogo/CoinLogo";
 import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage";
-import { PurchaseMenu } from "../../components/PurchaseMenu/PurchaseMenu";
+import { TradeMenu } from "../../components/TradeMenu/TradeMenu";
 
 export const coinNotFoundErrorMessage =
   "No se ha encontrado una moneda con este nombre";
@@ -76,7 +76,7 @@ export const CoinPage = () => {
               <Chart data={data.data} refresh={true} />
             </Box>
             <Box sx={{ gridColumn: 3 }}>
-              <PurchaseMenu price={data.data[data.data.length - 1]} coin={name}/>
+              <TradeMenu price={data.data[data.data.length - 1]} coin={name}/>
             </Box>
           </Box>
         )}

@@ -68,6 +68,68 @@ describe("Complete app", () => {
           cy.get("@newBalance").should("be.closeTo", expectedNewBalance, 0.01);
         });
       });
+      cy.contains("ADA");
+
+      cy.visit("/market");
+      cy.contains("ADA").click();
+      cy.contains("ADA");
+      cy.get('[data-testid="ADAPrice"]')
+        .invoke("text")
+        .then((text) => {
+          const price = text.slice(0, -2);
+          cy.wrap(Number(price)).as("priceFirstSell");
+        });
+      cy.contains("Transacción");
+      cy.get('[placeholder="Cantidad"]').type("1");
+      cy.get('[placeholder="Justificacion"]').type("texto de prueba");
+      cy.contains("Vender").click();
+      cy.contains("Transacción realizada con éxito!");
+
+      cy.visit("/students/UserTest");
+      cy.contains("UserTest");
+      cy.contains("ADA");
+      cy.contains("Balance:")
+        .invoke("text")
+        .then((text) => {
+          const balance = text.slice(8, -1);
+          cy.wrap(Number(balance)).as("newBalanceAfterFirstSell");
+        });
+      cy.get("@newBalance").then((balance) => {
+        cy.get("@priceFirstSell").then((price) => {
+          const expectedNewBalance = balance + price;
+          cy.get("@newBalanceAfterFirstSell").should("be.closeTo", expectedNewBalance, 0.01);
+        });
+      });
+      cy.visit("/market");
+      cy.contains("ADA").click();
+      cy.contains("ADA");
+      cy.get('[data-testid="ADAPrice"]')
+        .invoke("text")
+        .then((text) => {
+          const price = text.slice(0, -2);
+          cy.wrap(Number(price)).as("priceSecondSell");
+        });
+      cy.contains("Transacción");
+      cy.get('[placeholder="Cantidad"]').type("1");
+      cy.get('[placeholder="Justificacion"]').type("texto de prueba");
+      cy.contains("Vender").click();
+      cy.contains("Transacción realizada con éxito!");
+
+      cy.visit("/students/UserTest");
+      cy.contains("UserTest");
+      cy.contains('ADA').should('not.exist');
+      cy.contains("Balance:")
+        .invoke("text")
+        .then((text) => {
+          const balance = text.slice(8, -1);
+          cy.wrap(Number(balance)).as("newBalanceAfterSecondSell");
+        });
+      cy.get("@newBalanceAfterFirstSell").then((balance) => {
+        cy.get("@priceSecondSell").then((price) => {
+          const expectedNewBalance = balance + price;
+          cy.get("@newBalanceAfterSecondSell").should("be.closeTo", expectedNewBalance, 0.01);
+        });
+      });
     });
   });
   describe("marketSearch", () => {

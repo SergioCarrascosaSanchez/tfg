@@ -65,4 +65,28 @@ public class StudentRestController {
             return ResponseEntity.notFound().build();
         }
     }
+    
+    @PostMapping("/sell")
+    public ResponseEntity<HttpStatus> sellCoin (@RequestBody TradeDTO trade) {
+        Optional<UserProfile> optional = repo.findByName(trade.getUsername());
+        if (optional.isPresent()) {
+            UserProfile user = optional.get();
+            if(user instanceof Student) {
+                Student student = (Student) user;
+                try {
+                    student.sellFromPortfolio(trade.getCoin(),trade.getQuantity(), trade.getPrice());
+                    this.repo.save(student);
+                    return ResponseEntity.ok().build();
+                } catch (Exception e) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+                }
+            }
+            else {
+                return ResponseEntity.notFound().build();
+            } 
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

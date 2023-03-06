@@ -50,5 +50,18 @@ public class Student extends UserProfile{
             throw new Exception("not enough balance");
         }
     }
+    public void sellFromPortfolio(String ticker, double quantity, double price) throws Exception {
+        double portfolioQuantity = this.getQuantity(ticker);
+        if(portfolioQuantity >= quantity) {
+            this.portfolio.put(ticker, (portfolioQuantity - quantity));
+            this.balance = this.balance + quantity*price;
+            if(this.getQuantity(ticker) == 0.0) {
+                this.portfolio.remove(ticker);
+            }
+        }
+        else {
+            throw new Exception("not enough quantity: "+portfolioQuantity+" left");
+        }
+    }
  
 }

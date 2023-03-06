@@ -94,5 +94,32 @@ class StudentUnitTests {
             assertThat(student.getBalance()).isEqualTo(initBalance - (quantity1*price1) - (quantity2*price2));
         }
     }
+    @ParameterizedTest
+    @CsvSource({
+    "St7, st7@email.com, BTCBUSD, 1.0, 170.0, false",
+    "St7, st7@email.com, BTCBUSD, 3.2, 170.0, true",
+    "St7, st7@email.com, BTCBUSD, 2.0, 170.0, false"
+    })
+    void sellFromPortfolioTest(String name, String email, String symbol, double quantity, double sellPrice, boolean throwsException) {
+        double balance = 30000.0;
+        double buyQuantity = 2.0;
+        double buyPrice = 12000.0;
+        Student student = new Student(name, email, balance, "123pass", "USER");
+        balance = balance - (buyQuantity*buyPrice);
+        assertDoesNotThrow(() -> {student.addToPortfolio(symbol, buyQuantity, buyPrice);});
+        
+        if(throwsException) {
+            assertThatThrownBy(() -> {
+                student.sellFromPortfolio(symbol, quantity, sellPrice);
+            }).isInstanceOf(Exception.class).hasMessageContaining("not enough quantity");
+            assertThat(student.getQuantity(symbol)).isEqualTo(buyQuantity);
+            assertThat(student.getBalance()).isEqualTo(balance);
+        }
+        else {
+            assertDoesNotThrow(() -> {student.sellFromPortfolio(symbol, quantity, sellPrice);});
+            assertThat(student.getQuantity(symbol)).isEqualTo(buyQuantity - quantity);
+            assertThat(student.getBalance()).isEqualTo(balance + (quantity*sellPrice));
+        }    
+    }
   
 }

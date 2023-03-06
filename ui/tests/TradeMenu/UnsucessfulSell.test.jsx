@@ -7,26 +7,27 @@ import {
 } from "@testing-library/react";
 import { describe, it } from "vitest";
 import {
-  PurchaseMenu,
-  PurchaseMenuTitle,
-} from "../../src/components/PurchaseMenu/PurchaseMenu";
+  TradeMenu,
+  TradeMenuTitle,
+} from "../../src/components/TradeMenu/TradeMenu";
 
-describe("PurchaseMenu", () => {
-  vi.mock("../../src/hooks/useBuyCoin", () => {
-    const useBuyCoin = vi.fn();
-    useBuyCoin.mockReturnValue(function (username, coin, quantity, price){
-      return ({ statusCode: 402, error: true });
+describe("TradeMenu", () => {
+  vi.mock("../../src/hooks/useTradeCoin", () => {
+    const useTradeCoin = vi.fn();
+    useTradeCoin.mockReturnValue({
+      BuyCoin: vi.fn().mockReturnValue({}),
+      SellCoin: vi.fn().mockReturnValue({ statusCode: 400, error: true })
     });
     return {
-      useBuyCoin,
+      useTradeCoin,
     };
   });
 
   afterEach(cleanup);
 
-  it("should render error message when unsuccesful purchase", async () => {
-    render(<PurchaseMenu coin={"BTC"} price={1} />);
-    screen.getByText(PurchaseMenuTitle);
+  it("should render error message when unsuccesful sell", async () => {
+    render(<TradeMenu coin={"BTC"} price={1} />);
+    screen.getByText(TradeMenuTitle);
     fireEvent.change(screen.getByPlaceholderText("Cantidad"), {
       target: { value: 1 },
     });
@@ -36,7 +37,7 @@ describe("PurchaseMenu", () => {
     expect(
       screen.queryByText("Error al ejecutar la transaccion")
     ).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button"));
+    fireEvent.click(screen.getByTestId("SellButton"));
     await waitFor(() => {
       screen.getByText("Error al ejecutar la transaccion");
     }, { timeout: 2000 });

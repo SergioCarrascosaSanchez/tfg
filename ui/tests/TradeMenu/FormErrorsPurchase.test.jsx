@@ -7,23 +7,26 @@ import {
 } from "@testing-library/react";
 import { describe, it } from "vitest";
 import {
-  PurchaseMenu,
-  PurchaseMenuTitle,
-} from "../../src/components/PurchaseMenu/PurchaseMenu";
+  TradeMenu,
+  TradeMenuTitle,
+} from "../../src/components/TradeMenu/TradeMenu";
 
-describe("PurchaseMenu", () => {
-  vi.mock("../../src/hooks/useBuyCoin", () => {
-    const useBuyCoin = vi.fn();
-    useBuyCoin.mockReturnValue(() => {});
+describe("TradeMenu", () => {
+  vi.mock("../../src/hooks/useTradeCoin", () => {
+    const useTradeCoin = vi.fn();
+    useTradeCoin.mockReturnValue({
+      BuyCoin: vi.fn().mockReturnValue({}),
+      SellCoin: vi.fn().mockReturnValue({})
+    });
     return {
-      useBuyCoin,
+      useTradeCoin,
     };
   });
 
   afterEach(cleanup);
   it("should render error when empty quantity", () => {
-    render(<PurchaseMenu coin={"BTC"} price={1} />);
-    screen.getByText(PurchaseMenuTitle);
+    render(<TradeMenu coin={"BTC"} price={1} />);
+    screen.getByText(TradeMenuTitle);
     screen.getByPlaceholderText("Cantidad");
     fireEvent.change(screen.getByPlaceholderText("Justificacion"), {
       target: { value: "Test" },
@@ -32,15 +35,15 @@ describe("PurchaseMenu", () => {
     expect(
       screen.queryByText("La justificacion es obligatoria")
     ).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button"));
+    fireEvent.click(screen.getByTestId("PurchaseButton"));
     expect(
       screen.queryByText("La justificacion es obligatoria")
     ).not.toBeInTheDocument();
     screen.getByText("Cantidad no valida");
   });
   it("should render error when empty justification", () => {
-    render(<PurchaseMenu coin={"BTC"} price={1} />);
-    screen.getByText(PurchaseMenuTitle);
+    render(<TradeMenu coin={"BTC"} price={1} />);
+    screen.getByText(TradeMenuTitle);
     screen.getByPlaceholderText("Justificacion");
     fireEvent.change(screen.getByPlaceholderText("Cantidad"), {
       target: { value: 1 },
@@ -49,20 +52,20 @@ describe("PurchaseMenu", () => {
       screen.queryByText("La justificacion es obligatoria")
     ).not.toBeInTheDocument();
     expect(screen.queryByText("Cantidad no valida")).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button"));
+    fireEvent.click(screen.getByTestId("PurchaseButton"));
     expect(screen.queryByText("Cantidad no valida")).not.toBeInTheDocument();
     screen.getByText("La justificacion es obligatoria");
   });
   it("should render two errors when empty justification and empty quantity", () => {
-    render(<PurchaseMenu coin={"BTC"} price={1} />);
-    screen.getByText(PurchaseMenuTitle);
+    render(<TradeMenu coin={"BTC"} price={1} />);
+    screen.getByText(TradeMenuTitle);
     screen.getByPlaceholderText("Cantidad");
     screen.getByPlaceholderText("Justificacion");
     expect(
       screen.queryByText("La justificacion es obligatoria")
     ).not.toBeInTheDocument();
     expect(screen.queryByText("Cantidad no valida")).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button"));
+    fireEvent.click(screen.getByTestId("PurchaseButton"));
     screen.getByText("Cantidad no valida");
     screen.getByText("La justificacion es obligatoria");
   });
