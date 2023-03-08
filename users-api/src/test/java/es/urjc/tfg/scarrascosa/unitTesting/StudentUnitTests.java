@@ -54,6 +54,8 @@ class StudentUnitTests {
             assertThat(student.getBalance()).isEqualTo(initBalance);
             
             assertThat(student.getQuantity(symbol)).isEqualTo(0.0);
+            
+            assertThat(student.getTradeHistory().size()).isEqualTo(0);
         }
         else {
             assertDoesNotThrow(() -> {student.addToPortfolio(trade);});
@@ -94,6 +96,15 @@ class StudentUnitTests {
             
             assertThat(student.getQuantity(symbol)).isEqualTo(quantity1);
             
+            assertThat(student.getTradeHistory().size()).isEqualTo(1);
+            Trade firstTrade = student.getTradeHistory().get(0);
+            assertThat(firstTrade.getType()).isEqualTo(TradeType.BUY);
+            assertThat(firstTrade.getCoin()).isEqualTo(symbol);
+            assertThat(firstTrade.getQuantity()).isEqualTo(quantity1);
+            assertThat(firstTrade.getPrice()).isEqualTo(price1);
+            assertThat(firstTrade.getChartData()).isEqualTo(list);
+            assertThat(firstTrade.getJustification()).isEqualTo(justification);
+            
             assertThatThrownBy(() -> {
                 student.addToPortfolio(trade2);
             }).isInstanceOf(Exception.class).hasMessageContaining("not enough balance");
@@ -101,6 +112,15 @@ class StudentUnitTests {
             assertThat(student.getBalance()).isEqualTo(initBalance - (quantity1*price1));
             
             assertThat(student.getQuantity(symbol)).isEqualTo(quantity1);
+            
+            assertThat(student.getTradeHistory().size()).isEqualTo(1);
+            Trade lastTrade = student.getTradeHistory().get(0);
+            assertThat(lastTrade.getType()).isEqualTo(TradeType.BUY);
+            assertThat(lastTrade.getCoin()).isEqualTo(symbol);
+            assertThat(lastTrade.getQuantity()).isEqualTo(quantity1);
+            assertThat(lastTrade.getPrice()).isEqualTo(price1);
+            assertThat(lastTrade.getChartData()).isEqualTo(list);
+            assertThat(lastTrade.getJustification()).isEqualTo(justification);
         }
         else {
             assertDoesNotThrow(() -> {student.addToPortfolio(trade1);});
@@ -109,11 +129,30 @@ class StudentUnitTests {
             
             assertThat(student.getQuantity(symbol)).isEqualTo(quantity1);
             
+            assertThat(student.getTradeHistory().size()).isEqualTo(1);
+            Trade firstTrade = student.getTradeHistory().get(0);
+            assertThat(firstTrade.getType()).isEqualTo(TradeType.BUY);
+            assertThat(firstTrade.getCoin()).isEqualTo(symbol);
+            assertThat(firstTrade.getQuantity()).isEqualTo(quantity1);
+            assertThat(firstTrade.getPrice()).isEqualTo(price1);
+            assertThat(firstTrade.getChartData()).isEqualTo(list);
+            assertThat(firstTrade.getJustification()).isEqualTo(justification);
+            
+            
             assertDoesNotThrow(() -> {student.addToPortfolio(trade2);});
             
             assertThat(student.getQuantity(symbol)).isEqualTo(quantity1+quantity2);
             
             assertThat(student.getBalance()).isEqualTo(initBalance - (quantity1*price1) - (quantity2*price2));
+        
+            assertThat(student.getTradeHistory().size()).isEqualTo(2);
+            Trade lastTrade = student.getTradeHistory().get(0);
+            assertThat(lastTrade.getType()).isEqualTo(TradeType.BUY);
+            assertThat(lastTrade.getCoin()).isEqualTo(symbol);
+            assertThat(lastTrade.getQuantity()).isEqualTo(quantity2);
+            assertThat(lastTrade.getPrice()).isEqualTo(price2);
+            assertThat(lastTrade.getChartData()).isEqualTo(list);
+            assertThat(lastTrade.getJustification()).isEqualTo(justification);
         }
     }
     @ParameterizedTest
@@ -134,6 +173,15 @@ class StudentUnitTests {
         
         balance = balance - (buyQuantity*buyPrice);
         assertDoesNotThrow(() -> {student.addToPortfolio(trade);});
+        
+        assertThat(student.getTradeHistory().size()).isEqualTo(1);
+        Trade firstTrade = student.getTradeHistory().get(0);
+        assertThat(firstTrade.getType()).isEqualTo(TradeType.BUY);
+        assertThat(firstTrade.getCoin()).isEqualTo(symbol);
+        assertThat(firstTrade.getQuantity()).isEqualTo(buyQuantity);
+        assertThat(firstTrade.getPrice()).isEqualTo(buyPrice);
+        assertThat(firstTrade.getChartData()).isEqualTo(list);
+        assertThat(firstTrade.getJustification()).isEqualTo(justification);
         
         if(throwsException) {
             assertThatThrownBy(() -> {
