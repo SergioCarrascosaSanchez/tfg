@@ -3,9 +3,16 @@ package es.urjc.tfg.scarrascosa.Trade;
 import java.util.ArrayList;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class Trade {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private TradeType type;
     private String coin;
     private double quantity;
