@@ -1,8 +1,12 @@
 package es.urjc.tfg.scarrascosa.Trade;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,17 +22,25 @@ public class Trade {
     private double quantity;
     private double price;
     private String justification;
-    private ArrayList<Double> chartData;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<Double> chartData;
     private String date;
     
-    public Trade(TradeType type, String coin, double quantity, double price, String justification, ArrayList<Double> chartData, String date) {
+    public Trade() {};
+    
+    public Trade(TradeType type, String coin, double quantity, double price, String justification, List<Double> chartData) {
         this.type = type;
         this.coin = coin;
         this.quantity = quantity;
         this.price = price;
-        this.date = date;
         this.justification = justification;
         this.chartData = chartData;
+        
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = now.format(formatter);
+        
+        this.date = formattedDateTime;
     }
     
     public TradeType getType() {
@@ -61,10 +73,10 @@ public class Trade {
     public void setJustification(String justification) {
         this.justification = justification;
     }
-    public ArrayList<Double> getChartData() {
+    public List<Double> getChartData() {
         return chartData;
     }
-    public void setChartData(ArrayList<Double> chartData) {
+    public void setChartData(List<Double> chartData) {
         this.chartData = chartData;
     }
     public String getDate() {
