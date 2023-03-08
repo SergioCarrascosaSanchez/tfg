@@ -4,9 +4,11 @@ import static io.restassured.RestAssured.when;
 import static io.restassured.path.json.JsonPath.from;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.not;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.assertj.core.api.Assertions;
 
+import java.util.LinkedList;
+
+import org.assertj.core.api.Assertions;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +16,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.hamcrest.Matchers;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -52,13 +53,19 @@ public class StudentRestTests {
         String coin = "TestCoin1";
         double quantity = 2.0;
         double price = 0.4055;
-        
+        String justification = "adjhagsdjkhgad";
+        LinkedList<Double> list = new LinkedList<>();
+        list.add(1.2);
+        list.add(2.0);
+        JSONArray pricesArray = new JSONArray(list);
         
         JSONObject trade = new JSONObject();
         trade.put("username", username);
         trade.put("coin", coin);
         trade.put("quantity", quantity);
         trade.put("price", price);
+        trade.put("justification", justification);
+        trade.put("chartData", pricesArray);
         
         given().
             contentType("application/json").
@@ -102,13 +109,19 @@ public class StudentRestTests {
         String coin = "TestCoin2";
         double quantity = 0.95;
         double price = 200000.0;
-        
+        String justification = "adjhagsdjkhgad";
+        LinkedList<Double> list = new LinkedList<>();
+        list.add(1.2);
+        list.add(2.0);
+        JSONArray pricesArray = new JSONArray(list);
         
         JSONObject trade = new JSONObject();
         trade.put("username", username);
         trade.put("coin", coin);
         trade.put("quantity", quantity);
         trade.put("price", price);
+        trade.put("justification", justification);
+        trade.put("chartData", pricesArray);
         
         given().
             contentType("application/json").
@@ -140,12 +153,19 @@ public class StudentRestTests {
         String coin = "TestCoin3";
         double quantity = 2.0;
         double price = 0.4055;
+        String justification = "adjhagsdjkhgad";
+        LinkedList<Double> list = new LinkedList<>();
+        list.add(1.2);
+        list.add(2.0);
+        JSONArray pricesArray = new JSONArray(list);
         
         JSONObject trade = new JSONObject();
         trade.put("username", username);
         trade.put("coin", coin);
         trade.put("quantity", quantity);
         trade.put("price", price);
+        trade.put("justification", justification);
+        trade.put("chartData", pricesArray);
         
         given().
             contentType("application/json").
@@ -169,12 +189,19 @@ public class StudentRestTests {
         
         double quantity2 = 2.0;
         double price2 = 0.6055;
+        String justification2 = "adjhagsdjkhgad";
+        LinkedList<Double> list2 = new LinkedList<>();
+        list.add(1.2);
+        list.add(2.0);
+        JSONArray pricesArray2 = new JSONArray(list2);
         
         JSONObject sellTrade = new JSONObject();
         sellTrade.put("username", username);
         sellTrade.put("coin", coin);
         sellTrade.put("quantity", quantity2);
         sellTrade.put("price", price2);
+        sellTrade.put("justification", justification2);
+        sellTrade.put("chartData", pricesArray2);
         
         given().
             contentType("application/json").
@@ -206,12 +233,19 @@ public class StudentRestTests {
         String coin = "TestCoin4";
         double quantity = 2.0;
         double price = 0.4055;
+        String justification = "adjhagsdjkhgad";
+        LinkedList<Double> list = new LinkedList<>();
+        list.add(1.2);
+        list.add(2.0);
+        JSONArray pricesArray = new JSONArray(list);
         
         JSONObject trade = new JSONObject();
         trade.put("username", username);
         trade.put("coin", coin);
         trade.put("quantity", quantity);
         trade.put("price", price);
+        trade.put("justification", justification);
+        trade.put("chartData", pricesArray);
         
         given().
             contentType("application/json").
@@ -235,12 +269,19 @@ public class StudentRestTests {
         
         double quantity2 = 3.0;
         double price2 = 0.6055;
+        String justification2 = "adjhagsdjkhgad";
+        LinkedList<Double> list2 = new LinkedList<>();
+        list.add(1.2);
+        list.add(2.0);
+        JSONArray pricesArray2 = new JSONArray(list2);
         
         JSONObject sellTrade = new JSONObject();
         sellTrade.put("username", username);
         sellTrade.put("coin", coin);
         sellTrade.put("quantity", quantity2);
         sellTrade.put("price", price2);
+        sellTrade.put("justification", justification2);
+        sellTrade.put("chartData", pricesArray2);
         
         given().
             contentType("application/json").
