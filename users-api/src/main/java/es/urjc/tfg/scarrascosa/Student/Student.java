@@ -41,22 +41,22 @@ public class Student extends UserProfile{
         }
     }
     
-    public void addToPortfolio (String ticker, double quantity, double price) throws Exception {
+    public void addToPortfolio (String coin, double quantity, double price) throws Exception {
         if((quantity*price)<=this.balance) {
             this.setBalance(this.balance - (quantity*price));
-            this.portfolio.put(ticker, this.getQuantity(ticker)+quantity);
+            this.portfolio.put(coin, this.getQuantity(coin)+quantity);
         }
         else {
             throw new Exception("not enough balance");
         }
     }
-    public void sellFromPortfolio(String ticker, double quantity, double price) throws Exception {
-        double portfolioQuantity = this.getQuantity(ticker);
+    public void sellFromPortfolio(String coin, double quantity, double price) throws Exception {
+        double portfolioQuantity = this.getQuantity(coin);
         if(portfolioQuantity >= quantity) {
-            this.portfolio.put(ticker, (portfolioQuantity - quantity));
+            this.portfolio.put(coin, (portfolioQuantity - quantity));
             this.balance = this.balance + quantity*price;
-            if(this.getQuantity(ticker) == 0.0) {
-                this.portfolio.remove(ticker);
+            if(this.getQuantity(coin) == 0.0) {
+                this.portfolio.remove(coin);
             }
         }
         else {
