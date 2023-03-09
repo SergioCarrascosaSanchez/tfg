@@ -35,7 +35,7 @@ public class StudentRestController {
             UserProfile user = optional.get();
             if(user instanceof Student) {
                 Student student = (Student) user;
-                return ResponseEntity.ok(new StudentDTO(student.getBalance(), student.getPortfolio()));
+                return ResponseEntity.ok(new StudentDTO(student.getBalance(), student.getPortfolio(), student.getTradeHistory()));
             }
             else {
                 return ResponseEntity.notFound().build();

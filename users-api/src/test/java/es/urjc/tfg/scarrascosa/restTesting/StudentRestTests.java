@@ -2,6 +2,7 @@ package es.urjc.tfg.scarrascosa.restTesting;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static io.restassured.path.json.JsonPath.from;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.not;
 
@@ -37,13 +38,15 @@ public class StudentRestTests {
     @Test
     void BuyCoinTest() throws JSONException {
         
-        String username = "User";
+        String username = "StudentForRestTest_1";
+        signupUser(username);
         
         Response getBalanceResponse =
             when().
                 get("/users/"+username).
             then().
                 statusCode(200).
+                body("tradeHistory", equalTo(new LinkedList<>())).
             extract().response();
         
         Float initialBalanceFloat = from(getBalanceResponse.getBody().asString()).get("balance");
@@ -82,6 +85,9 @@ public class StudentRestTests {
             then().
                 statusCode(200).
                 body("portfolio.coin", hasItems(coin)).
+                body("tradeHistory.justification", hasItems(justification)).
+                body("tradeHistory.coin", hasItems(coin)).
+                body("tradeHistory.type", hasItems("BUY")).
             extract().response();
         
         Float finalBalanceFloat = from(afterPurchaseResponse.getBody().asString()).get("balance");
@@ -93,7 +99,8 @@ public class StudentRestTests {
     @Test
     void NoBalanceTest() throws JSONException {
         
-        String username = "User";
+        String username = "StudentForRestTest_2";
+        signupUser(username);
         
         Response getBalanceResponse =
             when().
@@ -137,6 +144,7 @@ public class StudentRestTests {
                 get("/users/"+username).
             then().
                 statusCode(200).
+                body("tradeHistory", equalTo(new LinkedList<>())).
             extract().response();
         
         Float finalBalanceFloat = from(getBalanceFinalResponse.getBody().asString()).get("balance");
@@ -149,7 +157,9 @@ public class StudentRestTests {
     @Test
     void SellCoinTest() throws JSONException {
         
-        String username = "User";        
+        String username = "StudentForRestTest_3";
+        signupUser(username);
+        
         String coin = "TestCoin3";
         double quantity = 2.0;
         double price = 0.4055;
@@ -182,6 +192,9 @@ public class StudentRestTests {
             then().
                 statusCode(200).
                 body("portfolio.coin", hasItems(coin)).
+                body("tradeHistory.justification", hasItems(justification)).
+                body("tradeHistory.coin", hasItems(coin)).
+                body("tradeHistory.type", hasItems("BUY")).
             extract().response();
         
         Float afterPurchaseBalanceFloat = from(afterPurchaseResponse.getBody().asString()).get("balance");
@@ -217,6 +230,9 @@ public class StudentRestTests {
             then().
                 statusCode(200).
                 body("portfolio.coin", not(hasItems(coin))).
+                body("tradeHistory.justification", hasItems(justification, justification2)).
+                body("tradeHistory.coin", hasItems(coin, coin)).
+                body("tradeHistory.type", hasItems("BUY", "SELL")).
             extract().response();
             
         Float afterSellBalanceFloat = from(afterSellResponse.getBody().asString()).get("balance");
@@ -229,7 +245,9 @@ public class StudentRestTests {
     @Test
     void SellCoinNotQuantityEnoughTest() throws JSONException {
         
-        String username = "User";        
+        String username = "StudentForRestTest_4";
+        signupUser(username);
+        
         String coin = "TestCoin4";
         double quantity = 2.0;
         double price = 0.4055;
@@ -262,6 +280,9 @@ public class StudentRestTests {
             then().
                 statusCode(200).
                 body("portfolio.coin", hasItems(coin)).
+                body("tradeHistory.justification", hasItems(justification)).
+                body("tradeHistory.coin", hasItems(coin)).
+                body("tradeHistory.type", hasItems("BUY")).
             extract().response();
         
         Float afterPurchaseBalanceFloat = from(afterPurchaseResponse.getBody().asString()).get("balance");
@@ -269,7 +290,7 @@ public class StudentRestTests {
         
         double quantity2 = 3.0;
         double price2 = 0.6055;
-        String justification2 = "adjhagsdjkhgad";
+        String justification2 = "adjhagsdjkhgad_2";
         LinkedList<Double> list2 = new LinkedList<>();
         list.add(1.2);
         list.add(2.0);
@@ -297,11 +318,52 @@ public class StudentRestTests {
             then().
                 statusCode(200).
                 body("portfolio.coin", hasItems(coin)).
+                body("tradeHistory.justification", hasItems(justification)).
+                body("tradeHistory.justification", not(hasItems(justification2))).
+                body("tradeHistory.coin", hasItems(coin)).
+                body("tradeHistory.type", hasItems("BUY")).
+                body("tradeHistory.type", not(hasItems("SELL"))).
             extract().response();
             
         Float afterSellBalanceFloat = from(afterSellResponse.getBody().asString()).get("balance");
         Double afterSellBalance = afterSellBalanceFloat.doubleValue();
         Assertions.assertThat(afterSellBalance).isCloseTo(afterPurchaseBalance, Assertions.within(0.0001));
+    }
+    
+    void signupUser(String username) throws JSONException {
+        LinkedList<String> roles = new LinkedList<>();
+        roles.add("STUDENT");
+        String email = "StudentForRestTest@email.com";
+        String password = "StudentForRestTest";
+        double balance = 1000.0;
+        
+        JSONObject student = new JSONObject();
+        JSONArray rolesArray = new JSONArray(roles);
+        student.put("roles", rolesArray);
+        student.put("username", username);
+        student.put("email", email);
+        student.put("password", password);
+        student.put("initialBalance", balance);
+
+        given().
+            contentType("application/json").
+            body(student.toString()).
+        when().
+            post("/signup").      
+        then().
+            statusCode(200);
+        
+        JSONObject studentLogin = new JSONObject();
+        studentLogin.put("username", username);
+        studentLogin.put("password", password);
+
+        given().
+            contentType("application/json").
+            body(studentLogin.toString()).
+        when().
+            post("/login").      
+        then().
+            statusCode(200);
     }
 
 }

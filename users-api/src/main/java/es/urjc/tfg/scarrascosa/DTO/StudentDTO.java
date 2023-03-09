@@ -2,20 +2,26 @@ package es.urjc.tfg.scarrascosa.DTO;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+
+import es.urjc.tfg.scarrascosa.Trade.Trade;
+import es.urjc.tfg.scarrascosa.Trade.TradeType;
 
 public class StudentDTO {
     
     private double balance;
     private LinkedList<PortfolioItem> portfolio;
+    private LinkedList<TradeItem> tradeHistory;
     
     public StudentDTO () {}
     
-    public StudentDTO (double balance, LinkedList<PortfolioItem> portfolio) {
+    public StudentDTO (double balance, LinkedList<PortfolioItem> portfolio, LinkedList<TradeItem> tradeHistory) {
         this.setBalance(balance);
         this.portfolio = portfolio;
+        this.tradeHistory = tradeHistory;
     }
     
-    public StudentDTO (double balance, HashMap<String, Double> portfolioMap) {
+    public StudentDTO (double balance, HashMap<String, Double> portfolioMap, List<Trade> tradeList) {
         this.setBalance(balance);
         this.portfolio = new LinkedList<PortfolioItem>();
         if(!portfolioMap.isEmpty()) {
@@ -23,6 +29,13 @@ public class StudentDTO {
                 this.portfolio.add(new PortfolioItem(key, portfolioMap.get(key)));
             }
         }
+        this.tradeHistory = new LinkedList<TradeItem>();
+        if(!tradeList.isEmpty()) {
+            for(Trade trade : tradeList) {
+                this.tradeHistory.add(new TradeItem(trade.getType(), trade.getCoin(), trade.getQuantity(), trade.getPrice(), trade.getJustification(), trade.getChartData(), trade.getDate()));
+            }
+        }
+        
     }
     
     public double getBalance() {
@@ -39,6 +52,14 @@ public class StudentDTO {
 
     public void setPortfolio(LinkedList<PortfolioItem> portfolio) {
         this.portfolio = portfolio;
+    }
+    
+    public LinkedList<TradeItem> getTradeHistory(){
+        return this.tradeHistory;
+    }
+    public void setTradeHistory(LinkedList<TradeItem> tradeHistory) {
+        this.tradeHistory = tradeHistory;
+        
     }
 
     private class PortfolioItem{
@@ -63,6 +84,71 @@ public class StudentDTO {
         }
         public void setQuantity(Double quantity) {
             this.quantity = quantity;
+        }
+    }
+    
+    private class TradeItem{
+        private TradeType type;
+        private String coin;
+        private double quantity;
+        private double price;
+        private String justification;
+        private List<Double> chartData;
+        private String date;
+        
+        public TradeItem() {};
+        
+        public TradeItem(TradeType type, String coin, double quantity, double price, String justification, List<Double> chartData, String date) {
+            this.type = type;
+            this.coin = coin;
+            this.quantity = quantity;
+            this.price = price;
+            this.justification = justification;
+            this.chartData = chartData;
+            this.date = date;
+        }
+        
+        public TradeType getType() {
+            return this.type;
+        }
+        public void setType(TradeType tradeType) {
+            this.type = tradeType;
+        }
+        public String getCoin() {
+            return coin;
+        }
+        public void setCoin(String coin) {
+            this.coin = coin;
+        }
+        public double getQuantity() {
+            return quantity;
+        }
+        public void setQuantity(double quantity) {
+            this.quantity = quantity;
+        }
+        public double getPrice() {
+            return price;
+        }
+        public void setPrice(double price) {
+            this.price = price;
+        }
+        public String getJustification() {
+            return justification;
+        }
+        public void setJustification(String justification) {
+            this.justification = justification;
+        }
+        public List<Double> getChartData() {
+            return chartData;
+        }
+        public void setChartData(List<Double> chartData) {
+            this.chartData = chartData;
+        }
+        public String getDate() {
+            return date;
+        }
+        public void setDate(String date) {
+            this.date = date;
         }
     }
 }
