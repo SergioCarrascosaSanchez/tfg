@@ -79,8 +79,10 @@ public class StudentRestController {
             UserProfile user = optional.get();
             if(user instanceof Student) {
                 Student student = (Student) user;
+                Trade newTrade = new Trade(TradeType.SELL, trade.getCoin(),trade.getQuantity(), trade.getPrice(), trade.getJustification(), trade.getChartData());
                 try {
-                    student.sellFromPortfolio(trade.getCoin(),trade.getQuantity(), trade.getPrice());
+                    student.sellFromPortfolio(newTrade);
+                    this.tradeRepo.save(newTrade);
                     this.repo.save(student);
                     return ResponseEntity.ok().build();
                 } catch (Exception e) {

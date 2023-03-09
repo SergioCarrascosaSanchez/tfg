@@ -67,13 +67,14 @@ public class Student extends UserProfile{
             throw new Exception("not enough balance");
         }
     }
-    public void sellFromPortfolio(String coin, double quantity, double price) throws Exception {
-        double portfolioQuantity = this.getQuantity(coin);
-        if(portfolioQuantity >= quantity) {
-            this.portfolio.put(coin, (portfolioQuantity - quantity));
-            this.balance = this.balance + quantity*price;
-            if(this.getQuantity(coin) == 0.0) {
-                this.portfolio.remove(coin);
+    public void sellFromPortfolio(Trade trade) throws Exception {
+        double portfolioQuantity = this.getQuantity(trade.getCoin());
+        if(portfolioQuantity >= trade.getQuantity()) {
+            this.portfolio.put(trade.getCoin(), (portfolioQuantity - trade.getQuantity()));
+            this.tradeHistory.add(0, trade);
+            this.setBalance(this.balance + trade.getQuantity()*trade.getPrice());
+            if(this.getQuantity(trade.getCoin()) == 0.0) {
+                this.portfolio.remove(trade.getCoin());
             }
         }
         else {

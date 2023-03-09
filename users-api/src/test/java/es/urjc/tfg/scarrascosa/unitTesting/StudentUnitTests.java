@@ -183,17 +183,38 @@ class StudentUnitTests {
         assertThat(firstTrade.getChartData()).isEqualTo(list);
         assertThat(firstTrade.getJustification()).isEqualTo(justification);
         
+        Trade sellTrade = new Trade(TradeType.SELL, symbol, quantity, sellPrice, justification, list);
+        
         if(throwsException) {
+            
             assertThatThrownBy(() -> {
-                student.sellFromPortfolio(symbol, quantity, sellPrice);
+                student.sellFromPortfolio(sellTrade);
             }).isInstanceOf(Exception.class).hasMessageContaining("not enough quantity");
             assertThat(student.getQuantity(symbol)).isEqualTo(buyQuantity);
             assertThat(student.getBalance()).isEqualTo(balance);
+            
+            assertThat(student.getTradeHistory().size()).isEqualTo(1);
+            Trade lastTrade = student.getTradeHistory().get(0);
+            assertThat(lastTrade.getType()).isEqualTo(TradeType.BUY);
+            assertThat(lastTrade.getCoin()).isEqualTo(symbol);
+            assertThat(lastTrade.getQuantity()).isEqualTo(buyQuantity);
+            assertThat(lastTrade.getPrice()).isEqualTo(buyPrice);
+            assertThat(lastTrade.getChartData()).isEqualTo(list);
+            assertThat(lastTrade.getJustification()).isEqualTo(justification);
         }
-        else {
-            assertDoesNotThrow(() -> {student.sellFromPortfolio(symbol, quantity, sellPrice);});
+        else {           
+            assertDoesNotThrow(() -> {student.sellFromPortfolio(sellTrade);});
             assertThat(student.getQuantity(symbol)).isEqualTo(buyQuantity - quantity);
             assertThat(student.getBalance()).isEqualTo(balance + (quantity*sellPrice));
+            
+            assertThat(student.getTradeHistory().size()).isEqualTo(2);
+            Trade lastTrade = student.getTradeHistory().get(0);
+            assertThat(lastTrade.getType()).isEqualTo(TradeType.SELL);
+            assertThat(lastTrade.getCoin()).isEqualTo(symbol);
+            assertThat(lastTrade.getQuantity()).isEqualTo(quantity);
+            assertThat(lastTrade.getPrice()).isEqualTo(sellPrice);
+            assertThat(lastTrade.getChartData()).isEqualTo(list);
+            assertThat(lastTrade.getJustification()).isEqualTo(justification);
             
         }    
     }
