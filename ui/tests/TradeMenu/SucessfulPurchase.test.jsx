@@ -26,7 +26,7 @@ describe("TradeMenu", () => {
   afterEach(cleanup);
 
   it("should render message when succesful purchase", async () => {
-    render(<TradeMenu coin={"BTC"} price={1} />);
+    render(<TradeMenu coin={"BTC"} price={1} chartData={[1.0, 2.0, 3.0]}/>);
     screen.getByText(TradeMenuTitle);
     fireEvent.change(screen.getByPlaceholderText("Cantidad"), {
       target: { value: 1 },
