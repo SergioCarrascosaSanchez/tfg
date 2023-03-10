@@ -25,7 +25,7 @@ describe("TradeMenu", () => {
 
   afterEach(cleanup);
   it("should render error when empty quantity", () => {
-    render(<TradeMenu coin={"BTC"} price={1} />);
+    render(<TradeMenu coin={"BTC"} price={1} chartData={[1.0, 2.0, 3.0]}/>);
     screen.getByText(TradeMenuTitle);
     screen.getByPlaceholderText("Cantidad");
     fireEvent.change(screen.getByPlaceholderText("Justificacion"), {
@@ -42,7 +42,7 @@ describe("TradeMenu", () => {
     screen.getByText("Cantidad no valida");
   });
   it("should render error when empty justification", () => {
-    render(<TradeMenu coin={"BTC"} price={1} />);
+    render(<TradeMenu coin={"BTC"} price={1} chartData={[1.0, 2.0, 3.0]}/>);
     screen.getByText(TradeMenuTitle);
     screen.getByPlaceholderText("Justificacion");
     fireEvent.change(screen.getByPlaceholderText("Cantidad"), {
@@ -57,7 +57,7 @@ describe("TradeMenu", () => {
     screen.getByText("La justificacion es obligatoria");
   });
   it("should render two errors when empty justification and empty quantity", () => {
-    render(<TradeMenu coin={"BTC"} price={1} />);
+    render(<TradeMenu coin={"BTC"} price={1} chartData={[1.0, 2.0, 3.0]}/>);
     screen.getByText(TradeMenuTitle);
     screen.getByPlaceholderText("Cantidad");
     screen.getByPlaceholderText("Justificacion");
