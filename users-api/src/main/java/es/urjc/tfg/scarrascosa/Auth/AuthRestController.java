@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.urjc.tfg.scarrascosa.DTO.LoginFormUserDTO;
 import es.urjc.tfg.scarrascosa.DTO.SignUpDTO;
 import es.urjc.tfg.scarrascosa.Student.Student;
+import es.urjc.tfg.scarrascosa.Teacher.Teacher;
 import es.urjc.tfg.scarrascosa.UserProfile.UserProfile;
 import es.urjc.tfg.scarrascosa.UserProfile.UserProfileRepository;
 
@@ -66,8 +67,15 @@ public class AuthRestController {
                 Student student = new Student(dto.getUsername(), dto.getEmail(), dto.getInitialBalance(), passwordEncoder.encode(dto.getPassword()), "STUDENT");
                 this.repo.save(student);
                 return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-            }      
-            return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+            }  
+            else if (dto.getRoles().contains("TEACHER")) {
+                Teacher teacher = new Teacher(dto.getUsername(), dto.getEmail(), passwordEncoder.encode(dto.getPassword()), "TEACHER");
+                this.repo.save(teacher);
+                return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);   
+            }
         }
         else {
             return new ResponseEntity<HttpStatus>(HttpStatus.CONFLICT);
