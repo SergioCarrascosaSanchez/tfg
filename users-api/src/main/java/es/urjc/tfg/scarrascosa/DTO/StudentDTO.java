@@ -9,19 +9,22 @@ import es.urjc.tfg.scarrascosa.Trade.TradeType;
 
 public class StudentDTO {
     
+    private String username;
     private double balance;
     private LinkedList<PortfolioItem> portfolio;
     private LinkedList<TradeItem> tradeHistory;
     
     public StudentDTO () {}
     
-    public StudentDTO (double balance, LinkedList<PortfolioItem> portfolio, LinkedList<TradeItem> tradeHistory) {
+    public StudentDTO (String username, double balance, LinkedList<PortfolioItem> portfolio, LinkedList<TradeItem> tradeHistory) {
+        this.username = username;
         this.setBalance(balance);
         this.portfolio = portfolio;
         this.tradeHistory = tradeHistory;
     }
     
-    public StudentDTO (double balance, HashMap<String, Double> portfolioMap, List<Trade> tradeList) {
+    public StudentDTO (String username, double balance, HashMap<String, Double> portfolioMap, List<Trade> tradeList) {
+        this.username = username;
         this.setBalance(balance);
         this.portfolio = new LinkedList<PortfolioItem>();
         if(!portfolioMap.isEmpty()) {
@@ -60,6 +63,14 @@ public class StudentDTO {
     public void setTradeHistory(LinkedList<TradeItem> tradeHistory) {
         this.tradeHistory = tradeHistory;
         
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     private class PortfolioItem{
