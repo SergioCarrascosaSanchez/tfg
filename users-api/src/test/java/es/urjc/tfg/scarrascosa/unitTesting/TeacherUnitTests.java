@@ -17,13 +17,11 @@ class TeacherUnitTests {
         String name = "Teacher1";
         String email = "teacher1@mail.com";
         String password = "teacherpass";
-        Set<Student> list = new HashSet<Student>();
         
-        Teacher teacher = new Teacher(name, email, password, list, "TEACHER");
+        Teacher teacher = new Teacher(name, email, password, "TEACHER");
                
         assertThat(teacher.getName()).isEqualTo(name);
         assertThat(teacher.getEmail()).isEqualTo(email);
-        assertThat(teacher.getStudentList()).isEqualTo(list);
         assertThat(teacher.getStudentList().size()).isEqualTo(0);
         assertThat(teacher.getPassword()).isEqualTo(password);
     }
