@@ -2,18 +2,19 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
 import { options, appName } from "../../src/components/Navbar/Navbar";
 import {
-  StudentPage,
   StudentInvestmentsTitle,
-} from "../../src/pages/StudentPage/StudentPage";
-import React from "react";
+} from "../../src/pages/StudentDashboard/StudentDashboard";
+import {
+  UserPage,
+} from "../../src/pages/UserPage/UserPage";
 
 const studentName = "Sergio";
 
-describe("StudentPage when succesful api call", () => {
+describe("UserPage rendering StudentDashBoard", () => {
   vi.mock('react-router-dom', async () => {
     return {
       ...vi.importMock('react-router-dom'),
-      useParams: vi.fn().mockReturnValue({student: "Sergio"}),
+      useParams: vi.fn().mockReturnValue({user: "Sergio"}),
       Link: ({ children, to }) =>
         <a href={to}>{children}</a>,
     };
@@ -26,6 +27,8 @@ describe("StudentPage when succesful api call", () => {
       error: false,
       statusCode: 200,
       data: {
+        username:"Sergio",
+        role:"STUDENT",
         balance: 1000.0,
         portfolio: [
           {
@@ -69,23 +72,22 @@ describe("StudentPage when succesful api call", () => {
   afterEach(cleanup);
 
   it("should render student name and balance", () => {
-    render(<StudentPage />);
+    render(<UserPage />);
     screen.getByText(studentName);
     screen.getByText("Balance: 1000$");
   });
 
   it("should render student investments", () => {
-    render(<StudentPage />);
+    render(<UserPage />);
     screen.getByText(StudentInvestmentsTitle);
     screen.getByText("BTC");
     screen.getByText("ETH");
-    //Falta mirar si está la cantidad de cada uno
     screen.getByTestId(`BTCGraph`);
     screen.getByTestId(`ETHGraph`);
   });
 
   it("should render navbar elements", () => {
-    render(<StudentPage />);
+    render(<UserPage />);
     options.forEach((option) => screen.getByText(option));
     screen.getByText(appName);
   });

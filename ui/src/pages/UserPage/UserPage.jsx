@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { CircularProgress, Box, Typography } from "@mui/joy";
 import { useGetUserData } from "../../hooks/useGetUserData";
 import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage";
+import { StudentDashboard } from "../StudentDashboard/StudentDashboard";
 
 export const UserPageError =
   "Ha ocurrido un error obteniendo la información del usuario";
@@ -33,7 +34,7 @@ export const UserPage = () => {
             <ErrorMessage message={UserPageError} center={true} />
           </>
         ) : userData.data.role === "STUDENT" ? (
-          <></>
+          <StudentDashboard data = {userData.data} />
         ) : userData.data.role === "TEACHER" ? (
           <></>
         ) : (
