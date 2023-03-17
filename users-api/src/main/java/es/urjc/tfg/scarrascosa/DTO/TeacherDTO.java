@@ -24,7 +24,7 @@ public class TeacherDTO {
         this.role = role;
         this.studentList = new HashSet<>();
         for(Student student: studentList) {
-            StudentDTO studentDto = new StudentDTO(student.getName(), student.getBalance(), student.getPortfolio(), student.getTradeHistory());
+            StudentDTO studentDto = new StudentDTO(student.getName(), "STUDENT", student.getBalance(), student.getPortfolio(), student.getTradeHistory());
             this.studentList.add(studentDto);
         }
     }

@@ -46,6 +46,8 @@ public class StudentRestTests {
                 get("/users/"+username).
             then().
                 statusCode(200).
+                body("username", equalTo(username)).
+                body("role", equalTo("STUDENT")).
                 body("tradeHistory", equalTo(new LinkedList<>())).
             extract().response();
         
@@ -85,6 +87,7 @@ public class StudentRestTests {
             then().
                 statusCode(200).
                 body("username", equalTo(username)).
+                body("role", equalTo("STUDENT")).
                 body("portfolio.coin", hasItems(coin)).
                 body("tradeHistory.justification", hasItems(justification)).
                 body("tradeHistory.coin", hasItems(coin)).
@@ -145,6 +148,8 @@ public class StudentRestTests {
                 get("/users/"+username).
             then().
                 statusCode(200).
+                body("username", equalTo(username)).
+                body("role", equalTo("STUDENT")).
                 body("tradeHistory", equalTo(new LinkedList<>())).
             extract().response();
         
@@ -193,6 +198,7 @@ public class StudentRestTests {
             then().
                 statusCode(200).
                 body("username", equalTo(username)).
+                body("role", equalTo("STUDENT")).
                 body("portfolio.coin", hasItems(coin)).
                 body("tradeHistory.justification", hasItems(justification)).
                 body("tradeHistory.coin", hasItems(coin)).
@@ -232,6 +238,7 @@ public class StudentRestTests {
             then().
                 statusCode(200).
                 body("username", equalTo(username)).
+                body("role", equalTo("STUDENT")).
                 body("portfolio.coin", not(hasItems(coin))).
                 body("tradeHistory.justification", hasItems(justification, justification2)).
                 body("tradeHistory.coin", hasItems(coin, coin)).
@@ -283,6 +290,7 @@ public class StudentRestTests {
             then().
                 statusCode(200).
                 body("username", equalTo(username)).
+                body("role", equalTo("STUDENT")).
                 body("portfolio.coin", hasItems(coin)).
                 body("tradeHistory.justification", hasItems(justification)).
                 body("tradeHistory.coin", hasItems(coin)).
@@ -322,6 +330,7 @@ public class StudentRestTests {
             then().
                 statusCode(200).
                 body("username", equalTo(username)).
+                body("role", equalTo("STUDENT")).
                 body("portfolio.coin", hasItems(coin)).
                 body("tradeHistory.justification", hasItems(justification)).
                 body("tradeHistory.justification", not(hasItems(justification2))).
