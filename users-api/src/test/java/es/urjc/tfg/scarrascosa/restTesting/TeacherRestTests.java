@@ -37,7 +37,7 @@ class TeacherRestTests {
         String username = "teacherRestTest_1";
         teacherSignUp(username);
         when().
-            get("/teacher/"+username).
+            get("/users/"+username).
         then().
             statusCode(200).
             body("username", equalTo(username)).
@@ -49,7 +49,7 @@ class TeacherRestTests {
         String teacherUsername = "teacherRestTest_2";
         teacherSignUp(teacherUsername);
         when().
-            get("/teacher/"+teacherUsername).
+            get("/users/"+teacherUsername).
         then().
             statusCode(200).
             body("username", equalTo(teacherUsername)).
@@ -78,7 +78,7 @@ class TeacherRestTests {
             statusCode(200);
         
         when().
-            get("/teacher/"+teacherUsername).
+            get("/users/"+teacherUsername).
         then().
             statusCode(200).
             body("username", equalTo(teacherUsername)).
@@ -91,7 +91,7 @@ class TeacherRestTests {
         String teacherUsername = "teacherRestTest_3";
         teacherSignUp(teacherUsername);
         when().
-            get("/teacher/"+teacherUsername).
+            get("/users/"+teacherUsername).
         then().
             statusCode(200).
             body("username", equalTo(teacherUsername)).
@@ -116,7 +116,7 @@ class TeacherRestTests {
             statusCode(200);
         
         when().
-            get("/teacher/"+teacherUsername).
+            get("/users/"+teacherUsername).
         then().
             statusCode(200).
             body("username", equalTo(teacherUsername)).
@@ -132,7 +132,7 @@ class TeacherRestTests {
             statusCode(200);
         
         when().
-            get("/teacher/"+teacherUsername).
+            get("/users/"+teacherUsername).
         then().
             statusCode(200).
             body("username", equalTo(teacherUsername)).
@@ -144,7 +144,7 @@ class TeacherRestTests {
         String teacherUsername = "teacherRestTest_4";
         teacherSignUp(teacherUsername);
         when().
-            get("/teacher/"+teacherUsername).
+            get("/users/"+teacherUsername).
         then().
             statusCode(200);
         
@@ -171,7 +171,7 @@ class TeacherRestTests {
             statusCode(200);
         
         when().
-            get("/teacher/"+teacherUsername).
+            get("/users/"+teacherUsername).
         then().
             statusCode(200).
             body("username", equalTo(teacherUsername)).
@@ -200,7 +200,7 @@ class TeacherRestTests {
             statusCode(422);
         
         when().
-            get("/teacher/"+teacherUsername).
+            get("/users/"+teacherUsername).
         then().
             statusCode(200).
             body("username", equalTo(teacherUsername)).

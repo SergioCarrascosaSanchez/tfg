@@ -1,5 +1,4 @@
-package es.urjc.tfg.scarrascosa.Student;
-
+package es.urjc.tfg.scarrascosa.UserProfile;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +11,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.urjc.tfg.scarrascosa.DTO.StudentDTO;
+import es.urjc.tfg.scarrascosa.DTO.StudentListDTO;
+import es.urjc.tfg.scarrascosa.DTO.TeacherDTO;
 import es.urjc.tfg.scarrascosa.DTO.TradeDTO;
+import es.urjc.tfg.scarrascosa.Student.Student;
+import es.urjc.tfg.scarrascosa.Teacher.Teacher;
 import es.urjc.tfg.scarrascosa.Trade.Trade;
 import es.urjc.tfg.scarrascosa.Trade.TradeRepository;
 import es.urjc.tfg.scarrascosa.Trade.TradeType;
-import es.urjc.tfg.scarrascosa.UserProfile.UserProfile;
-import es.urjc.tfg.scarrascosa.UserProfile.UserProfileRepository;
 
 @RestController
-public class StudentRestController {
+public class UserRestController {
     
     @Autowired
     private UserProfileRepository repo;
@@ -29,13 +30,19 @@ public class StudentRestController {
     private TradeRepository tradeRepo;
     
     @GetMapping("/users/{username}")
-    public ResponseEntity<StudentDTO> getUserDataByUsername (@PathVariable String username ) {
+    public ResponseEntity<Object> getUserDataByUsername (@PathVariable String username ) {
         Optional<UserProfile> optional = repo.findByName(username);
         if (optional.isPresent()) {
             UserProfile user = optional.get();
             if(user instanceof Student) {
                 Student student = (Student) user;
                 return ResponseEntity.ok(new StudentDTO(student.getName(), student.getBalance(), student.getPortfolio(), student.getTradeHistory()));
+            }
+            else if(user instanceof Teacher) {
+                Teacher teacher = (Teacher) user;
+                TeacherDTO teacherDTO = new TeacherDTO();
+                teacherDTO.TeacherDTOStudentEntity(username, teacher.getStudentList());
+                return ResponseEntity.ok(teacherDTO);
             }
             else {
                 return ResponseEntity.notFound().build();
@@ -88,6 +95,41 @@ public class StudentRestController {
                 } catch (Exception e) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
                 }
+            }
+            else {
+                return ResponseEntity.notFound().build();
+            } 
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    @PostMapping("/teacher/{username}")
+    public ResponseEntity<HttpStatus> addStudentToTeacher (@PathVariable String username, @RequestBody StudentListDTO studentListDTO ) {
+        Optional<UserProfile> optional = repo.findByName(username);
+        if (optional.isPresent()) {
+            UserProfile user = optional.get();
+            if(user instanceof Teacher) {
+                Teacher teacher = (Teacher) user;
+                for(String studentUsername : studentListDTO.getStudentList()) {
+                    Optional<UserProfile> studentOptional = repo.findByName(studentUsername);
+                    if (studentOptional.isPresent()) {
+                        UserProfile studentUser = studentOptional.get();
+                        if(studentUser instanceof Student) {
+                            Student student = (Student) studentUser;
+                            teacher.addStudent(student);
+                        }
+                        else {
+                            return ResponseEntity.unprocessableEntity().build();
+                        } 
+                    }
+                    else {
+                        return ResponseEntity.unprocessableEntity().build();
+                    }
+                }
+                this.repo.save(teacher);
+                return ResponseEntity.ok().build();
             }
             else {
                 return ResponseEntity.notFound().build();
