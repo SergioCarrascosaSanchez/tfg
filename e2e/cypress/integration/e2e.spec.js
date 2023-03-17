@@ -52,7 +52,7 @@ describe("Complete app", () => {
       cy.contains("Comprar").click();
       cy.contains("Transacción realizada con éxito!");
 
-      cy.visit("/students/UserTest");
+      cy.visit("/users/UserTest");
       cy.contains("UserTest");
       cy.contains("Portfolio de inversion:");
       cy.contains("Balance:")
@@ -85,7 +85,7 @@ describe("Complete app", () => {
       cy.contains("Vender").click();
       cy.contains("Transacción realizada con éxito!");
 
-      cy.visit("/students/UserTest");
+      cy.visit("/users/UserTest");
       cy.contains("UserTest");
       cy.contains("ADA");
       cy.contains("Balance:")
@@ -115,7 +115,7 @@ describe("Complete app", () => {
       cy.contains("Vender").click();
       cy.contains("Transacción realizada con éxito!");
 
-      cy.visit("/students/UserTest");
+      cy.visit("/users/UserTest");
       cy.contains("UserTest");
       cy.contains('ADA').should('not.exist');
       cy.contains("Balance:")
