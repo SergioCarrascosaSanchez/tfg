@@ -41,6 +41,7 @@ class TeacherRestTests {
         then().
             statusCode(200).
             body("username", equalTo(username)).
+            body("role", equalTo("TEACHER")).
             body("studentList", equalTo(new LinkedList<>()));
     }
     
@@ -53,6 +54,7 @@ class TeacherRestTests {
         then().
             statusCode(200).
             body("username", equalTo(teacherUsername)).
+            body("role", equalTo("TEACHER")).
             body("studentList", equalTo(new LinkedList<>()));
         
         String student_1 = "studentAddToTeacher_1";
@@ -82,6 +84,7 @@ class TeacherRestTests {
         then().
             statusCode(200).
             body("username", equalTo(teacherUsername)).
+            body("role", equalTo("TEACHER")).
             body("studentList.username", hasItems(student_1, student_2)).
             body("studentList.size()", equalTo(2)); 
     }
@@ -95,6 +98,7 @@ class TeacherRestTests {
         then().
             statusCode(200).
             body("username", equalTo(teacherUsername)).
+            body("role", equalTo("TEACHER")).
             body("studentList", equalTo(new LinkedList<>()));
         
         String student_1 = "studentAddToTeacher_3";
@@ -120,6 +124,7 @@ class TeacherRestTests {
         then().
             statusCode(200).
             body("username", equalTo(teacherUsername)).
+            body("role", equalTo("TEACHER")).
             body("studentList.username", hasItems(student_1)).
             body("studentList.size()", equalTo(1));
         
@@ -136,6 +141,7 @@ class TeacherRestTests {
         then().
             statusCode(200).
             body("username", equalTo(teacherUsername)).
+            body("role", equalTo("TEACHER")).
             body("studentList.size()", equalTo(1));
     }
     
@@ -175,6 +181,7 @@ class TeacherRestTests {
         then().
             statusCode(200).
             body("username", equalTo(teacherUsername)).
+            body("role", equalTo("TEACHER")).
             body("studentList.username", hasItems(student_1, student_2)).
             body("studentList.size()", equalTo(2)); 
         
@@ -204,6 +211,7 @@ class TeacherRestTests {
         then().
             statusCode(200).
             body("username", equalTo(teacherUsername)).
+            body("role", equalTo("TEACHER")).
             body("studentList.username", hasItems(student_1, student_2)).
             body("studentList.username", not(hasItems(student_3, student_4))).
             body("studentList.size()", equalTo(2)); 

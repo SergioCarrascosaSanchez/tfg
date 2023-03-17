@@ -41,7 +41,7 @@ public class UserRestController {
             else if(user instanceof Teacher) {
                 Teacher teacher = (Teacher) user;
                 TeacherDTO teacherDTO = new TeacherDTO();
-                teacherDTO.TeacherDTOStudentEntity(username, teacher.getStudentList());
+                teacherDTO.TeacherDTOStudentEntity(username, "TEACHER", teacher.getStudentList());
                 return ResponseEntity.ok(teacherDTO);
             }
             else {

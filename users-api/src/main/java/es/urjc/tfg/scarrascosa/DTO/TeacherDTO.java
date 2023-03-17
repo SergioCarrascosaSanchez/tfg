@@ -8,17 +8,20 @@ import es.urjc.tfg.scarrascosa.Student.Student;
 
 public class TeacherDTO {
     private String username;
+    private String role;
     private Set<StudentDTO> studentList;
     
     public TeacherDTO() {}
     
-    public TeacherDTO(String username, Set<StudentDTO> studentList) {
+    public TeacherDTO(String username, String role, Set<StudentDTO> studentList) {
         this.username = username;
+        this.role = role;
         this.studentList = studentList;
     }
     
-    public void TeacherDTOStudentEntity(String username, Set<Student> studentList) {
+    public void TeacherDTOStudentEntity(String username, String role, Set<Student> studentList) {
         this.username = username;
+        this.role = role;
         this.studentList = new HashSet<>();
         for(Student student: studentList) {
             StudentDTO studentDto = new StudentDTO(student.getName(), student.getBalance(), student.getPortfolio(), student.getTradeHistory());
@@ -37,6 +40,14 @@ public class TeacherDTO {
     }
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
 }
