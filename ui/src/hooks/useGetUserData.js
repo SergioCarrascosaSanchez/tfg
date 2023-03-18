@@ -15,8 +15,10 @@ export function useGetUserData(username) {
       .then((res) => {
         if (res.status === 200) {
           res.json().then((resData) => {
-            const roundedBalance = resData.balance.toFixed(2);
-            resData.balance = roundedBalance
+            if (resData.role === "STUDENT") {
+              const roundedBalance = resData.balance.toFixed(2);
+              resData.balance = roundedBalance;
+            }
             setStatusCode(res.status);
             setData(resData);
             setLoading(false);
@@ -30,7 +32,7 @@ export function useGetUserData(username) {
       .catch((err) => {
         setError(true);
         setLoading(false);
-        console.log(err)
+        console.log(err);
       });
   }, []);
 
