@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/joy";
-import { PanelOfCoinChartCard } from "../../components/PanelOfCoinChartCard/PanelOfCoinChartCard";
+import { PanelOfCoinChartCard } from "../PanelOfCoinChartCard/PanelOfCoinChartCard";
 
 export const StudentInvestmentsTitle = "Portfolio de inversion:";
 

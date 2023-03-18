@@ -3,7 +3,7 @@ import { describe, it } from "vitest";
 import { options, appName } from "../../src/components/Navbar/Navbar";
 import {
   StudentInvestmentsTitle,
-} from "../../src/pages/StudentDashboard/StudentDashboard";
+} from "../../src/components/StudentDashboard/StudentDashboard";
 import {
   UserPage,
 } from "../../src/pages/UserPage/UserPage";

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { CircularProgress, Box, Typography } from "@mui/joy";
 import { useGetUserData } from "../../hooks/useGetUserData";
 import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage";
-import { StudentDashboard } from "../StudentDashboard/StudentDashboard";
+import { StudentDashboard } from "../../components/StudentDashboard/StudentDashboard";
 
 export const UserPageError =
   "Ha ocurrido un error obteniendo la información del usuario";
