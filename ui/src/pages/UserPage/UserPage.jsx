@@ -4,6 +4,7 @@ import { CircularProgress, Box, Typography } from "@mui/joy";
 import { useGetUserData } from "../../hooks/useGetUserData";
 import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage";
 import { StudentDashboard } from "../../components/StudentDashboard/StudentDashboard";
+import { TeacherDashboard } from "../../components/TeacherDashboard/TeacherDashboard";
 
 export const UserPageError =
   "Ha ocurrido un error obteniendo la información del usuario";
@@ -36,7 +37,7 @@ export const UserPage = () => {
         ) : userData.data.role === "STUDENT" ? (
           <StudentDashboard data = {userData.data} />
         ) : userData.data.role === "TEACHER" ? (
-          <></>
+          <TeacherDashboard data = {userData.data} />
         ) : (
           <>
             <Typography level="display2" component="h1">

@@ -1,19 +1,16 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
 import { options, appName } from "../../src/components/Navbar/Navbar";
-import {
-  UserPage,
-} from "../../src/pages/UserPage/UserPage";
+import { UserPage } from "../../src/pages/UserPage/UserPage";
 
 const teacherName = "Sergio";
 
 describe("UserPage rendering TeacherDashBoard", () => {
-  vi.mock('react-router-dom', async () => {
+  vi.mock("react-router-dom", async () => {
     return {
-      ...vi.importMock('react-router-dom'),
-      useParams: vi.fn().mockReturnValue({user: "Sergio"}),
-      Link: ({ children, to }) =>
-        <a href={to}>{children}</a>,
+      ...vi.importMock("react-router-dom"),
+      useParams: vi.fn().mockReturnValue({ user: "Sergio" }),
+      Link: ({ children, to }) => <a href={to}>{children}</a>,
     };
   });
 
@@ -23,85 +20,89 @@ describe("UserPage rendering TeacherDashBoard", () => {
       loading: false,
       error: false,
       statusCode: 200,
-      data: [
-        {
-          username: "UserTest2",
-          balance: 238.5,
-          portfolio: [
-            {
-              coin: "BTC",
-              quantity: 3.2,
-            },
-            {
-              coin: "ADA",
-              quantity: 129.7,
-            },
-          ],
-          tradeHistory: [
-            {
-              type: "BUY",
-              coin: "ADA",
-              quantity: 129.7,
-              price: 0.2,
-              justification: "justification sample",
-              chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
-              date: "2023-03-17 08:14:38",
-            },
-            {
-              type: "SELL",
-              coin: "BTC",
-              quantity: 1.0,
-              price: 12.2,
-              justification: "justification sample",
-              chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
-              date: "2023-03-17 08:14:13",
-            },
-            {
-              type: "BUY",
-              coin: "BTC",
-              quantity: 4.2,
-              price: 10.1,
-              justification: "justification sample",
-              chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
-              date: "2023-03-17 08:14:13",
-            },
-          ],
-        },
-        {
-          username: "UserTest3",
-          balance: 20337.5,
-          portfolio: [
-            {
-              coin: "BTC",
-              quantity: 1.2,
-            },
-            {
-              coin: "ADA",
-              quantity: 2.3,
-            },
-          ],
-          tradeHistory: [
-            {
-              type: "BUY",
-              coin: "ADA",
-              quantity: 2.3,
-              price: 0.2,
-              justification: "justification sample",
-              chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
-              date: "2023-03-17 08:14:38",
-            },
-            {
-              type: "BUY",
-              coin: "BTC",
-              quantity: 1.2,
-              price: 10.2,
-              justification: "justification sample",
-              chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
-              date: "2023-03-17 08:14:13",
-            },
-          ],
-        },
-      ],
+      data: {
+        username: "Sergio",
+        role: "TEACHER",
+        studentList: [
+          {
+            username: "UserTest2",
+            balance: 238.5,
+            portfolio: [
+              {
+                coin: "BTC",
+                quantity: 3.2,
+              },
+              {
+                coin: "ADA",
+                quantity: 129.7,
+              },
+            ],
+            tradeHistory: [
+              {
+                type: "BUY",
+                coin: "ADA",
+                quantity: 129.7,
+                price: 0.2,
+                justification: "justification sample",
+                chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
+                date: "2023-03-17 08:14:38",
+              },
+              {
+                type: "SELL",
+                coin: "BTC",
+                quantity: 1.0,
+                price: 12.2,
+                justification: "justification sample",
+                chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
+                date: "2023-03-17 08:14:13",
+              },
+              {
+                type: "BUY",
+                coin: "BTC",
+                quantity: 4.2,
+                price: 10.1,
+                justification: "justification sample",
+                chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
+                date: "2023-03-17 08:14:13",
+              },
+            ],
+          },
+          {
+            username: "UserTest3",
+            balance: 20337.5,
+            portfolio: [
+              {
+                coin: "BTC",
+                quantity: 1.2,
+              },
+              {
+                coin: "ADA",
+                quantity: 2.3,
+              },
+            ],
+            tradeHistory: [
+              {
+                type: "BUY",
+                coin: "ADA",
+                quantity: 2.3,
+                price: 0.2,
+                justification: "justification sample",
+                chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
+                date: "2023-03-17 08:14:38",
+              },
+              {
+                type: "BUY",
+                coin: "BTC",
+                quantity: 1.2,
+                price: 10.2,
+                justification: "justification sample",
+                chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
+                date: "2023-03-17 08:14:13",
+              },
+            ],
+          },
+        ],
+      },
     });
     return {
       useGetUserData,
@@ -120,4 +121,24 @@ describe("UserPage rendering TeacherDashBoard", () => {
     options.forEach((option) => screen.getByText(option));
     screen.getByText(appName);
   });
+
+  it("should render each student names", () => {
+    render(<UserPage />);
+    screen.getByText("UserTest2");
+    screen.getByText("UserTest3");
+  })
+
+  it("should render UserTest2 Info", () => {
+    render(<UserPage />);
+    screen.getByText("UserTest2");
+    screen.getByTestId("UserTest2Avatar");
+    screen.getByText("Transacciones: 3");
+  })
+
+  it("should render UserTest3 Info", () => {
+    render(<UserPage />);
+    screen.getByText("UserTest3");
+    screen.getByTestId("UserTest3Avatar");
+    screen.getByText("Transacciones: 2");
+  })
 });
