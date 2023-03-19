@@ -1,6 +1,7 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
 import { options, appName } from "../../src/components/Navbar/Navbar";
+import { TeacherDashboardTitle } from "../../src/components/TeacherDashboard/TeacherDashboard";
 import { UserPage } from "../../src/pages/UserPage/UserPage";
 
 const teacherName = "Sergio";
@@ -115,6 +116,11 @@ describe("UserPage rendering TeacherDashBoard", () => {
     render(<UserPage />);
     screen.getByText(teacherName);
   });
+
+  it("should render dashboard introduction text", () => {
+    render(<UserPage/>)
+    screen.getByText(TeacherDashboardTitle);
+  })
 
   it("should render navbar elements", () => {
     render(<UserPage />);
