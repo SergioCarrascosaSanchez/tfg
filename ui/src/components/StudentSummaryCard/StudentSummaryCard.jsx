@@ -6,7 +6,7 @@ export const StudentSummaryCard = ({ username, tradeHistory }) => {
     <Card
       key={`${username}ResumeCard`}
       variant="outlined"
-      sx={{ my:"10px", maxWidth: "400px", py:"30px" }}
+      sx={{ minWidth:{ xs:"200px", md:"250px", lg:"300px", xl:"300px"} , py:"30px" }}
     >
       <Box
         sx={{

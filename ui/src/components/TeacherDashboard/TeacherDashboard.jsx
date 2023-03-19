@@ -23,26 +23,12 @@ export const TeacherDashboard = ({ data }) => {
             lg: "repeat(2, 1fr)",
             xl: "repeat(3, 1fr)",
           },
-          columnGap: "40px",
-          rowGap: "30px",
+          columnGap: "60px",
+          rowGap: "60px",
           p: 0,
           marginTop:"20px"
         }}
       >
-        {data.studentList.map((student) => (
-          <StudentSummaryCard
-            key={`${student.username}ResumeCard`}
-            username={student.username}
-            tradeHistory={student.tradeHistory}
-          />
-        ))}
-        {data.studentList.map((student) => (
-          <StudentSummaryCard
-            key={`${student.username}ResumeCard`}
-            username={student.username}
-            tradeHistory={student.tradeHistory}
-          />
-        ))}
         {data.studentList.map((student) => (
           <StudentSummaryCard
             key={`${student.username}ResumeCard`}
