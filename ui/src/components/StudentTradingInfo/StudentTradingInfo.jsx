@@ -7,6 +7,10 @@ export const StudentTradingInfo = ({ info, username }) => {
   return (
     <>
       {info.length > 0 ? (
+        <>
+        <Typography level="h2" component="h2" sx={{px:3, paddingBottom:"15px", paddingTop:"20px"}}>
+          {`Transacciones de ${username}`}
+        </Typography>
         <List
           sx={{ overflowY: "scroll", overflowX: "hidden", maxHeight: "80vh" }}
         >
@@ -19,6 +23,7 @@ export const StudentTradingInfo = ({ info, username }) => {
             />
           ))}
         </List>
+        </>
       ) : (
         <Typography level="p" component="p" textColor="neutral.500">
           {NoTradesMessage}

@@ -147,13 +147,14 @@ describe("UserPage rendering TeacherDashBoard", () => {
     screen.getByTestId("UserTest2Avatar");
     screen.getByText("Transacciones: 3");
     fireEvent.click(screen.getByText("UserTest2"))
+    screen.getByText("Transacciones de UserTest2");
     screen.getByText("2023-03-17 08:14:38")
     screen.getByText("2023-03-17 08:14:13")
     screen.getByText("2023-03-17 08:14:11")
     expect(screen.queryAllByText("BTC").length).toBe(2)
     expect(screen.queryAllByText("ADA").length).toBe(1)
-    expect(screen.queryAllByText("BUY").length).toBe(2)
-    expect(screen.queryAllByText("SELL").length).toBe(1)
+    expect(screen.queryAllByText("Compra").length).toBe(2)
+    expect(screen.queryAllByText("Venta").length).toBe(1)
     screen.getByText("Cantidad: 129.7")
     screen.getByText("Precio: 0.2")
     screen.getByText("justification sample 1")
@@ -166,6 +167,9 @@ describe("UserPage rendering TeacherDashBoard", () => {
     screen.getByTestId("UserTest2TradeChart0")
     screen.getByTestId("UserTest2TradeChart1")
     screen.getByTestId("UserTest2TradeChart2")
+    screen.getByTestId("UserTest2Trade0CoinADA")
+    screen.getByTestId("UserTest2Trade1CoinBTC")
+    screen.getByTestId("UserTest2Trade2CoinBTC")
     
 
   })
@@ -176,12 +180,13 @@ describe("UserPage rendering TeacherDashBoard", () => {
     screen.getByTestId("UserTest3Avatar");
     screen.getByText("Transacciones: 2");
     fireEvent.click(screen.getByText("UserTest3"))
+    screen.getByText("Transacciones de UserTest3");
     screen.getByText("2023-03-17 08:14:39")
     screen.getByText("2023-03-17 08:14:15")
     expect(screen.queryAllByText("BTC").length).toBe(1)
     expect(screen.queryAllByText("ADA").length).toBe(1)
-    expect(screen.queryAllByText("BUY").length).toBe(2)
-    expect(screen.queryAllByText("SELL").length).toBe(0)
+    expect(screen.queryAllByText("Compra").length).toBe(2)
+    expect(screen.queryAllByText("Venta").length).toBe(0)
     screen.getByText("Cantidad: 2.3")
     screen.getByText("Precio: 0.2")
     screen.getByText("justification sample 4")
@@ -190,6 +195,8 @@ describe("UserPage rendering TeacherDashBoard", () => {
     screen.getByText("justification sample 5")
     screen.getByTestId("UserTest3TradeChart0")
     screen.getByTestId("UserTest3TradeChart1")
+    screen.getByTestId("UserTest3Trade0CoinADA")
+    screen.getByTestId("UserTest3Trade1CoinBTC")
   })
 
   it("should render UserTest4 Info", () => {
