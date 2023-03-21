@@ -30,7 +30,7 @@ export const LoginForm = () => {
     })
       .then((res) => {
         if (res.status === 200) {
-          navigate(`/students/${username}`);
+          navigate(`/users/${username}`);
           localStorage.setItem("username", username);
         } else if (res.status === 401) {
           setIncorrectUserPass("block");
