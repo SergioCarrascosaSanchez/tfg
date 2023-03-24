@@ -1,33 +1,61 @@
-import { List, ListItem, Sheet, Typography } from "@mui/joy";
+import { Sheet, Typography, Box } from "@mui/joy";
 
-export const options = ["Mercados", "Mi perfil"]; 
-export const appName = "Nombre"
+export const options = ["Home", "Mercados", "Mi perfil"];
+export const appName = "CryptoMince";
 
 export const Navbar = () => {
-    return(
-        <Sheet color="primary" variant="solid">
-            <List row sx={{
-                flexGrow: 0,
-                marginLeft: '5%',
-                marginRight:'5%',
-                padding: '5px'
-                }}>
-
-                <ListItem>
-                    <Typography textColor="white" level="h6" id={`${appName}Navbar`}>
-                        {appName}
-                    </Typography>
-                </ListItem>
-                
-                {options.map(option => (
-                    <ListItem key={`${option}Navbar}`} sx={{mx: "auto"}}>
-                        <Typography textColor="white" level="h6" id={`${option}Navbar`}>
-                            {option}
-                        </Typography>
-                    </ListItem>
-                ))}
-            </List>
-        </Sheet>
-       
-    )
-}
+  return (
+    <Sheet color="primary" variant="solid">
+      <Box
+        component="ol"
+        sx={{
+          marginLeft: "14%",
+          marginRight: "14%",
+          display: "grid",
+          gridTemplateColumns: "10% 90%",
+          listStyle: "none",
+          padding: "8px",
+          height: "40px",
+        }}
+      >
+        <Box component="li">
+          <Typography
+            textColor="white"
+            level="h2"
+            data-testid={`${appName}Navbar`}
+            sx={{ gridColumn: 1 }}
+          >
+            {appName}
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            gridColumn: 2,
+            justifySelf: "right",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {window.location.pathname !== "/" && (
+            <>
+              {options.map((option) => (
+                <Box key={`${option}Navbar}`} sx={{ display: "inline-block" }}>
+                  <Typography
+                    textColor="white"
+                    component="li"
+                    level="body"
+                    data-testid={`${option}Navbar`}
+                    sx={{ marginLeft: "80px", lineHeight: "40px" }}
+                  >
+                    {option}
+                  </Typography>
+                </Box>
+              ))}
+            </>
+          )}
+        </Box>
+      </Box>
+    </Sheet>
+  );
+};

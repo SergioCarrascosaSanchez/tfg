@@ -7,49 +7,75 @@ describe('Navbar', () => {
 
   afterEach(cleanup)
 
-  it('should render', () => {
-    render(<Navbar/>)
-  });
-
-  it('should render appName + options', () => {
-    render(<Navbar/>)
-
-    screen.getByText(appName)
-    expect(document.getElementById(`${appName}Navbar`).firstChild.textContent).toBe(appName);
-    options.forEach(option => {
-      expect(document.getElementById(`${option}Navbar`).firstChild.textContent).toBe(option);
+  it('should render appName when location pathname is /', () => {
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: { pathname: '/' }
+    });
+    render(<Navbar />);
+    screen.getByTestId(`${appName}Navbar`);
+    options.forEach((opt) => {
+      expect(screen.queryAllByTestId(`${opt}Navbar`).length).toBe(0)
     })
   })
 
-  it('should render one row', () => {
-    render(<Navbar/>)
-
-    expect(screen.getAllByRole('list').length).toBe(1)
+  it('should render appName and options when location pathname is /market', () => {
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: { pathname: '/market' }
+    });
+    render(<Navbar />);
+    screen.getByTestId(`${appName}Navbar`);
+    options.forEach((opt) => {
+      expect(screen.queryAllByTestId(`${opt}Navbar`).length).toBe(1)
+    })
   })
 
-  it('should render one column for title + one for each option', () => {
-    render(<Navbar/>)
-
-    expect(screen.getAllByRole('listitem').length).toBe(options.length + 1)
+  it('should render appName and options when location pathname is /users/UserTest', () => {
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: { pathname: '/users/UserTest' }
+    });
+    render(<Navbar />);
+    screen.getByTestId(`${appName}Navbar`);
+    options.forEach((opt) => {
+      expect(screen.queryAllByTestId(`${opt}Navbar`).length).toBe(1)
+    })
   })
 
-  /*it('should render one column for title + one for each option', () => {
-    let testHistory, testLocation;
-    render(
-      <MemoryRouter initialEntries={["/"]}>
-        <Navbar/>
-        <Route
-        path="*"
-        render={({ history, location }) => {
-          testHistory = history;
-          testLocation = location;
-          return null;
-        }}
-      />
-      </MemoryRouter>)
+  it('should render appName and options when location pathname is /users/UserTest2', () => {
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: { pathname: '/users/UserTest2' }
+    });
+    render(<Navbar />);
+    screen.getByTestId(`${appName}Navbar`);
+    options.forEach((opt) => {
+      expect(screen.queryAllByTestId(`${opt}Navbar`).length).toBe(1)
+    })
+  })
 
-    expect(testLocation.pathname).toBe("/");
-    expect(testLocation.pathname).toBe("/"+title);
-  })*/
+  it('should render appName and options when location pathname is /coins/BTC', () => {
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: { pathname: '/coins/BTC' }
+    });
+    render(<Navbar />);
+    screen.getByTestId(`${appName}Navbar`);
+    options.forEach((opt) => {
+      expect(screen.queryAllByTestId(`${opt}Navbar`).length).toBe(1)
+    })
+  })
 
+  it('should render appName and options when location pathname is /coins/ADA', () => {
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: { pathname: '/coins/BTC' }
+    });
+    render(<Navbar />);
+    screen.getByTestId(`${appName}Navbar`);
+    options.forEach((opt) => {
+      expect(screen.queryAllByTestId(`${opt}Navbar`).length).toBe(1)
+    })
+  })
 });
