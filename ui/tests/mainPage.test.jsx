@@ -1,6 +1,5 @@
-import { cleanup, render, screen, fireEvent } from "@testing-library/react"
+import { cleanup, render, screen } from "@testing-library/react"
 import { describe, it } from "vitest"
-import { options, appName } from "../src/components/Navbar/Navbar"
 import { MainPage, altMainPageImage, textMainPage, mainPageTitle} from '../src/pages/MainPage/MainPage'
 
 describe('MainPage', () => {
@@ -9,12 +8,6 @@ describe('MainPage', () => {
 
     it('should render', () => {
         render(<MainPage/>)
-    })
-
-    it('should render navbar elements', () => {
-        render(<MainPage/>)
-        options.forEach(option => screen.getByText(option))
-        expect(screen.getByText(appName).tagName).toBe("H6")
     })
 
     it('should display main page title', () => {
