@@ -1,18 +1,25 @@
 package es.urjc.tfg.scarrascosa.DTO;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TradeDTO {
     private String username;
     private String coin;
     private double quantity;
     private double price;
+    private String justification;
+    private List<Double> chartData;
     
     public TradeDTO() {}
     
-    public TradeDTO(String username, String coin, double quantity, double price) {
+    public TradeDTO(String username, String coin, double quantity, double price, String justification, List<Double> chartData) {
         this.username = username;
         this.coin = coin;
         this.quantity = quantity;
         this.price = price;
+        this.justification = justification;
+        this.chartData = chartData;
     }
     
     public String getUsername() {
@@ -38,5 +45,21 @@ public class TradeDTO {
     }
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getJustification() {
+        return justification;
+    }
+
+    public void setJustification(String justification) {
+        this.justification = justification;
+    }
+
+    public List<Double> getChartData() {
+        return chartData;
+    }
+
+    public void setChartData(List<Double> chartData) {
+        this.chartData = chartData;
     }
 }

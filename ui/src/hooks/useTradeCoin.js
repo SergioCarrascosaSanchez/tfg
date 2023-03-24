@@ -1,7 +1,7 @@
 const URL = `${import.meta.env.VITE_USERS_API_URL}`;
 
 export const useTradeCoin = () => {
-  async function BuyCoin(username, coin, quantity, price){
+  async function BuyCoin(username, coin, quantity, price, justification, chartData){
     const response = await fetch(`${URL}/purchase`, {
       method: "POST",
       body: JSON.stringify({
@@ -9,6 +9,8 @@ export const useTradeCoin = () => {
         coin: coin,
         quantity: quantity,
         price: price,
+        justification: justification,
+        chartData: chartData
       }),
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +24,7 @@ export const useTradeCoin = () => {
     }
   };
 
-  async function SellCoin(username, coin, quantity, price){
+  async function SellCoin(username, coin, quantity, price, justification, chartData){
     const response = await fetch(`${URL}/sell`, {
       method: "POST",
       body: JSON.stringify({
@@ -30,6 +32,8 @@ export const useTradeCoin = () => {
         coin: coin,
         quantity: quantity,
         price: price,
+        justification: justification,
+        chartData: chartData
       }),
       headers: {
         "Content-Type": "application/json",

@@ -6,7 +6,7 @@ import { useTradeCoin } from "../../hooks/useTradeCoin";
 export const TradeMenuTitle = "Transacción";
 const URL = `${import.meta.env.VITE_USERS_API_URL}`;
 
-export const TradeMenu = ({ price, coin }) => {
+export const TradeMenu = ({ price, coin, chartData }) => {
   const [quantity, setQuantity] = useState(0);
   const [justification, setJustification] = useState("");
   const [incorrectQuantity, setIncorrectQuantity] = useState(false);
@@ -43,10 +43,10 @@ export const TradeMenu = ({ price, coin }) => {
       setIncorrectJustification(false);
       let data;
       if(event.target.name === "PurchaseButton"){
-        data = await BuyCoin(username, coin, quantity, price);
+        data = await BuyCoin(username, coin, quantity, price, justification, chartData);
       }
       else{
-        data = await SellCoin(username, coin, quantity, price);
+        data = await SellCoin(username, coin, quantity, price, justification, chartData);
       }
       if (data.statusCode === 200) {
         setSuccessfulPurchase(true);

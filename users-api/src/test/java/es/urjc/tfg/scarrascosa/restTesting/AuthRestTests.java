@@ -75,7 +75,7 @@ public class AuthRestTests {
   
     }
     
-    @DisplayName("it is able to prevent the signup of a new user who has a role other than Student")
+    @DisplayName("it is able to prevent the signup of a new user who has a role other than Student or Teacher")
     @Test
     void NotStudentSignUp() throws JSONException {
         LinkedList<String> notStudentRoles = new LinkedList<>();
@@ -152,6 +152,80 @@ public class AuthRestTests {
         then().
             statusCode(409);
   
+    }
+    
+    @DisplayName("is able to signup a new Teacher")
+    @Test
+    void TeacherSignUp() throws JSONException {
+        LinkedList<String> teacherRoles = new LinkedList<>();
+        teacherRoles.add("TEACHER");
+        
+        String username = "TeacherForRestTest";
+        String email = "TeacherForRestTest@email.com";
+        String password = "TeacherForRestTest";
+        
+        JSONObject teacher = new JSONObject();
+        JSONArray teacherRolesArray = new JSONArray(teacherRoles);
+        teacher.put("roles", teacherRolesArray);
+        teacher.put("username", username);
+        teacher.put("email", email);
+        teacher.put("password", password);
+        
+        given().
+            contentType("application/json").
+            body(teacher.toString()).
+        when().
+            post("/signup").      
+        then().
+            statusCode(200);
+        
+        JSONObject teacherLogin = new JSONObject();
+        teacherLogin.put("username", username);
+        teacherLogin.put("password", password);
+        
+        given().
+            contentType("application/json").
+            body(teacherLogin.toString()).
+        when().
+            post("/login").      
+        then().
+            statusCode(200);
+        
+    }
+    
+    @DisplayName("is able to signup a new Teacher")
+    @Test
+    void repeatedTeacherSignUp() throws JSONException {
+        LinkedList<String> teacherRoles = new LinkedList<>();
+        teacherRoles.add("TEACHER");
+        
+        String username = "TeacherForRestTest2";
+        String email = "TeacherForRest2Test@email.com";
+        String password = "TeacherForRestTest2";
+        
+        JSONObject teacher = new JSONObject();
+        JSONArray teacherRolesArray = new JSONArray(teacherRoles);
+        teacher.put("roles", teacherRolesArray);
+        teacher.put("username", username);
+        teacher.put("email", email);
+        teacher.put("password", password);
+        
+        given().
+            contentType("application/json").
+            body(teacher.toString()).
+        when().
+            post("/signup").      
+        then().
+            statusCode(200);
+        
+        given().
+            contentType("application/json").
+            body(teacher.toString()).
+        when().
+            post("/signup").      
+        then().
+            statusCode(409);
+        
     }
 
 }

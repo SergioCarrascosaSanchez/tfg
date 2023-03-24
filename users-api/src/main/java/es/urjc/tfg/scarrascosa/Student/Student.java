@@ -1,9 +1,14 @@
 package es.urjc.tfg.scarrascosa.Student;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 
+import es.urjc.tfg.scarrascosa.Trade.Trade;
 import es.urjc.tfg.scarrascosa.UserProfile.UserProfile;
 
 @Entity
@@ -11,6 +16,8 @@ public class Student extends UserProfile{
     
     private double balance;
     private HashMap<String, Double> portfolio;
+    @ElementCollection(fetch = FetchType.LAZY)
+    private List<Trade> tradeHistory;
     
     public Student() {}
     
@@ -18,6 +25,7 @@ public class Student extends UserProfile{
         super(name, email, password, roles);
         this.balance = initBalance;
         this.portfolio = new HashMap<>();
+        this.tradeHistory = new LinkedList<Trade>();
     }
     
     public double getBalance() {
@@ -32,6 +40,14 @@ public class Student extends UserProfile{
         return portfolio;
     }
     
+    public List<Trade> getTradeHistory() {
+        return tradeHistory;
+    }
+
+    public void setTradeHistory(List<Trade> tradeHistory) {
+        this.tradeHistory = tradeHistory;
+    }
+    
     public double getQuantity(String ticker) {
         if(this.portfolio.containsKey(ticker)) {
             return this.portfolio.get(ticker);
@@ -41,22 +57,24 @@ public class Student extends UserProfile{
         }
     }
     
-    public void addToPortfolio (String ticker, double quantity, double price) throws Exception {
-        if((quantity*price)<=this.balance) {
-            this.setBalance(this.balance - (quantity*price));
-            this.portfolio.put(ticker, this.getQuantity(ticker)+quantity);
+    public void addToPortfolio (Trade trade) throws Exception {
+        if((trade.getQuantity()*trade.getPrice())<=this.balance) {
+            this.setBalance(this.balance - (trade.getQuantity()*trade.getPrice()));
+            this.portfolio.put(trade.getCoin(), this.getQuantity(trade.getCoin())+trade.getQuantity());
+            this.tradeHistory.add(0, trade);
         }
         else {
             throw new Exception("not enough balance");
         }
     }
-    public void sellFromPortfolio(String ticker, double quantity, double price) throws Exception {
-        double portfolioQuantity = this.getQuantity(ticker);
-        if(portfolioQuantity >= quantity) {
-            this.portfolio.put(ticker, (portfolioQuantity - quantity));
-            this.balance = this.balance + quantity*price;
-            if(this.getQuantity(ticker) == 0.0) {
-                this.portfolio.remove(ticker);
+    public void sellFromPortfolio(Trade trade) throws Exception {
+        double portfolioQuantity = this.getQuantity(trade.getCoin());
+        if(portfolioQuantity >= trade.getQuantity()) {
+            this.portfolio.put(trade.getCoin(), (portfolioQuantity - trade.getQuantity()));
+            this.tradeHistory.add(0, trade);
+            this.setBalance(this.balance + trade.getQuantity()*trade.getPrice());
+            if(this.getQuantity(trade.getCoin()) == 0.0) {
+                this.portfolio.remove(trade.getCoin());
             }
         }
         else {
