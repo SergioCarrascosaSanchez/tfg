@@ -1,5 +1,5 @@
 import { Sheet, Typography, Box } from "@mui/joy";
-import GithubImage from "../../assets/githubLogo.png"
+import GithubImage from "../../assets/githubLogo.png";
 
 export const options = ["Home", "Mercados", "Mi perfil"];
 export const appName = "CryptoMince";
@@ -55,9 +55,15 @@ export const Navbar = () => {
               ))}
             </>
           )}
-        </Box>
-        <Box sx={{ marginLeft: "80px" }}>
-          <img src={GithubImage} data-testid={"githubImage"} width="30px" height="auto"></img>
+
+          <Box sx={{ marginLeft: "80px" }}>
+            <img
+              src={GithubImage}
+              data-testid={"githubImage"}
+              width="30px"
+              height="auto"
+            ></img>
+          </Box>
         </Box>
       </Box>
     </Sheet>
