@@ -1,7 +1,7 @@
 import { Sheet, Typography, Box } from "@mui/joy";
 import GithubImage from "../../assets/githubLogo.png";
 
-export const options = ["Home", "Mercados", "Mi perfil"];
+export const options = { Home: "/", Mercados: "/market", "Mi perfil": "/users/" };
 export const appName = "CryptoMince";
 
 export const Navbar = () => {
@@ -40,7 +40,7 @@ export const Navbar = () => {
         >
           {window.location.pathname !== "/" && (
             <>
-              {options.map((option) => (
+              {Object.keys(options).map((option) => (
                 <Box key={`${option}Navbar}`} sx={{ display: "inline-block" }}>
                   <Typography
                     textColor="white"

@@ -14,7 +14,7 @@ describe('Navbar', () => {
     render(<Navbar />);
     screen.getByTestId(`${appName}Navbar`);
     screen.getByTestId("githubImage")
-    options.forEach((opt) => {
+    Object.keys(options).forEach((opt) => {
       expect(screen.queryAllByTestId(`${opt}Navbar`).length).toBe(0)
     })
   })
@@ -27,7 +27,7 @@ describe('Navbar', () => {
     render(<Navbar />);
     screen.getByTestId(`${appName}Navbar`);
     screen.getByTestId("githubImage")
-    options.forEach((opt) => {
+    Object.keys(options).forEach((opt) => {
       expect(screen.queryAllByTestId(`${opt}Navbar`).length).toBe(1)
     })
   })
@@ -40,7 +40,7 @@ describe('Navbar', () => {
     render(<Navbar />);
     screen.getByTestId(`${appName}Navbar`);
     screen.getByTestId("githubImage")
-    options.forEach((opt) => {
+    Object.keys(options).forEach((opt) => {
       expect(screen.queryAllByTestId(`${opt}Navbar`).length).toBe(1)
     })
   })
@@ -53,7 +53,7 @@ describe('Navbar', () => {
     render(<Navbar />);
     screen.getByTestId(`${appName}Navbar`);
     screen.getByTestId("githubImage")
-    options.forEach((opt) => {
+    Object.keys(options).forEach((opt) => {
       expect(screen.queryAllByTestId(`${opt}Navbar`).length).toBe(1)
     })
   })
@@ -66,7 +66,7 @@ describe('Navbar', () => {
     render(<Navbar />);
     screen.getByTestId(`${appName}Navbar`);
     screen.getByTestId("githubImage")
-    options.forEach((opt) => {
+    Object.keys(options).forEach((opt) => {
       expect(screen.queryAllByTestId(`${opt}Navbar`).length).toBe(1)
     })
   })
@@ -79,7 +79,7 @@ describe('Navbar', () => {
     render(<Navbar />);
     screen.getByTestId(`${appName}Navbar`);
     screen.getByTestId("githubImage")
-    options.forEach((opt) => {
+    Object.keys(options).forEach((opt) => {
       expect(screen.queryAllByTestId(`${opt}Navbar`).length).toBe(1)
     })
   })
