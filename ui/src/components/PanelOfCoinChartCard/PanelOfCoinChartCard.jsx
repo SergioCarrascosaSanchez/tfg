@@ -10,10 +10,10 @@ export const PanelOfCoinChartCard = ({ coins }) => {
         display: "grid",
         gridTemplateColumns: {
           xs: "repeat(1, 1fr)",
-          s: "repeat(2, 1fr)",
+          s: "repeat(1, 1fr)",
           md: "repeat(2, 1fr)",
           lg: "repeat(2, 1fr)",
-          xl: "repeat(3, 1fr)",
+          xl: "repeat(2, 1fr)",
         },
         columnGap: "40px",
         rowGap: "30px",
