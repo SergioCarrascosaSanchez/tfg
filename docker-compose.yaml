@@ -66,7 +66,7 @@ services:
       - POSTGRES_USER=${DB_USER_2}
       - POSTGRES_PASSWORD=${DB_PASS_2}
     volumes:
-       - postgres-data2:/var/lib/postgresql/data2
+       - postgres-data2:/var/lib/postgresql/data
 volumes:
   postgres-data:
   postgres-data2:
