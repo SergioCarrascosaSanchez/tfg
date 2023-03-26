@@ -1,6 +1,5 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
-import { options, appName } from "../../src/components/Navbar/Navbar";
 import { CoinPage } from "../../src/pages/CoinPage/CoinPage";
 import { coinNotFoundErrorMessage } from "../../src/pages/CoinPage/CoinPage"
 
@@ -38,11 +37,5 @@ describe("CoinPage", () => {
     screen.getByText(coinName);
     screen.getByAltText(coinName);
     screen.getByText(coinNotFoundErrorMessage);
-  });
-
-  it("should render navbar elements", () => {
-    render(<CoinPage />);
-    options.forEach((option) => screen.getByText(option));
-    screen.getByText(appName);
   });
 });

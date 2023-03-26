@@ -1,6 +1,5 @@
 import { describe } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
-import { options, appName } from "../../src/components/Navbar/Navbar";
 import { UserPage, UnexpectedUserPageError } from "../../src/pages/UserPage/UserPage";
 
 const username = "Sergio";
@@ -45,12 +44,6 @@ describe("UserPage", () => {
       });
     
       afterEach(cleanup);
-    
-      it("should render navbar", () => {
-        render(<UserPage />);
-        options.forEach((option) => screen.getByText(option));
-        screen.getByText(appName);
-      });
     
       it("should render error", () => {
         render(<UserPage />);

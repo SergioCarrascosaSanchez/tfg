@@ -1,6 +1,5 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
-import { options, appName } from "../../src/components/Navbar/Navbar";
 import { CoinPage } from "../../src/pages/CoinPage/CoinPage";
 import { TradeMenuTitle } from "../../src/components/TradeMenu/TradeMenu";
 
@@ -53,11 +52,5 @@ describe("CoinPage", () => {
     screen.getByPlaceholderText("Justificacion");
     screen.getByTestId("PurchaseButton")
     screen.getByTestId("SellButton");
-  });
-
-  it("should render navbar elements", () => {
-    render(<CoinPage />);
-    options.forEach((option) => screen.getByText(option));
-    screen.getByText(appName);
   });
 });

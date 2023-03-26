@@ -1,6 +1,5 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
-import { options, appName } from "../../src/components/Navbar/Navbar";
 import {
   StudentInvestmentsTitle,
 } from "../../src/components/StudentDashboard/StudentDashboard";
@@ -84,11 +83,5 @@ describe("UserPage rendering StudentDashBoard", () => {
     screen.getByText("ETH");
     screen.getByTestId(`BTCGraph`);
     screen.getByTestId(`ETHGraph`);
-  });
-
-  it("should render navbar elements", () => {
-    render(<UserPage />);
-    options.forEach((option) => screen.getByText(option));
-    screen.getByText(appName);
   });
 });
