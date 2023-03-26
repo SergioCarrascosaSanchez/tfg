@@ -2,6 +2,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
 import {
   StudentInvestmentsTitle,
+  StudentPortfolioTitle
 } from "../../src/components/StudentDashboard/StudentDashboard";
 import {
   UserPage,
@@ -83,5 +84,7 @@ describe("UserPage rendering StudentDashBoard", () => {
     screen.getByText("ETH");
     screen.getByTestId(`BTCGraph`);
     screen.getByTestId(`ETHGraph`);
+    screen.getByText(StudentPortfolioTitle);
+    screen.getByTestId(`${studentName}PortfolioChart`);
   });
 });

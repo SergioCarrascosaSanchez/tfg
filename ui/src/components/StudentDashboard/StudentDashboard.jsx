@@ -1,9 +1,10 @@
 import { Box, Typography } from "@mui/joy";
 import { PanelOfCoinChartCard } from "../PanelOfCoinChartCard/PanelOfCoinChartCard";
+import { PieChart } from "../PieChart/PieChart";
 
 export const StudentInvestmentsTitle = "Portfolio de inversion:";
-
-export const StudentDashboard = ({data}) => {
+export const StudentPortfolioTitle = "Resumen del portfolio:";
+export const StudentDashboard = ({ data }) => {
   return (
     <>
       <Box
@@ -27,10 +28,22 @@ export const StudentDashboard = ({data}) => {
           sx={{ gridColumn: 2, textAlign: "right", lineHeight: "100px" }}
         >{`Balance: ${data.balance}$`}</Typography>
       </Box>
-      <Typography level="h3" component="h2">
-        {StudentInvestmentsTitle}
-      </Typography>
-      <PanelOfCoinChartCard coins={data.portfolio} />
+      <Box sx={{ display: "grid", placeContent: "center", gridTemplateColumns:"70% 30%", gap:6 }}>
+        <Box sx={{ gridColumn: 1 }}>
+          <Typography level="h3" component="h2">
+            {StudentInvestmentsTitle}
+          </Typography>
+          <PanelOfCoinChartCard coins={data.portfolio} />
+        </Box>
+        <Box sx={{ gridColumn: 2 }}>
+          <Typography level="h3" component="h2" sx={{textAlign:"center", marginBottom:"20px"}}>
+            {StudentPortfolioTitle}
+          </Typography>
+          <Box data-testid={`${data.username}PortfolioChart`}>
+            <PieChart portfolio={data.portfolio} />
+          </Box>
+        </Box>
+      </Box>
     </>
   );
 };
