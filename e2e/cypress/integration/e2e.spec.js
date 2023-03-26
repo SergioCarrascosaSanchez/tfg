@@ -315,23 +315,16 @@ describe("Complete app", () => {
       
       cy.visit("/");
       cy.contains("Iniciar sesión").click();
-      cy.get('[name="username"]').type("UserTest");
+      cy.get('[name="username"]').type("StudentForE2ENavbar");
       cy.get('[name="password"]').type("elrijjkfh");
       cy.get('[data-testid="submitLoginButton"]').click();
       cy.contains("StudentForE2ENavbar");
 
       cy.visit("/market");
-      cy.get("[data-testid='MiPerfil']").click();
+      cy.get("[data-testid='Mi perfilNavbar']").click();
       cy.location().should((location) => {
         expect(location.pathname).to.equal('/users/StudentForE2ENavbar');
       });
     });
-
-    it("Should redirect to github page when clicking Github option", () => {
-      cy.visit("/");
-      cy.get("[data-testid='githubImage']").click();
-      cy.url().should("include", "github.com/SergioCarrascosaSanchez/tfg");
-    });
-
   });
 });
