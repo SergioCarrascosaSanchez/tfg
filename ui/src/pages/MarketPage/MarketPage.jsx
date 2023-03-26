@@ -69,7 +69,7 @@ export const MarketPage = () => {
             Buscar
           </Button>
         </Box>
-        <PanelOfCoinChartCard coins={popularCryptocurrencies}/>
+        <PanelOfCoinChartCard coins={popularCryptocurrencies} size={"lg"}/>
       </Box>
     </>
   );

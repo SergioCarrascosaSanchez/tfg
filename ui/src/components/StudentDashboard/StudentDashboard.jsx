@@ -11,7 +11,7 @@ export const StudentDashboard = ({ data }) => {
         sx={{
           display: "grid",
           gridTemplateColumns: "70% 30%",
-          gap: 0,
+          gap: 8,
           placeContent: "center",
         }}
       >
@@ -28,15 +28,26 @@ export const StudentDashboard = ({ data }) => {
           sx={{ gridColumn: 2, textAlign: "right", lineHeight: "100px" }}
         >{`Balance: ${data.balance}$`}</Typography>
       </Box>
-      <Box sx={{ display: "grid", placeContent: "center", gridTemplateColumns:"70% 30%", gap:6 }}>
+      <Box
+        sx={{
+          display: "grid",
+          placeContent: "center",
+          gridTemplateColumns: "70% 30%",
+          gap: 8,
+          }}
+      >
         <Box sx={{ gridColumn: 1 }}>
           <Typography level="h3" component="h2">
             {StudentInvestmentsTitle}
           </Typography>
-          <PanelOfCoinChartCard coins={data.portfolio} />
+          <PanelOfCoinChartCard coins={data.portfolio} size={"md"}/>
         </Box>
         <Box sx={{ gridColumn: 2 }}>
-          <Typography level="h3" component="h2" sx={{textAlign:"center", marginBottom:"20px"}}>
+          <Typography
+            level="h3"
+            component="h2"
+            sx={{ textAlign: "center", marginBottom: "20px" }}
+          >
             {StudentPortfolioTitle}
           </Typography>
           <Box data-testid={`${data.username}PortfolioChart`}>

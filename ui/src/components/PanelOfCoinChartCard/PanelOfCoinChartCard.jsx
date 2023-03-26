@@ -2,7 +2,7 @@ import { Box } from "@mui/joy";
 import { CoinChartCard } from "../CoinChartCard/CoinChartCard";
 import { Link } from "react-router-dom";
 
-export const PanelOfCoinChartCard = ({ coins }) => {
+export const PanelOfCoinChartCard = ({ coins, size }) => {
   return (
     <Box
       component="ul"
@@ -11,9 +11,9 @@ export const PanelOfCoinChartCard = ({ coins }) => {
         gridTemplateColumns: {
           xs: "repeat(1, 1fr)",
           s: "repeat(1, 1fr)",
-          md: "repeat(2, 1fr)",
+          md: size === "lg" ? "repeat(2, 1fr)" : "repeat(1, 1fr)",
           lg: "repeat(2, 1fr)",
-          xl: "repeat(2, 1fr)",
+          xl: size === "lg" ? "repeat(3, 1fr)" : "repeat(2, 1fr)",
         },
         columnGap: "40px",
         rowGap: "30px",
