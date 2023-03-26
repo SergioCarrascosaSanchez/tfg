@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Lob;
 
 import es.urjc.tfg.scarrascosa.Trade.Trade;
 import es.urjc.tfg.scarrascosa.UserProfile.UserProfile;
@@ -15,6 +16,7 @@ import es.urjc.tfg.scarrascosa.UserProfile.UserProfile;
 public class Student extends UserProfile{
     
     private double balance;
+    @Lob
     private HashMap<String, Double> portfolio;
     @ElementCollection(fetch = FetchType.LAZY)
     private List<Trade> tradeHistory;
