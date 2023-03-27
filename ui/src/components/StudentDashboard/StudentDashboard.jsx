@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/joy";
 import { PanelOfCoinChartCard } from "../PanelOfCoinChartCard/PanelOfCoinChartCard";
-import { PieChart } from "../PieChart/PieChart";
+import { DoughnutChart } from "../DoughnutChart/DoughnutChart";
 
 export const StudentInvestmentsTitle = "Portfolio de inversion:";
 export const StudentPortfolioTitle = "Resumen del portfolio:";
@@ -50,8 +50,8 @@ export const StudentDashboard = ({ data }) => {
           >
             {StudentPortfolioTitle}
           </Typography>
-          <Box data-testid={`${data.username}PortfolioChart`}>
-            <PieChart portfolio={data.portfolio} />
+          <Box>
+            <DoughnutChart username={data.username} portfolio={data.portfolio} />
           </Box>
         </Box>
       </Box>

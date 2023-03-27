@@ -2,21 +2,19 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
 import {
   StudentInvestmentsTitle,
-  StudentPortfolioTitle
+  StudentPortfolioTitle,
 } from "../../src/components/StudentDashboard/StudentDashboard";
-import {
-  UserPage,
-} from "../../src/pages/UserPage/UserPage";
+import { UserPage } from "../../src/pages/UserPage/UserPage";
+import { chartError } from "../../src/components/DoughnutChart/DoughnutChart";
 
 const studentName = "Sergio";
 
 describe("UserPage rendering StudentDashBoard", () => {
-  vi.mock('react-router-dom', async () => {
+  vi.mock("react-router-dom", async () => {
     return {
-      ...vi.importMock('react-router-dom'),
-      useParams: vi.fn().mockReturnValue({user: "Sergio"}),
-      Link: ({ children, to }) =>
-        <a href={to}>{children}</a>,
+      ...vi.importMock("react-router-dom"),
+      useParams: vi.fn().mockReturnValue({ user: "Sergio" }),
+      Link: ({ children, to }) => <a href={to}>{children}</a>,
     };
   });
 
@@ -27,8 +25,8 @@ describe("UserPage rendering StudentDashBoard", () => {
       error: false,
       statusCode: 200,
       data: {
-        username:"Sergio",
-        role:"STUDENT",
+        username: "Sergio",
+        role: "STUDENT",
         balance: 1000.0,
         portfolio: [
           {
@@ -98,5 +96,6 @@ describe("UserPage rendering StudentDashBoard", () => {
     screen.getByTestId(`BTCGraph`);
     screen.getByTestId(`ETHGraph`);
     screen.getByText(StudentPortfolioTitle);
+    screen.getByRole("progressbar");
   });
 });
