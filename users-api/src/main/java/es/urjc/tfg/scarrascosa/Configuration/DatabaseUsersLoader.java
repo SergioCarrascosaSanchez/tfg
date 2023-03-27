@@ -26,7 +26,6 @@ public class DatabaseUsersLoader {
 
     @PostConstruct
     private void initDatabase() {
-        userRepository.save(new Student("User", "Sergio User", 1000.0, passwordEncoder.encode(this.userPass), "USER"));
-        userRepository.save(new Student("Admin", "Sergio Admin",1000.0, passwordEncoder.encode(this.adminPass), "USER", "ADMIN"));
+        userRepository.save(new Student("User", "Sergio User", 1000.0, passwordEncoder.encode(this.userPass), "STUDENT"));
     }
 }

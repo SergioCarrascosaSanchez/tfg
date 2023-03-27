@@ -3,9 +3,8 @@ package es.urjc.tfg.scarrascosa.Teacher;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import es.urjc.tfg.scarrascosa.Student.Student;
@@ -15,6 +14,8 @@ import es.urjc.tfg.scarrascosa.UserProfile.UserProfile;
 public class Teacher extends UserProfile{
     
     @OneToMany
+    
+    @JoinColumn(name = "profesor_id")
     private Set<Student> studentList;
     
     public Teacher() {}
