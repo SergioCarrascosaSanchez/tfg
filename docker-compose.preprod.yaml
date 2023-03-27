@@ -24,7 +24,7 @@ services:
       - POSTGRES_DB=${DB_DB_2}
       - POSTGRES_USER=${DB_USER_2}
       - POSTGRES_PASSWORD=${DB_PASS_2}
-      - POSTGRES_PORT=5432
+      - POSTGRES_PORT=5433
       - ADMIN_PASS=${ADMIN_PASS}
       - USER_PASS=${USER_PASS}
     ports:
@@ -59,7 +59,7 @@ services:
   pg2:
     image: "postgres:9.6-alpine"
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       - POSTGRES_HOST=${DB_HOST_2}      
       - POSTGRES_DB=${DB_DB_2}
