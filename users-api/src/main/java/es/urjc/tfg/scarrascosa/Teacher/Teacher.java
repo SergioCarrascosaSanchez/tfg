@@ -14,6 +14,7 @@ import es.urjc.tfg.scarrascosa.UserProfile.UserProfile;
 public class Teacher extends UserProfile{
     
     @OneToMany
+    @JoinColumn(name = "teacher_id")
     private Set<Student> studentList;
     
     public Teacher() {}
