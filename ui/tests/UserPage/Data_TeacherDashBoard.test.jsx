@@ -1,6 +1,5 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
-import { options, appName } from "../../src/components/Navbar/Navbar";
 import { TeacherDashboardTitle } from "../../src/components/TeacherDashboard/TeacherDashboard";
 import { UserPage } from "../../src/pages/UserPage/UserPage";
 import {NoTradesMessage} from "../../src/components/StudentTradingInfo/StudentTradingInfo"
@@ -128,12 +127,6 @@ describe("UserPage rendering TeacherDashBoard", () => {
     render(<UserPage/>)
     screen.getByText(TeacherDashboardTitle);
   })
-
-  it("should render navbar elements", () => {
-    render(<UserPage />);
-    options.forEach((option) => screen.getByText(option));
-    screen.getByText(appName);
-  });
 
   it("should render each student names", () => {
     render(<UserPage />);

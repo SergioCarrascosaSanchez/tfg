@@ -278,4 +278,53 @@ describe("Complete app", () => {
       });
     });
   });
+  describe("navbar redirect", () => {
+    it("Should redirect to market when clicking Mercados option", () => {
+      cy.visit("/users/User");
+      cy.get("[data-testid='MercadosNavbar']").click();
+      cy.location().should((location) => {
+        expect(location.pathname).to.equal('/market');
+      });
+    });
+
+    it("Should redirect to mainPage when clicking Home option", () => {
+      cy.visit("/market");
+      cy.get("[data-testid='HomeNavbar']").click();
+      cy.location().should((location) => {
+        expect(location.pathname).to.equal('/');
+      });
+    });
+
+    it("Should redirect to mainPage when clicking Mi perfil option", () => {
+      cy.request({
+        method: "POST",
+        url: "http://users-api:8081/signup",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {
+          username: "StudentForE2ENavbar",
+          email: "StudentForE2ENavbar@UserTest.com",
+          password: "elrijjkfh",
+          initialBalance: 1000,
+          roles: ["STUDENT"],
+        },
+      })
+        .its("status")
+        .should("equal", 200);
+      
+      cy.visit("/");
+      cy.contains("Iniciar sesión").click();
+      cy.get('[name="username"]').type("StudentForE2ENavbar");
+      cy.get('[name="password"]').type("elrijjkfh");
+      cy.get('[data-testid="submitLoginButton"]').click();
+      cy.contains("StudentForE2ENavbar");
+
+      cy.visit("/market");
+      cy.get("[data-testid='Mi perfilNavbar']").click();
+      cy.location().should((location) => {
+        expect(location.pathname).to.equal('/users/StudentForE2ENavbar');
+      });
+    });
+  });
 });

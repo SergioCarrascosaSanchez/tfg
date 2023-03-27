@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import es.urjc.tfg.scarrascosa.Trade.Trade;
 import es.urjc.tfg.scarrascosa.UserProfile.UserProfile;
@@ -16,7 +16,8 @@ public class Student extends UserProfile{
     
     private double balance;
     private HashMap<String, Double> portfolio;
-    @ElementCollection(fetch = FetchType.LAZY)
+    @OneToMany
+    @JoinColumn(name = "student_id")
     private List<Trade> tradeHistory;
     
     public Student() {}

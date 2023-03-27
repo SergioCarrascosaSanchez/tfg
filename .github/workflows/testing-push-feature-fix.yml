@@ -1,7 +1,9 @@
 name: testing-push-feature
 on:
   push:
-    branches: [feature/*]
+    branches:
+      - 'fix/*'
+      - 'feature/*'
 jobs:
   execute_tests:
     runs-on: ubuntu-latest

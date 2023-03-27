@@ -5,7 +5,6 @@ import {
   MarketName,
   popularCryptocurrencies,
 } from "../src/pages/MarketPage/MarketPage";
-import { options, appName } from "../src/components/Navbar/Navbar";
 import { MemoryRouter } from "react-router-dom";
 
 describe("MarketPage", () => {
@@ -42,18 +41,6 @@ describe("MarketPage", () => {
   });
 
   afterEach(cleanup);
-
-  it("should render appName + options", () => {
-    screen.getByText(appName);
-    expect(
-      document.getElementById(`${appName}Navbar`).firstChild.textContent
-    ).toBe(appName);
-    options.forEach((option) => {
-      expect(
-        document.getElementById(`${option}Navbar`).firstChild.textContent
-      ).toBe(option);
-    });
-  });
 
   it("should render only one MarketName as h1 title", () => {
     let h1MarketName;
