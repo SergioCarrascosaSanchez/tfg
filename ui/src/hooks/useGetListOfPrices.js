@@ -9,7 +9,7 @@ export function useGetListOfPrices(coins) {
   const [data, setData] = useState({});
 
   async function fetchData(coinList) {
-    const fetchError = false;
+    let fetchError = false;
     const responses = await Promise.all(
       coinList.map((coin) =>
         fetch(`${URL}/last/${coin}BUSD`, {
