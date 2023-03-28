@@ -1,4 +1,4 @@
-package es.urjc.tfg.scarrascosa.Jwt;
+package es.urjc.tfg.scarrascosa.Auth;
 
 import java.util.Date;
 
