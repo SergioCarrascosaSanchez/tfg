@@ -61,8 +61,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/login").permitAll();
         http.authorizeRequests().antMatchers("/teacher/**").permitAll();
         http.authorizeRequests().antMatchers("/users/{username}").access("hasAnyRole('STUDENT', 'TEACHER') and @userSecurity.isUserAuthorized(authentication,#username)");
-        http.authorizeRequests().antMatchers("/purchase").hasRole("STUDENT");
-        http.authorizeRequests().antMatchers("/sell").hasRole("STUDENT");
+        http.authorizeRequests().antMatchers("/students/{username}/purchase").access("hasRole('STUDENT') and @userSecurity.isUserAuthorized(authentication,#username)");
+        http.authorizeRequests().antMatchers("/students/{username}/sell").access("hasRole('STUDENT') and @userSecurity.isUserAuthorized(authentication,#username)");
         http.headers().frameOptions().sameOrigin();
 
         http.cors().and().csrf().disable();

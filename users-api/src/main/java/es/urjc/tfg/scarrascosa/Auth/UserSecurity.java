@@ -1,5 +1,7 @@
 package es.urjc.tfg.scarrascosa.Auth;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
