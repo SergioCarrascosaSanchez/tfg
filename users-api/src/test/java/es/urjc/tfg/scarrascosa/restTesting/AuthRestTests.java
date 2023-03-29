@@ -2,7 +2,9 @@ package es.urjc.tfg.scarrascosa.restTesting;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static io.restassured.path.json.JsonPath.from;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.anything;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -69,9 +71,10 @@ public class AuthRestTests {
             contentType("application/json").
             body(studentLogin.toString()).
         when().
-            post("/login").      
+            post("/login").
         then().
-            statusCode(200);
+            statusCode(200).
+            body("token", anything());
   
     }
     
@@ -141,7 +144,8 @@ public class AuthRestTests {
         when().
             post("/login").      
         then().
-            statusCode(200);
+            statusCode(200).
+            body("token", anything());
         
         
         given().

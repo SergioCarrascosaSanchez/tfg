@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.urjc.tfg.scarrascosa.DTO.LoginFormUserDTO;
 import es.urjc.tfg.scarrascosa.DTO.SignUpDTO;
+import es.urjc.tfg.scarrascosa.DTO.TokenDTO;
 import es.urjc.tfg.scarrascosa.Student.Student;
 import es.urjc.tfg.scarrascosa.Teacher.Teacher;
 import es.urjc.tfg.scarrascosa.UserProfile.UserProfile;
@@ -30,6 +31,9 @@ public class AuthRestController {
     
     @Autowired
     private UserProfileRepository repo;
+    
+    @Autowired
+    private JwtUtil jwtUtil;
     
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -48,14 +52,15 @@ public class AuthRestController {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<HttpStatus> login(@RequestBody LoginFormUserDTO dto) {
+    public ResponseEntity<TokenDTO> login(@RequestBody LoginFormUserDTO dto) {
         try {
             Authentication auth = authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(auth);
-            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+            String token = jwtUtil.createToken(dto.getUsername());
+            return ResponseEntity.ok(new TokenDTO(token));
         } catch (BadCredentialsException ex) {
-            return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
     
