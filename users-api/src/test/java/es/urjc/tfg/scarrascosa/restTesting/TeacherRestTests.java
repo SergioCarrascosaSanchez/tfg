@@ -247,6 +247,44 @@ class TeacherRestTests {
     }
     
     
+    @Test
+    void rejectAcessToOtherUserData() throws JSONException {
+        String teacherUsername = "teacherRestTest_5";
+        
+        String token = teacherSignUp(teacherUsername);
+        
+        given().
+            header("Authorization", token).
+        when().
+            get("/users/"+teacherUsername).
+        then().
+            statusCode(200).
+            body("username", equalTo(teacherUsername)).
+            body("role", equalTo("TEACHER")).
+            body("studentList", equalTo(new LinkedList<>()));
+        
+        String student_1 = "studentAddToTeacher_8";
+        studentSignUp(student_1);
+        
+        given().
+            header("Authorization", token).
+        when().
+            get("/users/"+student_1).
+        then().
+            statusCode(403);
+        
+        String teacherUsername_2 = "teacherRestTest_6";
+        teacherSignUp(teacherUsername_2);
+        
+        given().
+            header("Authorization", token).
+        when().
+            get("/users/"+teacherUsername_2).
+        then().
+            statusCode(403);
+    
+    }
+    
     
     String teacherSignUp(String username) throws JSONException {
         

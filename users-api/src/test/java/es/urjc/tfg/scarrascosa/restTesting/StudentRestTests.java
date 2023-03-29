@@ -366,6 +366,29 @@ public class StudentRestTests {
         Assertions.assertThat(afterSellBalance).isCloseTo(afterPurchaseBalance, Assertions.within(0.0001));
     }
     
+    @Test
+    void rejectAcessToOtherUserData() throws JSONException {
+        String username = "StudentForRestTest_5";
+        String token = signupUser(username);
+        
+        given().
+            header("Authorization", token).
+        when().
+            get("/users/"+username).
+        then().
+            statusCode(200);
+        
+        String username2 = "StudentForRestTest_6";
+        signupUser(username2);
+        
+        given().
+            header("Authorization", token).
+        when().
+            get("/users/"+username2).
+        then().
+            statusCode(403);    
+    }
+    
     String signupUser(String username) throws JSONException {
         LinkedList<String> roles = new LinkedList<>();
         roles.add("STUDENT");
