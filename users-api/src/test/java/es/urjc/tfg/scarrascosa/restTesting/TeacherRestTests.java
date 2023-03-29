@@ -304,17 +304,13 @@ class TeacherRestTests {
         student.put("password", password);
         student.put("initialBalance", balance);
 
-        Response response = given().
+        given().
             contentType("application/json").
             body(student.toString()).
         when().
             post("/signup").      
         then().
-            statusCode(200)
-            .extract().response();
-        
-        //String token = from(response.getBody().asString()).get("token");
-        //return "Bearer "+token;
+            statusCode(200);
     }
 
 }
