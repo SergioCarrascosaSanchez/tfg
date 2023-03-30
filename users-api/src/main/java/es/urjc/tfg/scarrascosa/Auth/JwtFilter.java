@@ -39,7 +39,7 @@ public class JwtFilter extends OncePerRequestFilter{
             throws ServletException, IOException {
         
         String requestURI = request.getRequestURI();
-        if (requestURI.equals("/login") || requestURI.equals("/signup")) {
+        if (requestURI.equals("/login") || requestURI.equals("/signup")|| requestURI.contains("/teacher/")) {
             filterChain.doFilter(request, response);
             return;
         }

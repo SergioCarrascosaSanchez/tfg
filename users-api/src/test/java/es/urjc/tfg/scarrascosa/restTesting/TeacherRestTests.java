@@ -81,7 +81,6 @@ class TeacherRestTests {
         
         given().
             contentType("application/json").
-            header("Authorization", token).
             body(studentListObject.toString()).
         when().
             post("/teacher/"+teacherUsername).      
@@ -128,7 +127,6 @@ class TeacherRestTests {
         
         given().
             contentType("application/json").
-            header("Authorization", token).
             body(studentListObject.toString()).
         when().
             post("/teacher/"+teacherUsername).      
@@ -148,7 +146,6 @@ class TeacherRestTests {
         
         given().
             contentType("application/json").
-            header("Authorization", token).
             body(studentListObject.toString()).
         when().
             post("/teacher/"+teacherUsername).      
@@ -193,7 +190,6 @@ class TeacherRestTests {
         
         given().
             contentType("application/json").
-            header("Authorization", token).
             body(studentListObject.toString()).
         when().
             post("/teacher/"+teacherUsername).      
@@ -226,7 +222,6 @@ class TeacherRestTests {
         
         given().
             contentType("application/json").
-            header("Authorization", token).
             body(studentListObject_2.toString()).
         when().
             post("/teacher/"+teacherUsername).      
