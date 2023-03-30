@@ -257,7 +257,7 @@ describe("Complete app", () => {
       cy.get('[name="password"]').type("elrijjkfh2");
       cy.get('[data-testid="submitLoginButton"]').click();
 
-      cy.visit("/users/TeacherForE2E");
+      cy.contains("TeacherForE2E");
       cy.contains("Transacciones: 2");
       cy.contains("StudentForE2E").click();
       cy.contains("Transacciones de StudentForE2E");
