@@ -33,6 +33,7 @@ describe("UserPage", () => {
     
       it("should render error", () => {
         render(<UserPage />);
+        screen.getByText(username);
         screen.getByText(AuthorizationError);
       });
 })

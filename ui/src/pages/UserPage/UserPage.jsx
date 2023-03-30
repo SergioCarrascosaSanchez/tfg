@@ -31,6 +31,9 @@ export const UserPage = () => {
           </>
         ) : userData.statusCode === 403 ? (
           <>
+            <Typography level="display2" component="h1">
+              {user}
+            </Typography>
             <ErrorMessage message={AuthorizationError} center={true} />
           </>
         ) : userData.error ? (
