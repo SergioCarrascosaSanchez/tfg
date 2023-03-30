@@ -26,7 +26,6 @@ services:
       - POSTGRES_PASSWORD=${DB_PASS_2}
       - POSTGRES_PORT=5433
       - ADMIN_PASS=${ADMIN_PASS}
-      - USER_PASS=${USER_PASS}
     ports:
       - "8081:8081"
     depends_on:
