@@ -285,6 +285,44 @@ class TeacherRestTests {
     
     }
     
+    @Test
+    void rejectAccionsWithoutCorrectToken() throws JSONException {
+        String username = "teacherRestTest_7";
+        String token = teacherSignUp(username);
+        
+        given().
+            contentType("application/json").
+        when().
+            get("users/"+username).
+        then().
+            statusCode(403);
+        
+        given().
+            contentType("application/json").
+            header("Authorization", "").
+        when().
+            get("users/"+username).
+        then().
+            statusCode(403);
+        
+        
+        given().
+            contentType("application/json").
+            header("Authorization", token.substring(7)).
+        when().
+            get("users/"+username).
+        then().
+            statusCode(403);
+        
+        
+        given().
+            contentType("application/json").
+            header("Authorization", token.substring(0, token.length()-1)).
+        when().
+            get("users/"+username).
+        then().
+            statusCode(403);
+    }
     
     String teacherSignUp(String username) throws JSONException {
         

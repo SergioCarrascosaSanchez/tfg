@@ -417,6 +417,129 @@ public class StudentRestTests {
             statusCode(403);
     }
     
+    @Test
+    void rejectAccionsWithoutCorrectToken() throws JSONException {
+        String username = "StudentForRestTest_9";
+        String token = signupUser(username);
+        
+        given().
+            contentType("application/json").
+        when().
+            get("users/"+username).
+        then().
+            statusCode(403);
+        
+        
+        given().
+            contentType("application/json").
+            header("Authorization", "").
+        when().
+            get("users/"+username).
+        then().
+            statusCode(403);
+        
+        
+        given().
+            contentType("application/json").
+            header("Authorization", token.substring(7)).
+        when().
+            get("users/"+username).
+        then().
+            statusCode(403);
+        
+        
+        given().
+            contentType("application/json").
+            header("Authorization", token.substring(0, token.length()-1)).
+        when().
+            get("users/"+username).
+        then().
+            statusCode(403);
+        
+        
+        String coin = "TestCoin5";
+        double quantity = 2.0;
+        double price = 0.4055;
+        String justification = "adjhagsdjkhgad";
+        LinkedList<Double> list = new LinkedList<>();
+        list.add(1.2);
+        list.add(2.0);
+        JSONArray pricesArray = new JSONArray(list);
+        
+        JSONObject trade = new JSONObject();
+        trade.put("coin", coin);
+        trade.put("quantity", quantity);
+        trade.put("price", price);
+        trade.put("justification", justification);
+        trade.put("chartData", pricesArray);
+        
+        
+        given().
+            contentType("application/json").
+            body(trade.toString()).
+        when().
+            post("students/"+username+"/purchase").
+        then().
+            statusCode(403);
+        
+        given().
+            contentType("application/json").
+            header("Authorization", "").
+            body(trade.toString()).
+        when().
+            post("students/"+username+"/purchase").
+        then().
+            statusCode(403);
+        
+        
+        given().
+            contentType("application/json").
+            header("Authorization", token.substring(7)).
+            body(trade.toString()).
+        when().
+            post("students/"+username+"/purchase").
+        then().
+            statusCode(403);
+        
+        given().
+            contentType("application/json").
+            header("Authorization", "").
+            body(trade.toString()).
+        when().
+            post("students/"+username+"/sell").
+        then().
+            statusCode(403);
+        
+        
+        given().
+            contentType("application/json").
+            header("Authorization", token.substring(0, token.length() -1)).
+            body(trade.toString()).
+        when().
+            post("students/"+username+"/purchase").
+        then().
+            statusCode(403);
+        
+        given().
+            contentType("application/json").
+            header("Authorization", token.substring(7)).
+            body(trade.toString()).
+        when().
+            post("students/"+username+"/sell").
+        then().
+            statusCode(403);
+    
+    
+        given().
+            contentType("application/json").
+            header("Authorization", token.substring(0, token.length() -1)).
+            body(trade.toString()).
+        when().
+            post("students/"+username+"/sell").
+        then().
+            statusCode(403);
+    }
+    
     String signupUser(String username) throws JSONException {
         LinkedList<String> roles = new LinkedList<>();
         roles.add("STUDENT");

@@ -46,14 +46,14 @@ public class JwtFilter extends OncePerRequestFilter{
         
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (!StringUtils.hasText(header) || !header.startsWith("Bearer ")) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token de autorización no encontrado en la solicitud");
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Token de autorización no encontrado en la solicitud");
             return;
         }
         
         String token = header.split(" ")[1].trim();
         DecodedJWT decodedToken = jwtUtil.verify(token);
         if (decodedToken == null) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token de autorización no encontrado en la solicitud");
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Token de autorización no encontrado en la solicitud");
             return;
         }
         
@@ -63,7 +63,7 @@ public class JwtFilter extends OncePerRequestFilter{
             userDetails = repository.loadUserByUsername(jwtUtil.getUsername(decodedToken));
         }
         catch(UsernameNotFoundException ex){
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token de autorización no encontrado en la solicitud");
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Token de autorización no encontrado en la solicitud");
             return;
         }
         
