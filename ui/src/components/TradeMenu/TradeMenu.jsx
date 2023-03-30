@@ -4,6 +4,7 @@ import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import { useTradeCoin } from "../../hooks/useTradeCoin";
 
 export const TradeMenuTitle = "Transacción";
+export const TradeMenuAuthError = "No tienes autorización para realizar esta operación";
 const URL = `${import.meta.env.VITE_USERS_API_URL}`;
 
 export const TradeMenu = ({ price, coin, chartData }) => {
@@ -12,6 +13,7 @@ export const TradeMenu = ({ price, coin, chartData }) => {
   const [incorrectQuantity, setIncorrectQuantity] = useState(false);
   const [incorrectJustification, setIncorrectJustification] = useState(false);
   const [purchaseError, setPurchaseError] = useState(false);
+  const [authError, setAuthError] = useState(false);
   const [successfulPurchase, setSuccessfulPurchase] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -51,7 +53,10 @@ export const TradeMenu = ({ price, coin, chartData }) => {
       if (data.statusCode === 200) {
         setSuccessfulPurchase(true);
         setPurchaseError(false);
-      } else {
+      } else if (data.statusCode === 403){
+        setPurchaseError(false);
+        setAuthError(true)
+      }else {
         setPurchaseError(true);
         setSuccessfulPurchase(false);
       }
@@ -79,6 +84,12 @@ export const TradeMenu = ({ price, coin, chartData }) => {
       {purchaseError && (
         <ErrorMessage
           message={"Error al ejecutar la transaccion"}
+          form={true}
+        />
+      )}
+      {authError && (
+        <ErrorMessage
+          message={TradeMenuAuthError}
           form={true}
         />
       )}
