@@ -35,7 +35,7 @@ export const LoginForm = () => {
             localStorage.setItem("token", resData.token);
             navigate(`/users/${username}`);
           });
-        } else if (res.status === 401) {
+        } else if (res.status === 403) {
           setIncorrectUserPass("block");
         } else {
           setLoginError("block");

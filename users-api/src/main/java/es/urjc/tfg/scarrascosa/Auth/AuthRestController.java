@@ -60,7 +60,7 @@ public class AuthRestController {
             String token = jwtUtil.createToken(dto.getUsername());
             return ResponseEntity.ok(new TokenDTO(token));
         } catch (BadCredentialsException ex) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
     
