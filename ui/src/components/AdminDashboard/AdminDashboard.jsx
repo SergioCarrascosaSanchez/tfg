@@ -70,7 +70,7 @@ export const AdminDashboard = () => {
           ) : form === "newTeacher" ? (
             <>Profesor form</>
           ) : (
-            <>Addition</>
+            <AddStudentToTeacherForm/>
           )}
         </ModalDialog>
       </Modal>
