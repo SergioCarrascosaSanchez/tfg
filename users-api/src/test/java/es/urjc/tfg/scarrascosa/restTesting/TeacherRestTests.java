@@ -2,6 +2,7 @@ package es.urjc.tfg.scarrascosa.restTesting;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
+import static io.restassured.path.json.JsonPath.from;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.not;
@@ -19,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DisplayName("Teacher REST tests")
@@ -35,7 +37,9 @@ class TeacherRestTests {
     @Test
     void getTeacherDataByUsername() throws JSONException {
         String username = "teacherRestTest_1";
-        teacherSignUp(username);
+        String token = teacherSignUp(username);
+        given().
+            header("Authorization", token).
         when().
             get("/users/"+username).
         then().
@@ -48,7 +52,11 @@ class TeacherRestTests {
     @Test
     void addMultipleStudentToTeacher() throws JSONException {
         String teacherUsername = "teacherRestTest_2";
-        teacherSignUp(teacherUsername);
+        
+        String token = teacherSignUp(teacherUsername);
+        
+        given().
+            header("Authorization", token).
         when().
             get("/users/"+teacherUsername).
         then().
@@ -79,6 +87,8 @@ class TeacherRestTests {
         then().
             statusCode(200);
         
+        given().
+            header("Authorization", token).
         when().
             get("/users/"+teacherUsername).
         then().
@@ -92,7 +102,11 @@ class TeacherRestTests {
     @Test
     void addRepeatedStudentToTeacher() throws JSONException {
         String teacherUsername = "teacherRestTest_3";
-        teacherSignUp(teacherUsername);
+        
+        String token = teacherSignUp(teacherUsername);
+        
+        given().
+            header("Authorization", token).
         when().
             get("/users/"+teacherUsername).
         then().
@@ -119,6 +133,8 @@ class TeacherRestTests {
         then().
             statusCode(200);
         
+        given().
+            header("Authorization", token).
         when().
             get("/users/"+teacherUsername).
         then().
@@ -136,6 +152,8 @@ class TeacherRestTests {
         then().
             statusCode(200);
         
+        given().
+            header("Authorization", token).
         when().
             get("/users/"+teacherUsername).
         then().
@@ -148,7 +166,9 @@ class TeacherRestTests {
     @Test
     void addNonExistingStudentToTeacher() throws JSONException {
         String teacherUsername = "teacherRestTest_4";
-        teacherSignUp(teacherUsername);
+        String token = teacherSignUp(teacherUsername);
+        given().
+            header("Authorization", token).
         when().
             get("/users/"+teacherUsername).
         then().
@@ -176,6 +196,8 @@ class TeacherRestTests {
         then().
             statusCode(200);
         
+        given().
+            header("Authorization", token).
         when().
             get("/users/"+teacherUsername).
         then().
@@ -206,6 +228,8 @@ class TeacherRestTests {
         then().
             statusCode(422);
         
+        given().
+            header("Authorization", token).
         when().
             get("/users/"+teacherUsername).
         then().
@@ -218,8 +242,84 @@ class TeacherRestTests {
     }
     
     
+    @Test
+    void rejectAcessToOtherUserData() throws JSONException {
+        String teacherUsername = "teacherRestTest_5";
+        
+        String token = teacherSignUp(teacherUsername);
+        
+        given().
+            header("Authorization", token).
+        when().
+            get("/users/"+teacherUsername).
+        then().
+            statusCode(200).
+            body("username", equalTo(teacherUsername)).
+            body("role", equalTo("TEACHER")).
+            body("studentList", equalTo(new LinkedList<>()));
+        
+        String student_1 = "studentAddToTeacher_8";
+        studentSignUp(student_1);
+        
+        given().
+            header("Authorization", token).
+        when().
+            get("/users/"+student_1).
+        then().
+            statusCode(403);
+        
+        String teacherUsername_2 = "teacherRestTest_6";
+        teacherSignUp(teacherUsername_2);
+        
+        given().
+            header("Authorization", token).
+        when().
+            get("/users/"+teacherUsername_2).
+        then().
+            statusCode(403);
     
-    void teacherSignUp(String username) throws JSONException {
+    }
+    
+    @Test
+    void rejectAccionsWithoutCorrectToken() throws JSONException {
+        String username = "teacherRestTest_7";
+        String token = teacherSignUp(username);
+        
+        given().
+            contentType("application/json").
+        when().
+            get("users/"+username).
+        then().
+            statusCode(403);
+        
+        given().
+            contentType("application/json").
+            header("Authorization", "").
+        when().
+            get("users/"+username).
+        then().
+            statusCode(403);
+        
+        
+        given().
+            contentType("application/json").
+            header("Authorization", token.substring(7)).
+        when().
+            get("users/"+username).
+        then().
+            statusCode(403);
+        
+        
+        given().
+            contentType("application/json").
+            header("Authorization", token.substring(0, token.length()-1)).
+        when().
+            get("users/"+username).
+        then().
+            statusCode(403);
+    }
+    
+    String teacherSignUp(String username) throws JSONException {
         
         LinkedList<String> teacherRoles = new LinkedList<>();
         teacherRoles.add("TEACHER");
@@ -241,6 +341,22 @@ class TeacherRestTests {
             post("/signup").      
         then().
             statusCode(200);
+        
+        JSONObject teacherLogin = new JSONObject();
+        teacherLogin.put("username", username);
+        teacherLogin.put("password", password);
+        
+        Response response = given().
+                contentType("application/json").
+                body(teacherLogin.toString()).  
+            when().
+                post("/login").      
+            then().
+                statusCode(200)
+            .extract().response();
+        
+        String token = from(response.getBody().asString()).get("token");
+        return "Bearer "+token;
         
     }
     

@@ -11,6 +11,8 @@ export const UserPageError =
 
 export const UnexpectedUserPageError = "Ha ocurrido un error inesperado";
 
+export const AuthorizationError = "No tienes acceso a esta información";
+
 export const UserPage = () => {
   const user = useParams().user;
   const userData = useGetUserData(user);
@@ -27,6 +29,13 @@ export const UserPage = () => {
               <CircularProgress />
             </Box>
           </>
+        ) : userData.statusCode === 403 ? (
+          <>
+            <Typography level="display2" component="h1">
+              {user}
+            </Typography>
+            <ErrorMessage message={AuthorizationError} center={true} />
+          </>
         ) : userData.error ? (
           <>
             <Typography level="display2" component="h1">
@@ -35,9 +44,9 @@ export const UserPage = () => {
             <ErrorMessage message={UserPageError} center={true} />
           </>
         ) : userData.data.role === "STUDENT" ? (
-          <StudentDashboard data = {userData.data} />
+          <StudentDashboard data={userData.data} />
         ) : userData.data.role === "TEACHER" ? (
-          <TeacherDashboard data = {userData.data} />
+          <TeacherDashboard data={userData.data} />
         ) : (
           <>
             <Typography level="display2" component="h1">

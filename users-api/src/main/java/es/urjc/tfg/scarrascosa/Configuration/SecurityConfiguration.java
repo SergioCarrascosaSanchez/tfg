@@ -2,6 +2,8 @@ package es.urjc.tfg.scarrascosa.Configuration;
 
 import java.security.SecureRandom;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,24 +16,29 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
+import es.urjc.tfg.scarrascosa.Auth.JwtFilter;
 import es.urjc.tfg.scarrascosa.UserProfile.RepositoryUserDetailsService;
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    
+
     @Autowired
     RepositoryUserDetailsService userDetailsService;
+
+    @Autowired
+    private JwtFilter jwtTokenFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10, new SecureRandom());
     }
-    
+
     @Override
     @Bean
-    public AuthenticationManager authenticationManagerBean ()throws Exception {
+    public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
@@ -39,31 +46,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
-    
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-                
+
         http
-            .formLogin().disable()
-            .logout()
-            .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK));
-        
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/privateUser").hasRole("USER");
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/privateAdmin").hasRole("ADMIN");
-        
-        // Allow H2 console
-        http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
+                .formLogin().disable()
+                .logout()
+                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK));
+
+        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http.authorizeRequests().antMatchers("/signup").permitAll();
+        http.authorizeRequests().antMatchers("/login").permitAll();
+        http.authorizeRequests().antMatchers("/teacher/**").permitAll();
+        http.authorizeRequests().antMatchers("/users/{username}").access("hasAnyRole('STUDENT', 'TEACHER') and @userSecurity.isUserAuthorized(authentication,#username)");
+        http.authorizeRequests().antMatchers("/students/{username}/purchase").access("hasRole('STUDENT') and @userSecurity.isUserAuthorized(authentication,#username)");
+        http.authorizeRequests().antMatchers("/students/{username}/sell").access("hasRole('STUDENT') and @userSecurity.isUserAuthorized(authentication,#username)");
         http.headers().frameOptions().sameOrigin();
-        
-        http.authorizeRequests().anyRequest().permitAll();
-        
-        
+
         http.cors().and().csrf().disable();
-        
-        
 
-        
     }
-    
-}
 
+}

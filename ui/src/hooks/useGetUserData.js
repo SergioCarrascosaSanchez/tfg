@@ -11,6 +11,9 @@ export function useGetUserData(username) {
   useEffect(() => {
     fetch(`${URL}/users/${username}`, {
       method: "GET",
+      headers: {
+        "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+      }
     })
       .then((res) => {
         if (res.status === 200) {

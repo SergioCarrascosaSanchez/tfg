@@ -3,9 +3,9 @@ import GithubImage from "../../assets/githubLogo.png";
 import { Link } from "react-router-dom";
 
 export const options = {
-  Home: "/",
   Mercados: "/market",
   "Mi perfil": "/users/",
+  "Cerrar sesión": "/",
 };
 export const appName = "CryptoMince";
 

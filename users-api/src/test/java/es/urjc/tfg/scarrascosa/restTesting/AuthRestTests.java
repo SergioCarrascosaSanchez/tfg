@@ -2,7 +2,9 @@ package es.urjc.tfg.scarrascosa.restTesting;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static io.restassured.path.json.JsonPath.from;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.anything;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -69,9 +71,10 @@ public class AuthRestTests {
             contentType("application/json").
             body(studentLogin.toString()).
         when().
-            post("/login").      
+            post("/login").
         then().
-            statusCode(200);
+            statusCode(200).
+            body("token", anything());
   
     }
     
@@ -104,7 +107,7 @@ public class AuthRestTests {
         
     }
     
-    @DisplayName("is able to prevent signup when a username is already used")
+    @DisplayName("is able to prevent signup when a student username is already used")
     @Test
     void UsernameAlreadyUsed() throws JSONException {
         
@@ -141,7 +144,8 @@ public class AuthRestTests {
         when().
             post("/login").      
         then().
-            statusCode(200);
+            statusCode(200).
+            body("token", anything());
         
         
         given().
@@ -193,7 +197,7 @@ public class AuthRestTests {
         
     }
     
-    @DisplayName("is able to signup a new Teacher")
+    @DisplayName("is able to prevent signup when a teacher username is already used")
     @Test
     void repeatedTeacherSignUp() throws JSONException {
         LinkedList<String> teacherRoles = new LinkedList<>();
@@ -225,6 +229,129 @@ public class AuthRestTests {
             post("/signup").      
         then().
             statusCode(409);
+        
+    }
+    
+    @DisplayName("is able to prevent login if credentials are incorrect")
+    @Test
+    void rejectLogin() throws JSONException {
+        LinkedList<String> teacherRoles = new LinkedList<>();
+        teacherRoles.add("TEACHER");
+        
+        String username = "TeacherForRestTest3";
+        String email = "TeacherForRest3Test@email.com";
+        String password = "TeacherForRestTest3";
+        
+        JSONObject teacher = new JSONObject();
+        JSONArray teacherRolesArray = new JSONArray(teacherRoles);
+        teacher.put("roles", teacherRolesArray);
+        teacher.put("username", username);
+        teacher.put("email", email);
+        teacher.put("password", password);
+        
+        given().
+            contentType("application/json").
+            body(teacher.toString()).
+        when().
+            post("/signup").      
+        then().
+            statusCode(200);
+        
+        JSONObject teacherLogin = new JSONObject();
+        teacherLogin.put("username", username);
+        teacherLogin.put("password", password.substring(1));
+        
+        given().
+            contentType("application/json").
+            body(teacherLogin.toString()).
+        when().
+            post("/login").      
+        then().
+            statusCode(403);
+        
+        JSONObject teacherLogin2 = new JSONObject();
+        teacherLogin2.put("username", username.substring(1));
+        teacherLogin2.put("password", password);
+        
+        given().
+            contentType("application/json").
+            body(teacherLogin2.toString()).
+        when().
+            post("/login").      
+        then().
+            statusCode(403);
+        
+        JSONObject teacherLogin3 = new JSONObject();
+        teacherLogin3.put("username", username.substring(1));
+        teacherLogin3.put("password", password.substring(1));
+        
+        given().
+            contentType("application/json").
+            body(teacherLogin3.toString()).
+        when().
+            post("/login").      
+        then().
+            statusCode(403);
+        
+        
+        
+        LinkedList<String> studentRoles = new LinkedList<>();
+        studentRoles.add("STUDENT");
+        
+        String username2 = "TeacherForRestTest4";
+        String email2 = "TeacherForRest4Test@email.com";
+        String password2 = "TeacherForRestTest4";
+        
+        JSONObject student = new JSONObject();
+        JSONArray studentRolesArray = new JSONArray(studentRoles);
+        student.put("roles", studentRolesArray);
+        student.put("username", username2);
+        student.put("email", email2);
+        student.put("password", password2);
+        
+        given().
+            contentType("application/json").
+            body(student.toString()).
+        when().
+            post("/signup").      
+        then().
+            statusCode(200);
+        
+        JSONObject studentLogin = new JSONObject();
+        studentLogin.put("username", username2);
+        studentLogin.put("password", password2.substring(1));
+        
+        given().
+            contentType("application/json").
+            body(studentLogin.toString()).
+        when().
+            post("/login").      
+        then().
+            statusCode(403);
+        
+        JSONObject studentLogin2 = new JSONObject();
+        studentLogin2.put("username", username2.substring(1));
+        studentLogin2.put("password", password2);
+        
+        given().
+            contentType("application/json").
+            body(studentLogin2.toString()).
+        when().
+            post("/login").      
+        then().
+            statusCode(403);
+        
+        JSONObject studentLogin3 = new JSONObject();
+        studentLogin3.put("username", username2.substring(1));
+        studentLogin3.put("password", password2.substring(1));
+        
+        given().
+            contentType("application/json").
+            body(studentLogin3.toString()).
+        when().
+            post("/login").      
+        then().
+            statusCode(403);
         
     }
 

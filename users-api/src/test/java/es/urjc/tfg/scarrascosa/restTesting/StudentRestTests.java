@@ -39,9 +39,11 @@ public class StudentRestTests {
     void BuyCoinTest() throws JSONException {
         
         String username = "StudentForRestTest_1";
-        signupUser(username);
+        String token = signupUser(username);
         
         Response getBalanceResponse =
+            given().
+                header("Authorization", token).
             when().
                 get("/users/"+username).
             then().
@@ -65,7 +67,6 @@ public class StudentRestTests {
         JSONArray pricesArray = new JSONArray(list);
         
         JSONObject trade = new JSONObject();
-        trade.put("username", username);
         trade.put("coin", coin);
         trade.put("quantity", quantity);
         trade.put("price", price);
@@ -74,14 +75,17 @@ public class StudentRestTests {
         
         given().
             contentType("application/json").
+            header("Authorization", token).
             body(trade.toString()).
         when().
-            post("/purchase").
+            post("students/"+username+"/purchase").
         then().
             statusCode(200);
         
         
         Response afterPurchaseResponse =
+            given().
+                header("Authorization", token).
             when().
                 get("/users/"+username).
             then().
@@ -104,9 +108,11 @@ public class StudentRestTests {
     void NoBalanceTest() throws JSONException {
         
         String username = "StudentForRestTest_2";
-        signupUser(username);
+        String token = signupUser(username);
         
         Response getBalanceResponse =
+            given().
+                header("Authorization", token).
             when().
                 get("/users/"+username).
             then().
@@ -127,7 +133,6 @@ public class StudentRestTests {
         JSONArray pricesArray = new JSONArray(list);
         
         JSONObject trade = new JSONObject();
-        trade.put("username", username);
         trade.put("coin", coin);
         trade.put("quantity", quantity);
         trade.put("price", price);
@@ -136,14 +141,17 @@ public class StudentRestTests {
         
         given().
             contentType("application/json").
+            header("Authorization", token).
             body(trade.toString()).
         when().
-            post("/purchase").
+            post("students/"+username+"/purchase").
         then().
             statusCode(402); 
         
         
         Response getBalanceFinalResponse =
+            given().
+                header("Authorization", token).
             when().
                 get("/users/"+username).
             then().
@@ -164,7 +172,7 @@ public class StudentRestTests {
     void SellCoinTest() throws JSONException {
         
         String username = "StudentForRestTest_3";
-        signupUser(username);
+        String token = signupUser(username);
         
         String coin = "TestCoin3";
         double quantity = 2.0;
@@ -176,7 +184,6 @@ public class StudentRestTests {
         JSONArray pricesArray = new JSONArray(list);
         
         JSONObject trade = new JSONObject();
-        trade.put("username", username);
         trade.put("coin", coin);
         trade.put("quantity", quantity);
         trade.put("price", price);
@@ -185,14 +192,17 @@ public class StudentRestTests {
         
         given().
             contentType("application/json").
+            header("Authorization", token).
             body(trade.toString()).
         when().
-            post("/purchase").
+            post("students/"+username+"/purchase").
         then().
             statusCode(200);
         
         
         Response afterPurchaseResponse =
+            given().
+                header("Authorization", token).
             when().
                 get("/users/"+username).
             then().
@@ -217,7 +227,6 @@ public class StudentRestTests {
         JSONArray pricesArray2 = new JSONArray(list2);
         
         JSONObject sellTrade = new JSONObject();
-        sellTrade.put("username", username);
         sellTrade.put("coin", coin);
         sellTrade.put("quantity", quantity2);
         sellTrade.put("price", price2);
@@ -226,13 +235,16 @@ public class StudentRestTests {
         
         given().
             contentType("application/json").
+            header("Authorization", token).
             body(sellTrade.toString()).
         when().
-            post("/sell").
+            post("students/"+username+"/sell").
         then().
             statusCode(200);
         
         Response afterSellResponse =
+            given().
+                header("Authorization", token).
             when().
                 get("/users/"+username).
             then().
@@ -256,7 +268,7 @@ public class StudentRestTests {
     void SellCoinNotQuantityEnoughTest() throws JSONException {
         
         String username = "StudentForRestTest_4";
-        signupUser(username);
+        String token = signupUser(username);
         
         String coin = "TestCoin4";
         double quantity = 2.0;
@@ -268,7 +280,6 @@ public class StudentRestTests {
         JSONArray pricesArray = new JSONArray(list);
         
         JSONObject trade = new JSONObject();
-        trade.put("username", username);
         trade.put("coin", coin);
         trade.put("quantity", quantity);
         trade.put("price", price);
@@ -277,14 +288,17 @@ public class StudentRestTests {
         
         given().
             contentType("application/json").
+            header("Authorization", token).
             body(trade.toString()).
         when().
-            post("/purchase").
+            post("students/"+username+"/purchase").
         then().
             statusCode(200);
         
         
         Response afterPurchaseResponse =
+            given().
+                header("Authorization", token).
             when().
                 get("/users/"+username).
             then().
@@ -309,7 +323,6 @@ public class StudentRestTests {
         JSONArray pricesArray2 = new JSONArray(list2);
         
         JSONObject sellTrade = new JSONObject();
-        sellTrade.put("username", username);
         sellTrade.put("coin", coin);
         sellTrade.put("quantity", quantity2);
         sellTrade.put("price", price2);
@@ -318,13 +331,16 @@ public class StudentRestTests {
         
         given().
             contentType("application/json").
+            header("Authorization", token).
             body(sellTrade.toString()).
         when().
-            post("/sell").
+            post("students/"+username+"/sell").
         then().
             statusCode(400);
         
         Response afterSellResponse =
+            given().
+                header("Authorization", token).
             when().
                 get("/users/"+username).
             then().
@@ -344,7 +360,187 @@ public class StudentRestTests {
         Assertions.assertThat(afterSellBalance).isCloseTo(afterPurchaseBalance, Assertions.within(0.0001));
     }
     
-    void signupUser(String username) throws JSONException {
+    @Test
+    void rejectAcessToOtherUserData() throws JSONException {
+        String username = "StudentForRestTest_5";
+        String token = signupUser(username);
+        
+        given().
+            header("Authorization", token).
+        when().
+            get("/users/"+username).
+        then().
+            statusCode(200);
+        
+        String username2 = "StudentForRestTest_6";
+        signupUser(username2);
+        
+        given().
+            header("Authorization", token).
+        when().
+            get("/users/"+username2).
+        then().
+            statusCode(403);    
+    }
+    
+    @Test
+    void rejectTradesForOtherStudent() throws JSONException {
+        String username = "StudentForRestTest_7";
+        String token = signupUser(username);
+        
+        String username2 = "StudentForRestTest_8";
+        signupUser(username2);
+        
+        String coin = "TestCoin5";
+        double quantity = 2.0;
+        double price = 0.4055;
+        String justification = "adjhagsdjkhgad";
+        LinkedList<Double> list = new LinkedList<>();
+        list.add(1.2);
+        list.add(2.0);
+        JSONArray pricesArray = new JSONArray(list);
+        
+        JSONObject trade = new JSONObject();
+        trade.put("coin", coin);
+        trade.put("quantity", quantity);
+        trade.put("price", price);
+        trade.put("justification", justification);
+        trade.put("chartData", pricesArray);
+        
+        given().
+            contentType("application/json").
+            header("Authorization", token).
+            body(trade.toString()).
+        when().
+            post("students/"+username2+"/purchase").
+        then().
+            statusCode(403);
+    }
+    
+    @Test
+    void rejectAccionsWithoutCorrectToken() throws JSONException {
+        String username = "StudentForRestTest_9";
+        String token = signupUser(username);
+        
+        given().
+            contentType("application/json").
+        when().
+            get("users/"+username).
+        then().
+            statusCode(403);
+        
+        
+        given().
+            contentType("application/json").
+            header("Authorization", "").
+        when().
+            get("users/"+username).
+        then().
+            statusCode(403);
+        
+        
+        given().
+            contentType("application/json").
+            header("Authorization", token.substring(7)).
+        when().
+            get("users/"+username).
+        then().
+            statusCode(403);
+        
+        
+        given().
+            contentType("application/json").
+            header("Authorization", token.substring(0, token.length()-1)).
+        when().
+            get("users/"+username).
+        then().
+            statusCode(403);
+        
+        
+        String coin = "TestCoin5";
+        double quantity = 2.0;
+        double price = 0.4055;
+        String justification = "adjhagsdjkhgad";
+        LinkedList<Double> list = new LinkedList<>();
+        list.add(1.2);
+        list.add(2.0);
+        JSONArray pricesArray = new JSONArray(list);
+        
+        JSONObject trade = new JSONObject();
+        trade.put("coin", coin);
+        trade.put("quantity", quantity);
+        trade.put("price", price);
+        trade.put("justification", justification);
+        trade.put("chartData", pricesArray);
+        
+        
+        given().
+            contentType("application/json").
+            body(trade.toString()).
+        when().
+            post("students/"+username+"/purchase").
+        then().
+            statusCode(403);
+        
+        given().
+            contentType("application/json").
+            header("Authorization", "").
+            body(trade.toString()).
+        when().
+            post("students/"+username+"/purchase").
+        then().
+            statusCode(403);
+        
+        
+        given().
+            contentType("application/json").
+            header("Authorization", token.substring(7)).
+            body(trade.toString()).
+        when().
+            post("students/"+username+"/purchase").
+        then().
+            statusCode(403);
+        
+        given().
+            contentType("application/json").
+            header("Authorization", "").
+            body(trade.toString()).
+        when().
+            post("students/"+username+"/sell").
+        then().
+            statusCode(403);
+        
+        
+        given().
+            contentType("application/json").
+            header("Authorization", token.substring(0, token.length() -1)).
+            body(trade.toString()).
+        when().
+            post("students/"+username+"/purchase").
+        then().
+            statusCode(403);
+        
+        given().
+            contentType("application/json").
+            header("Authorization", token.substring(7)).
+            body(trade.toString()).
+        when().
+            post("students/"+username+"/sell").
+        then().
+            statusCode(403);
+    
+    
+        given().
+            contentType("application/json").
+            header("Authorization", token.substring(0, token.length() -1)).
+            body(trade.toString()).
+        when().
+            post("students/"+username+"/sell").
+        then().
+            statusCode(403);
+    }
+    
+    String signupUser(String username) throws JSONException {
         LinkedList<String> roles = new LinkedList<>();
         roles.add("STUDENT");
         String email = "StudentForRestTest@email.com";
@@ -371,13 +567,18 @@ public class StudentRestTests {
         studentLogin.put("username", username);
         studentLogin.put("password", password);
 
-        given().
+        Response response = given().
             contentType("application/json").
             body(studentLogin.toString()).
         when().
             post("/login").      
         then().
-            statusCode(200);
+            statusCode(200)
+            .extract().response();
+        
+        String token = from(response.getBody().asString()).get("token");
+        return "Bearer "+token;
+        
     }
 
 }

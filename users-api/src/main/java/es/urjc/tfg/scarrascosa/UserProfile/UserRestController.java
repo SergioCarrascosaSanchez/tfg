@@ -53,9 +53,9 @@ public class UserRestController {
         }
     }
     
-    @PostMapping("/purchase")
-    public ResponseEntity<HttpStatus> purchaseCoin (@RequestBody TradeDTO trade) {
-        Optional<UserProfile> optional = repo.findByName(trade.getUsername());
+    @PostMapping("/students/{username}/purchase")
+    public ResponseEntity<HttpStatus> purchaseCoin (@PathVariable String username, @RequestBody TradeDTO trade) {
+        Optional<UserProfile> optional = repo.findByName(username);
         if (optional.isPresent()) {
             UserProfile user = optional.get();
             if(user instanceof Student) {
@@ -79,9 +79,9 @@ public class UserRestController {
         }
     }
     
-    @PostMapping("/sell")
-    public ResponseEntity<HttpStatus> sellCoin (@RequestBody TradeDTO trade) {
-        Optional<UserProfile> optional = repo.findByName(trade.getUsername());
+    @PostMapping("/students/{username}/sell")
+    public ResponseEntity<HttpStatus> sellCoin (@PathVariable String username, @RequestBody TradeDTO trade) {
+        Optional<UserProfile> optional = repo.findByName(username);
         if (optional.isPresent()) {
             UserProfile user = optional.get();
             if(user instanceof Student) {

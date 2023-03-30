@@ -251,13 +251,13 @@ describe("Complete app", () => {
       cy.contains("Vender").click();
       cy.contains("Transacción realizada con éxito!");
 
-      cy.visit("/");
+      cy.contains("Cerrar sesión").click();
       cy.contains("Iniciar sesión").click();
       cy.get('[name="username"]').type("TeacherForE2E");
       cy.get('[name="password"]').type("elrijjkfh2");
       cy.get('[data-testid="submitLoginButton"]').click();
 
-      cy.visit("/users/TeacherForE2E");
+      cy.contains("TeacherForE2E");
       cy.contains("Transacciones: 2");
       cy.contains("StudentForE2E").click();
       cy.contains("Transacciones de StudentForE2E");
@@ -287,9 +287,9 @@ describe("Complete app", () => {
       });
     });
 
-    it("Should redirect to mainPage when clicking Home option", () => {
+    it("Should redirect to mainPage when clicking Cerrar sesión option", () => {
       cy.visit("/market");
-      cy.get("[data-testid='HomeNavbar']").click();
+      cy.get("[data-testid='Cerrar sesiónNavbar']").click();
       cy.location().should((location) => {
         expect(location.pathname).to.equal('/');
       });
