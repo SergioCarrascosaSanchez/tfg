@@ -1,12 +1,17 @@
 import { useState } from "react";
-import { List, Box, Stack, Input, Button } from "@mui/joy";
+import { List, Box, Stack, Input, Button, Typography } from "@mui/joy";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
-
+import { useAddStudentsToTeacher } from "../../hooks/useAddStudentsToTeacher";
 export const AddStudentToTeacherFormTitle = "Añadir alumnos a un profesor";
 export const AddStudentToTeacherFormTitleTeacher = "Nombre del profesor";
 export const AddStudentToTeacherFormTitleStudents = "Listado de alumnos";
 export const AddStudentToTeacherFormSubmitButton = "Añadir alumnos";
-
+export const AddStudentToTeacherSucessfulOperationMessage =
+  "Operacion correcta";
+export const AddStudentToTeacherUnexpectedErrorOperationMessage =
+  "Ha ocurrido un error inesperado";
+export const AddStudentToTeacherUnsucessfulOperationMessage =
+  "Debes revisar los nombres de estudiantes y profesores, porque puede que algunos no sean correctos o ya estén asignados";
 export const AddStudentToTeacherForm = () => {
   const [teacher, setTeacher] = useState("");
   const [count, setCount] = useState(5);
@@ -18,6 +23,9 @@ export const AddStudentToTeacherForm = () => {
     student5: "",
   });
   const [emptyFieldsError, setEmptyFieldsError] = useState(false);
+
+  const { loading, error, statusCode, addStudentsToUsers } =
+    useAddStudentsToTeacher();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -50,6 +58,23 @@ export const AddStudentToTeacherForm = () => {
         {emptyFieldsError && (
           <ErrorMessage form="true" message="Debes rellenar todos los campos" />
         )}
+        {statusCode === 200 ? (
+          <Typography level="p2" textColor="green">
+            {AddStudentToTeacherSucessfulOperationMessage}
+          </Typography>
+        ): statusCode === 422 || statusCode === 404 ? (
+          <ErrorMessage
+            form="true"
+            message={AddStudentToTeacherUnsucessfulOperationMessage}
+          />
+        ) : error && (
+          <ErrorMessage
+            form="true"
+            message={AddStudentToTeacherUnexpectedErrorOperationMessage}
+          />
+        )
+        }
+
         <h1>{AddStudentToTeacherFormTitle}</h1>
         <p>{AddStudentToTeacherFormTitleTeacher}</p>
         <Input
@@ -107,7 +132,11 @@ export const AddStudentToTeacherForm = () => {
             </Box>
           ))}
         </List>
-        <Button type="submit">{AddStudentToTeacherFormSubmitButton}</Button>
+        {loading ? (
+          <Button loading type="submit"></Button>
+        ) : (
+          <Button type="submit">{AddStudentToTeacherFormSubmitButton}</Button>
+        )}
       </Stack>
     </form>
   );
