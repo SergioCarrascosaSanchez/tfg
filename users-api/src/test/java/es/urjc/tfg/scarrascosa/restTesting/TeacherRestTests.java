@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
@@ -26,18 +27,39 @@ import io.restassured.response.Response;
 @DisplayName("Teacher REST tests")
 class TeacherRestTests {
     
+    @Value("${passwords.admin}")
+    private String adminPass;
+    
+    private String adminToken;
+    
     @LocalServerPort
     int port;
 
     @BeforeEach
     public void setUp() throws Exception {
         RestAssured.port = port;
+        JSONObject admin = new JSONObject();
+        admin.put("username", "Admin");
+        admin.put("password", adminPass);
+        
+        Response response = given().
+                contentType("application/json").
+                body(admin.toString()).  
+            when().
+                post("/login").      
+            then().
+                statusCode(200)
+            .extract().response();
+        
+        String responseToken = from(response.getBody().asString()).get("token");
+        this.adminToken = "Bearer "+responseToken;
     }
     
     @Test
     void getTeacherDataByUsername() throws JSONException {
         String username = "teacherRestTest_1";
         String token = teacherSignUp(username);
+        
         given().
             header("Authorization", token).
         when().
@@ -47,6 +69,62 @@ class TeacherRestTests {
             body("username", equalTo(username)).
             body("role", equalTo("TEACHER")).
             body("studentList", equalTo(new LinkedList<>()));
+    }
+    
+    @Test
+    void addStudentToTeacher() throws JSONException {
+        String teacherUsername = "teacherRestTest_8";
+        
+        String token = teacherSignUp(teacherUsername);
+        
+        given().
+            header("Authorization", token).
+        when().
+            get("/users/"+teacherUsername).
+        then().
+            statusCode(200).
+            body("username", equalTo(teacherUsername)).
+            body("role", equalTo("TEACHER")).
+            body("studentList", equalTo(new LinkedList<>()));
+        
+        String student_1 = "studentAddToTeacher_10";
+        studentSignUp(student_1);
+        
+        LinkedList<String> studentList = new LinkedList<>();
+        studentList.add(student_1);
+        
+        JSONObject studentListObject = new JSONObject();
+        JSONArray studentListArray = new JSONArray(studentList);
+        studentListObject.put("studentList", studentListArray);
+        
+        given().
+            contentType("application/json").
+            header("Authorization", token).
+            body(studentListObject.toString()).
+        when().
+            post("/teacher/"+teacherUsername).      
+        then().
+            statusCode(403);
+        
+        given().
+            contentType("application/json").
+            header("Authorization", this.adminToken).
+            body(studentListObject.toString()).
+        when().
+            post("/teacher/"+teacherUsername).      
+        then().
+            statusCode(200);
+        
+        given().
+            header("Authorization", token).
+        when().
+            get("/users/"+teacherUsername).
+        then().
+            statusCode(200).
+            body("username", equalTo(teacherUsername)).
+            body("role", equalTo("TEACHER")).
+            body("studentList.username", hasItems(student_1)).
+            body("studentList.size()", equalTo(1)); 
     }
     
     @Test
@@ -81,6 +159,7 @@ class TeacherRestTests {
         
         given().
             contentType("application/json").
+            header("Authorization", this.adminToken).
             body(studentListObject.toString()).
         when().
             post("/teacher/"+teacherUsername).      
@@ -127,6 +206,7 @@ class TeacherRestTests {
         
         given().
             contentType("application/json").
+            header("Authorization", this.adminToken).
             body(studentListObject.toString()).
         when().
             post("/teacher/"+teacherUsername).      
@@ -146,6 +226,7 @@ class TeacherRestTests {
         
         given().
             contentType("application/json").
+            header("Authorization", this.adminToken).
             body(studentListObject.toString()).
         when().
             post("/teacher/"+teacherUsername).      
@@ -190,6 +271,7 @@ class TeacherRestTests {
         
         given().
             contentType("application/json").
+            header("Authorization", this.adminToken).
             body(studentListObject.toString()).
         when().
             post("/teacher/"+teacherUsername).      
@@ -222,6 +304,7 @@ class TeacherRestTests {
         
         given().
             contentType("application/json").
+            header("Authorization", this.adminToken).
             body(studentListObject_2.toString()).
         when().
             post("/teacher/"+teacherUsername).      
@@ -336,6 +419,7 @@ class TeacherRestTests {
         
         given().
             contentType("application/json").
+            header("Authorization", this.adminToken).
             body(teacher.toString()).
         when().
             post("/signup").      
@@ -377,6 +461,7 @@ class TeacherRestTests {
 
         given().
             contentType("application/json").
+            header("Authorization", this.adminToken).
             body(student.toString()).
         when().
             post("/signup").      

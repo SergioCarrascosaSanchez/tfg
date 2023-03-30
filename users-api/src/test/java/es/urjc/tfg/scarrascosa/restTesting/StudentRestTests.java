@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
@@ -24,14 +25,32 @@ import io.restassured.response.Response;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DisplayName("Student REST tests")
 public class StudentRestTests {
-
-
+    @Value("${passwords.admin}")
+    private String adminPass;
+    
+    private String adminToken;
+    
     @LocalServerPort
     int port;
 
     @BeforeEach
     public void setUp() throws Exception {
         RestAssured.port = port;
+        JSONObject admin = new JSONObject();
+        admin.put("username", "Admin");
+        admin.put("password", adminPass);
+        
+        Response response = given().
+                contentType("application/json").
+                body(admin.toString()).  
+            when().
+                post("/login").      
+            then().
+                statusCode(200)
+            .extract().response();
+        
+        String responseToken = from(response.getBody().asString()).get("token");
+        this.adminToken = "Bearer "+responseToken;
     }
 
     @DisplayName("is able to buy a coin")
@@ -557,6 +576,7 @@ public class StudentRestTests {
 
         given().
             contentType("application/json").
+            header("Authorization", this.adminToken).
             body(student.toString()).
         when().
             post("/signup").      
