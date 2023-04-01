@@ -28,66 +28,69 @@ export const TeacherSignupForm = () => {
       onSubmit={(event) => {
         setEmptyFieldsError(false);
         event.preventDefault();
-        if (
-          username === "" ||
-          email === "" ||
-          password === "" ||
-          password2 === ""
-        ) {
+        if (username === "" || email === "" || password === "") {
           setEmptyFieldsError(true);
         } else {
-          setCorrectOperation(true);
+          signupUser({
+            username: username,
+            email: email,
+            password: password,
+            roles: ["TEACHER"],
+          });
         }
       }}
     >
-      <Stack spacing={2} sx={{ p: 5, width:"300px" }}>
-      <h1>Nuevo profesor</h1>
-      {emptyFieldsError && (
-        <ErrorMessage
-          form="true"
-          message={TeacherSignupFormMessages.emptyFields}
-        />
-      )}
-      {(!error && statusCode) === 200 ? (
-        <Typography level="p2" textColor="green">
-          {TeacherSignupFormMessages.correctOperation}
-        </Typography>
-      ) : error && statusCode === 409 ? (
-        <ErrorMessage
-          form="true"
-          message={TeacherSignupFormMessages.alreadyCreated}
-        />
-      ) : (
-        error && (
+      <Stack spacing={2} sx={{ p: 5, width: "300px" }}>
+        <h1>Nuevo profesor</h1>
+        {emptyFieldsError && (
           <ErrorMessage
-          form="true"
-          message={TeacherSignupFormMessages.unexpectedError}
-        />
-        )
-      )}
-      <Input
-        placeholder={TeacherSignupFormPlaceHolders.username}
-        onChange={(e) => {
-          setUsername(e.target.value);
-        }}
-      ></Input>
-      <Input
-        placeholder={TeacherSignupFormPlaceHolders.email}
-        onChange={(e) => {
-          setEmail(e.target.value);
-        }}
-      ></Input>
-      <Input
-        placeholder={TeacherSignupFormPlaceHolders.password}
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-      ></Input>
-      {loading ? (
-        <Button loading type="submit"></Button>
-      ) : (
-        <Button type="submit">Crear profesor</Button>
-      )}
+            form="true"
+            message={TeacherSignupFormMessages.emptyFields}
+          />
+        )}
+        {(!error && statusCode) === 200 ? (
+          <Typography level="p2" textColor="green">
+            {TeacherSignupFormMessages.correctOperation}
+          </Typography>
+        ) : error && statusCode === 409 ? (
+          <ErrorMessage
+            form="true"
+            message={TeacherSignupFormMessages.alreadyCreated}
+          />
+        ) : (
+          error && (
+            <ErrorMessage
+              form="true"
+              message={TeacherSignupFormMessages.unexpectedError}
+            />
+          )
+        )}
+        <Input
+          type="text"
+          placeholder={TeacherSignupFormPlaceHolders.username}
+          onChange={(e) => {
+            setUsername(e.target.value);
+          }}
+        ></Input>
+        <Input
+          type="email"
+          placeholder={TeacherSignupFormPlaceHolders.email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+        ></Input>
+        <Input
+          type="password"
+          placeholder={TeacherSignupFormPlaceHolders.password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+        ></Input>
+        {loading ? (
+          <Button loading type="submit"></Button>
+        ) : (
+          <Button type="submit">Crear profesor</Button>
+        )}
       </Stack>
     </form>
   );
