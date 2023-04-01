@@ -7,7 +7,7 @@ export const useAddStudentsToTeacher = () => {
   const [error, setError] = useState(false);
   const [statusCode, setStatusCode] = useState(null);
   const addStudentsToUsers = (teacher, studentList) => {
-    console.log(teacher, studentList);
+
     setLoading(true);
     fetch(`${URL}/teacher/${teacher}`, {
       method: "POST",
