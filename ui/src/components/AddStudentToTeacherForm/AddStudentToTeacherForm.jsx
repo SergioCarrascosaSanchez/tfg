@@ -51,6 +51,8 @@ export const AddStudentToTeacherForm = () => {
         event.preventDefault();
         if (teacher === "" || Object.values(formData).includes("")) {
           setEmptyFieldsError(true);
+        }else{
+          addStudentsToUsers(teacher, Object.values(formData))
         }
       }}
     >
