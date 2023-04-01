@@ -8,6 +8,7 @@ import {
   ModalDialog,
 } from "@mui/joy";
 import { AddStudentToTeacherForm } from "../AddStudentToTeacherForm/AddStudentToTeacherForm";
+import { TeacherSignupForm } from "../TeacherSignupForm/TeacherSignupForm";
 
 export const AdminDashboardTitle = "Panel de control de usuarios";
 export const AdminDashboardSignupStudentButtonText =
@@ -68,7 +69,7 @@ export const AdminDashboard = () => {
           {form === "newStudent" ? (
             <>Estudiante form</>
           ) : form === "newTeacher" ? (
-            <>Profesor form</>
+            <TeacherSignupForm/>
           ) : (
             <AddStudentToTeacherForm/>
           )}
