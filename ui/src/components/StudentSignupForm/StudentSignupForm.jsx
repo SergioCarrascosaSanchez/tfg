@@ -37,6 +37,7 @@ export const StudentSignupForm = () => {
           signupUser({
             username: username,
             email: email,
+            initialBalance: balance,
             password: password,
             roles: ["STUDENT"],
           });
