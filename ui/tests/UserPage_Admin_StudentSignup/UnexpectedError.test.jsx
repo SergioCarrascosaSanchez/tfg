@@ -2,9 +2,9 @@ import { cleanup, render, screen, fireEvent } from "@testing-library/react";
 import { describe, it } from "vitest";
 import { UserPage } from "../../src/pages/UserPage/UserPage";
 import {
-  AdminDashboardSignupTeacherButtonText,
+  AdminDashboardSignupStudentButtonText,
 } from "../../src/components/AdminDashboard/AdminDashboard";
-import { TeacherSignupFormPlaceHolders, TeacherSignupFormMessages } from "../../src/components/TeacherSignupForm/TeacherSignupForm";
+import { StudentSignupFormPlaceHolders, StudentSignupFormMessages } from "../../src/components/StudentSignupForm/StudentSignupForm";
 
 describe("UserPage rendering AdminDashboard", () => {
   vi.mock("react-router-dom", async () => {
@@ -35,8 +35,8 @@ describe("UserPage rendering AdminDashboard", () => {
     const useSignupUser = vi.fn();
     useSignupUser.mockReturnValue({
       loading: false,
-      error: false,
-      statusCode: 200,
+      error: true,
+      statusCode: 400,
       signupUser : vi.fn()
     });
     return {
@@ -48,14 +48,20 @@ describe("UserPage rendering AdminDashboard", () => {
 
   it("should message if correct operation", () => {
     render(<UserPage />);
-    fireEvent.click(screen.getByText(AdminDashboardSignupTeacherButtonText));
-    Object.values(TeacherSignupFormPlaceHolders).forEach((placeHolder) => {
-      console.log("Hola")
-      fireEvent.change(screen.getByPlaceholderText(placeHolder), {
-        target: { value: "TestValues" },
-      });
+    fireEvent.click(screen.getByText(AdminDashboardSignupStudentButtonText));
+    Object.values(StudentSignupFormPlaceHolders).forEach((placeHolder) => {
+      if(placeHolder === StudentSignupFormPlaceHolders.balance){
+        fireEvent.change(screen.getByPlaceholderText(placeHolder), {
+          target: { value: 10000.0 },
+        });
+      }
+      else{
+        fireEvent.change(screen.getByPlaceholderText(placeHolder), {
+          target: { value: "TestValues" },
+        });
+      }
     });
-    fireEvent.click(screen.getByText("Crear profesor"));
-    screen.getByText(TeacherSignupFormMessages.correctOperation)
+    fireEvent.click(screen.getByText("Crear alumno"));
+    screen.getByText(StudentSignupFormMessages.unexpectedError)
   });
 });

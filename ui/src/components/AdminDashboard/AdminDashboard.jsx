@@ -9,6 +9,7 @@ import {
 } from "@mui/joy";
 import { AddStudentToTeacherForm } from "../AddStudentToTeacherForm/AddStudentToTeacherForm";
 import { TeacherSignupForm } from "../TeacherSignupForm/TeacherSignupForm";
+import { StudentSignupForm } from "../StudentSignupForm/StudentSignupForm";
 
 export const AdminDashboardTitle = "Panel de control de usuarios";
 export const AdminDashboardSignupStudentButtonText =
@@ -67,7 +68,7 @@ export const AdminDashboard = () => {
         <ModalDialog>
           <ModalClose />
           {form === "newStudent" ? (
-            <>Estudiante form</>
+            <StudentSignupForm/>
           ) : form === "newTeacher" ? (
             <TeacherSignupForm/>
           ) : (

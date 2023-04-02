@@ -2,9 +2,10 @@ import { cleanup, render, screen, fireEvent } from "@testing-library/react";
 import { describe, it } from "vitest";
 import { UserPage } from "../../src/pages/UserPage/UserPage";
 import {
-  AdminDashboardSignupTeacherButtonText,
+  AdminDashboardTitle,
+  AdminDashboardSignupStudentButtonText,
 } from "../../src/components/AdminDashboard/AdminDashboard";
-import { TeacherSignupFormPlaceHolders, TeacherSignupFormMessages } from "../../src/components/TeacherSignupForm/TeacherSignupForm";
+import { StudentSignupFormPlaceHolders, StudentSignupFormMessages } from "../../src/components/StudentSignupForm/StudentSignupForm";
 
 describe("UserPage rendering AdminDashboard", () => {
   vi.mock("react-router-dom", async () => {
@@ -30,7 +31,6 @@ describe("UserPage rendering AdminDashboard", () => {
       useGetUserData,
     };
   });
-
   vi.mock("../../src/hooks/useSignupUser", () => {
     const useSignupUser = vi.fn();
     useSignupUser.mockReturnValue({
@@ -46,16 +46,27 @@ describe("UserPage rendering AdminDashboard", () => {
 
   afterEach(cleanup);
 
-  it("should message if correct operation", () => {
+  it("should render admin name", () => {
     render(<UserPage />);
-    fireEvent.click(screen.getByText(AdminDashboardSignupTeacherButtonText));
-    Object.values(TeacherSignupFormPlaceHolders).forEach((placeHolder) => {
-      console.log("Hola")
-      fireEvent.change(screen.getByPlaceholderText(placeHolder), {
-        target: { value: "TestValues" },
-      });
-    });
-    fireEvent.click(screen.getByText("Crear profesor"));
-    screen.getByText(TeacherSignupFormMessages.correctOperation)
+    screen.getByText(AdminDashboardTitle);
   });
+  it("should render button for signup a new student", () => {
+    render(<UserPage />);
+    screen.getByText(AdminDashboardSignupStudentButtonText)
+  }); 
+  it("should render student form when clicking on the button", () => {
+    render(<UserPage />);
+    fireEvent.click(screen.getByText(AdminDashboardSignupStudentButtonText));
+    screen.getByText("Nuevo alumno");
+    Object.values(StudentSignupFormPlaceHolders).forEach(placeHolder => {
+      screen.getByPlaceholderText(placeHolder)
+    })
+    screen.getByText("Crear alumno");
+  })
+  it("should render error message if any field is empty", () => {
+    render(<UserPage />);
+    fireEvent.click(screen.getByText(AdminDashboardSignupStudentButtonText));
+    fireEvent.click(screen.getByText("Crear alumno"));
+    screen.getByText(StudentSignupFormMessages.emptyFields)
+  })
 });
