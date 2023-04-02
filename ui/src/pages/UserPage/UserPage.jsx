@@ -5,6 +5,7 @@ import { useGetUserData } from "../../hooks/useGetUserData";
 import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage";
 import { StudentDashboard } from "../../components/StudentDashboard/StudentDashboard";
 import { TeacherDashboard } from "../../components/TeacherDashboard/TeacherDashboard";
+import { AdminDashboard } from "../../components/AdminDashboard/AdminDashboard";
 
 export const UserPageError =
   "Ha ocurrido un error obteniendo la información del usuario";
@@ -47,6 +48,8 @@ export const UserPage = () => {
           <StudentDashboard data={userData.data} />
         ) : userData.data.role === "TEACHER" ? (
           <TeacherDashboard data={userData.data} />
+        ) : userData.data.role === "ADMIN" ? (
+          <AdminDashboard />
         ) : (
           <>
             <Typography level="display2" component="h1">

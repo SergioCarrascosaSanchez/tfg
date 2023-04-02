@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.urjc.tfg.scarrascosa.DTO.AdminDTO;
 import es.urjc.tfg.scarrascosa.DTO.StudentDTO;
 import es.urjc.tfg.scarrascosa.DTO.StudentListDTO;
 import es.urjc.tfg.scarrascosa.DTO.TeacherDTO;
@@ -42,6 +43,10 @@ public class UserRestController {
                 Teacher teacher = (Teacher) user;
                 TeacherDTO teacherDTO = new TeacherDTO();
                 teacherDTO.TeacherDTOStudentEntity(username, "TEACHER", teacher.getStudentList());
+                return ResponseEntity.ok(teacherDTO);
+            }
+            else if(user.getRoles().contains("ADMIN")) {
+                AdminDTO teacherDTO = new AdminDTO(username, "ADMIN");
                 return ResponseEntity.ok(teacherDTO);
             }
             else {
