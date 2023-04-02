@@ -4,7 +4,7 @@ import { UserPage } from "../../src/pages/UserPage/UserPage";
 import {
   AdminDashboardSignupTeacherButtonText,
 } from "../../src/components/AdminDashboard/AdminDashboard";
-import { TeacherSignupFormPlaceHolders, TeacherSignupFormMessages } from "../../src/components/TeacherSignupForm/TeacherSignupForm";
+import { StudentSignupFormPlaceHolders, StudentSignupFormMessages } from "../../src/components/StudentSignupForm/StudentSignupForm";
 
 describe("UserPage rendering AdminDashboard", () => {
   vi.mock("react-router-dom", async () => {

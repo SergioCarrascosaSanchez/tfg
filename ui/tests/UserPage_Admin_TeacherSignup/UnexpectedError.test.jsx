@@ -46,7 +46,7 @@ describe("UserPage rendering AdminDashboard", () => {
 
   afterEach(cleanup);
 
-  it("should message if correct operation", () => {
+  it("should message if unexpected error on api call", () => {
     render(<UserPage />);
     fireEvent.click(screen.getByText(AdminDashboardSignupTeacherButtonText));
     Object.values(TeacherSignupFormPlaceHolders).forEach((placeHolder) => {
