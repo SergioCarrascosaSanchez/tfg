@@ -61,7 +61,7 @@ describe("UserPage rendering AdminDashboard", () => {
         });
       }
     });
-    fireEvent.click(screen.getByText("Crear alumno"));
+    fireEvent.click(screen.getByText("Crear estudiante"));
     screen.getByText(StudentSignupFormMessages.correctOperation)
   });
 });

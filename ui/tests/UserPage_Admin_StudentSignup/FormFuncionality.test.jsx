@@ -57,16 +57,16 @@ describe("UserPage rendering AdminDashboard", () => {
   it("should render student form when clicking on the button", () => {
     render(<UserPage />);
     fireEvent.click(screen.getByText(AdminDashboardSignupStudentButtonText));
-    screen.getByText("Nuevo alumno");
+    screen.getByText("Nuevo estudiante");
     Object.values(StudentSignupFormPlaceHolders).forEach(placeHolder => {
       screen.getByPlaceholderText(placeHolder)
     })
-    screen.getByText("Crear alumno");
+    screen.getByText("Crear estudiante");
   })
   it("should render error message if any field is empty", () => {
     render(<UserPage />);
     fireEvent.click(screen.getByText(AdminDashboardSignupStudentButtonText));
-    fireEvent.click(screen.getByText("Crear alumno"));
+    fireEvent.click(screen.getByText("Crear estudiante"));
     screen.getByText(StudentSignupFormMessages.emptyFields)
   })
 });

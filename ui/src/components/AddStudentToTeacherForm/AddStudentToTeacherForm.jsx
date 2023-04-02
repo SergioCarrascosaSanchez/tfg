@@ -5,7 +5,7 @@ import { useAddStudentsToTeacher } from "../../hooks/useAddStudentsToTeacher";
 export const AddStudentToTeacherFormTitle = "Añadir alumnos a un profesor";
 export const AddStudentToTeacherFormTitleTeacher = "Nombre del profesor";
 export const AddStudentToTeacherFormTitleStudents = "Listado de alumnos";
-export const AddStudentToTeacherFormSubmitButton = "Añadir alumnos";
+export const AddStudentToTeacherFormSubmitButton = "Añadir estudiantes";
 export const AddStudentToTeacherSucessfulOperationMessage =
   "Operacion correcta";
 export const AddStudentToTeacherUnexpectedErrorOperationMessage =
@@ -137,7 +137,7 @@ export const AddStudentToTeacherForm = () => {
         {loading ? (
           <Button loading type="submit"></Button>
         ) : (
-          <Button type="submit">{AddStudentToTeacherFormSubmitButton}</Button>
+          <Button data-testid="submitAddStudentsButton" type="submit">{AddStudentToTeacherFormSubmitButton}</Button>
         )}
       </Stack>
     </form>

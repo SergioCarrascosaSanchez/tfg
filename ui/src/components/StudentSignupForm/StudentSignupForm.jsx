@@ -45,7 +45,7 @@ export const StudentSignupForm = () => {
       }}
     >
       <Stack spacing={2} sx={{ p: 5, width: "300px" }}>
-        <h1>Nuevo alumno</h1>
+        <h1>Nuevo estudiante</h1>
         {emptyFieldsError && (
           <ErrorMessage
             form="true"
@@ -100,7 +100,7 @@ export const StudentSignupForm = () => {
         {loading ? (
           <Button loading type="submit"></Button>
         ) : (
-          <Button type="submit">Crear alumno</Button>
+          <Button type="submit">Crear estudiante</Button>
         )}
       </Stack>
     </form>
