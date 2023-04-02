@@ -3,26 +3,28 @@ describe("Complete app", () => {
     cy.wait(60000);
   });
 
-  describe("BuyCoin", () => {
+  describe("Trade Coins", () => {
     it("Buy coin", () => {
-      cy.request({
-        method: "POST",
-        url: "http://users-api:8081/signup",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: {
-          username: "UserTest",
-          email: "UserTest@UserTest.com",
-          password: "elrijjkfh",
-          initialBalance: 1000,
-          roles: ["STUDENT"],
-        },
-      })
-        .its("status")
-        .should("equal", 200);
-
+      
       cy.visit("/");
+      cy.contains("Iniciar sesión").click();
+      cy.get('[name="username"]').type("Admin");
+      cy.get('[name="password"]').type("'testpass'");
+      cy.get('[data-testid="submitLoginButton"]').click();
+
+      cy.contains("Panel de control de usuarios");
+      cy.contains("Dar de alta un estudiante").click()
+      cy.contains("Nuevo estudiante")
+      cy.get('[placeholder="Nombre de usuario"]').type("UserTest");
+      cy.get('[placeholder="Email"]').type("UserTest@gmail.com");
+      cy.get('[placeholder="Balance inicial"]').type("1000")
+      cy.get('[placeholder="Contraseña"]').type("elrijjkfh");
+      cy.contains("Crear estudiante").click()
+      cy.contains("Operación completada con éxito")
+      cy.get('[data-testid="CloseIcon"]').click();
+
+      cy.get("[data-testid='Cerrar sesiónNavbar']").click();
+      
       cy.contains("Iniciar sesión").click();
       cy.get('[name="username"]').type("UserTest");
       cy.get('[name="password"]').type("elrijjkfh");
@@ -166,56 +168,50 @@ describe("Complete app", () => {
       cy.url().should("include", "/coins/BTC");
     });
   });
+
   describe("Teacher and student trades", () => {
     it("show show student trades", () => {
-      cy.request({
-        method: "POST",
-        url: "http://users-api:8081/signup",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: {
-          username: "StudentForE2E",
-          email: "StudentForE2E@UserTest.com",
-          password: "elrijjkfh",
-          initialBalance: 1000,
-          roles: ["STUDENT"],
-        },
-      })
-        .its("status")
-        .should("equal", 200);
-
-      cy.request({
-        method: "POST",
-        url: "http://users-api:8081/signup",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: {
-          username: "TeacherForE2E",
-          email: "TeacherForE2E@UserTest.com",
-          password: "elrijjkfh2",
-          initialBalance: 1000,
-          roles: ["TEACHER"],
-        },
-      })
-        .its("status")
-        .should("equal", 200);
-
-      cy.request({
-        method: "POST",
-        url: "http://users-api:8081/teacher/TeacherForE2E",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: {
-          studentList: ["StudentForE2E"],
-        },
-      })
-        .its("status")
-        .should("equal", 200);
-
       cy.visit("/");
+      cy.contains("Iniciar sesión").click();
+      cy.get('[name="username"]').type("Admin");
+      cy.get('[name="password"]').type("'testpass'");
+      cy.get('[data-testid="submitLoginButton"]').click();
+
+      cy.contains("Panel de control de usuarios");
+
+      cy.contains("Dar de alta un estudiante").click()
+      cy.contains("Nuevo estudiante")
+      cy.get('[placeholder="Nombre de usuario"]').type("StudentForE2E");
+      cy.get('[placeholder="Email"]').type("StudentForE2E@UserTest.com");
+      cy.get('[placeholder="Balance inicial"]').type("1000")
+      cy.get('[placeholder="Contraseña"]').type("elrijjkfh");
+      cy.contains("Crear estudiante").click()
+      cy.contains("Operación completada con éxito")
+      cy.get('[data-testid="CloseIcon"]').click();
+
+      cy.contains("Dar de alta un profesor").click()
+      cy.contains("Nuevo profesor")
+      cy.get('[placeholder="Nombre de usuario"]').type("TeacherForE2E");
+      cy.get('[placeholder="Email"]').type("TeacherForE2E@UserTest.com");
+      cy.get('[placeholder="Contraseña"]').type("elrijjkfh2");
+      cy.contains("Crear profesor").click()
+      cy.contains("Operación completada con éxito")
+      cy.get('[data-testid="CloseIcon"]').click();
+
+      cy.contains("Agregar estudiantes a un profesor").click()
+      cy.contains("Añadir alumnos a un profesor")
+      cy.get('[placeholder="Nombre del profesor"]').type("TeacherForE2E");
+      cy.get('[data-testid="student2RemoveButton"]').click();
+      cy.get('[data-testid="student3RemoveButton"]').click();
+      cy.get('[data-testid="student4RemoveButton"]').click();
+      cy.get('[data-testid="student5RemoveButton"]').click();
+      cy.get('[placeholder="Nombre del alumno 1"]').type("StudentForE2E");
+      cy.get('[data-testid="submitAddStudentsButton"]').click();
+      cy.contains("Operacion correcta")
+      cy.get('[data-testid="CloseIcon"]').click();
+
+      cy.get("[data-testid='Cerrar sesiónNavbar']").click();
+
       cy.contains("Iniciar sesión").click();
       cy.get('[name="username"]').type("StudentForE2E");
       cy.get('[name="password"]').type("elrijjkfh");
@@ -251,13 +247,13 @@ describe("Complete app", () => {
       cy.contains("Vender").click();
       cy.contains("Transacción realizada con éxito!");
 
-      cy.visit("/");
+      cy.contains("Cerrar sesión").click();
       cy.contains("Iniciar sesión").click();
       cy.get('[name="username"]').type("TeacherForE2E");
       cy.get('[name="password"]').type("elrijjkfh2");
       cy.get('[data-testid="submitLoginButton"]').click();
 
-      cy.visit("/users/TeacherForE2E");
+      cy.contains("TeacherForE2E")
       cy.contains("Transacciones: 2");
       cy.contains("StudentForE2E").click();
       cy.contains("Transacciones de StudentForE2E");
@@ -287,33 +283,34 @@ describe("Complete app", () => {
       });
     });
 
-    it("Should redirect to mainPage when clicking Home option", () => {
+    it("Should redirect to mainPage when clicking Cerrar sesión option", () => {
       cy.visit("/market");
-      cy.get("[data-testid='HomeNavbar']").click();
+      cy.get("[data-testid='Cerrar sesiónNavbar']").click();
       cy.location().should((location) => {
         expect(location.pathname).to.equal('/');
       });
     });
 
     it("Should redirect to mainPage when clicking Mi perfil option", () => {
-      cy.request({
-        method: "POST",
-        url: "http://users-api:8081/signup",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: {
-          username: "StudentForE2ENavbar",
-          email: "StudentForE2ENavbar@UserTest.com",
-          password: "elrijjkfh",
-          initialBalance: 1000,
-          roles: ["STUDENT"],
-        },
-      })
-        .its("status")
-        .should("equal", 200);
-      
       cy.visit("/");
+      cy.contains("Iniciar sesión").click();
+      cy.get('[name="username"]').type("Admin");
+      cy.get('[name="password"]').type("'testpass'");
+      cy.get('[data-testid="submitLoginButton"]').click();
+
+      cy.contains("Panel de control de usuarios");
+      cy.contains("Dar de alta un estudiante").click()
+      cy.contains("Nuevo estudiante")
+      cy.get('[placeholder="Nombre de usuario"]').type("StudentForE2ENavbar");
+      cy.get('[placeholder="Email"]').type("StudentForE2ENavbar@gmail.com");
+      cy.get('[placeholder="Balance inicial"]').type("1000")
+      cy.get('[placeholder="Contraseña"]').type("elrijjkfh");
+      cy.contains("Crear estudiante").click()
+      cy.contains("Operación completada con éxito")
+      cy.get('[data-testid="CloseIcon"]').click();
+
+      cy.get("[data-testid='Cerrar sesiónNavbar']").click();
+      
       cy.contains("Iniciar sesión").click();
       cy.get('[name="username"]').type("StudentForE2ENavbar");
       cy.get('[name="password"]').type("elrijjkfh");

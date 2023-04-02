@@ -30,9 +30,12 @@ export const LoginForm = () => {
     })
       .then((res) => {
         if (res.status === 200) {
-          navigate(`/users/${username}`);
-          localStorage.setItem("username", username);
-        } else if (res.status === 401) {
+          res.json().then((resData) => {
+            localStorage.setItem("username", username);
+            localStorage.setItem("token", resData.token);
+            navigate(`/users/${username}`);
+          });
+        } else if (res.status === 403) {
           setIncorrectUserPass("block");
         } else {
           setLoginError("block");
@@ -48,7 +51,11 @@ export const LoginForm = () => {
 
   if (!loading) {
     LoadingButton = (
-      <Button variant="solid" onClick={handleSubmit} data-testid="submitLoginButton">
+      <Button
+        variant="solid"
+        onClick={handleSubmit}
+        data-testid="submitLoginButton"
+      >
         Iniciar sesión
       </Button>
     );

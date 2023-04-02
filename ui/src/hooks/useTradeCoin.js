@@ -1,19 +1,26 @@
 const URL = `${import.meta.env.VITE_USERS_API_URL}`;
 
 export const useTradeCoin = () => {
-  async function BuyCoin(username, coin, quantity, price, justification, chartData){
-    const response = await fetch(`${URL}/purchase`, {
+  async function BuyCoin(
+    username,
+    coin,
+    quantity,
+    price,
+    justification,
+    chartData
+  ) {
+    const response = await fetch(`${URL}/students/${username}/purchase`, {
       method: "POST",
       body: JSON.stringify({
-        username: username,
         coin: coin,
         quantity: quantity,
         price: price,
         justification: justification,
-        chartData: chartData
+        chartData: chartData,
       }),
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
       },
     });
 
@@ -22,21 +29,28 @@ export const useTradeCoin = () => {
     } else {
       return { statusCode: response.status, error: false };
     }
-  };
+  }
 
-  async function SellCoin(username, coin, quantity, price, justification, chartData){
-    const response = await fetch(`${URL}/sell`, {
+  async function SellCoin(
+    username,
+    coin,
+    quantity,
+    price,
+    justification,
+    chartData
+  ) {
+    const response = await fetch(`${URL}/students/${username}/sell`, {
       method: "POST",
       body: JSON.stringify({
-        username: username,
         coin: coin,
         quantity: quantity,
         price: price,
         justification: justification,
-        chartData: chartData
+        chartData: chartData,
       }),
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
       },
     });
 
@@ -45,7 +59,7 @@ export const useTradeCoin = () => {
     } else {
       return { statusCode: response.status, error: false };
     }
-  };
+  }
 
-  return {BuyCoin, SellCoin}
+  return { BuyCoin, SellCoin };
 };

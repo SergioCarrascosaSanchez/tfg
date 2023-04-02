@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TradeDTO {
-    private String username;
     private String coin;
     private double quantity;
     private double price;
@@ -13,21 +12,14 @@ public class TradeDTO {
     
     public TradeDTO() {}
     
-    public TradeDTO(String username, String coin, double quantity, double price, String justification, List<Double> chartData) {
-        this.username = username;
+    public TradeDTO(String coin, double quantity, double price, String justification, List<Double> chartData) {
         this.coin = coin;
         this.quantity = quantity;
         this.price = price;
         this.justification = justification;
         this.chartData = chartData;
     }
-    
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
+  
     public String getCoin() {
         return coin;
     }

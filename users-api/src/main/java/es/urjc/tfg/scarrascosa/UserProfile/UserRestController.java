@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.urjc.tfg.scarrascosa.DTO.AdminDTO;
 import es.urjc.tfg.scarrascosa.DTO.StudentDTO;
 import es.urjc.tfg.scarrascosa.DTO.StudentListDTO;
 import es.urjc.tfg.scarrascosa.DTO.TeacherDTO;
@@ -44,6 +45,10 @@ public class UserRestController {
                 teacherDTO.TeacherDTOStudentEntity(username, "TEACHER", teacher.getStudentList());
                 return ResponseEntity.ok(teacherDTO);
             }
+            else if(user.getRoles().contains("ADMIN")) {
+                AdminDTO teacherDTO = new AdminDTO(username, "ADMIN");
+                return ResponseEntity.ok(teacherDTO);
+            }
             else {
                 return ResponseEntity.notFound().build();
             } 
@@ -53,9 +58,9 @@ public class UserRestController {
         }
     }
     
-    @PostMapping("/purchase")
-    public ResponseEntity<HttpStatus> purchaseCoin (@RequestBody TradeDTO trade) {
-        Optional<UserProfile> optional = repo.findByName(trade.getUsername());
+    @PostMapping("/students/{username}/purchase")
+    public ResponseEntity<HttpStatus> purchaseCoin (@PathVariable String username, @RequestBody TradeDTO trade) {
+        Optional<UserProfile> optional = repo.findByName(username);
         if (optional.isPresent()) {
             UserProfile user = optional.get();
             if(user instanceof Student) {
@@ -79,9 +84,9 @@ public class UserRestController {
         }
     }
     
-    @PostMapping("/sell")
-    public ResponseEntity<HttpStatus> sellCoin (@RequestBody TradeDTO trade) {
-        Optional<UserProfile> optional = repo.findByName(trade.getUsername());
+    @PostMapping("/students/{username}/sell")
+    public ResponseEntity<HttpStatus> sellCoin (@PathVariable String username, @RequestBody TradeDTO trade) {
+        Optional<UserProfile> optional = repo.findByName(username);
         if (optional.isPresent()) {
             UserProfile user = optional.get();
             if(user instanceof Student) {

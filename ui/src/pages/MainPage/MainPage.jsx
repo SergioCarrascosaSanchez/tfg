@@ -15,6 +15,8 @@ export const MainPage = () => {
     const handleClick = () => {
         setOpen(true)
     }
+    window.localStorage.removeItem("token")
+    window.localStorage.removeItem("username")
 
     return(<>
         <Navbar/>

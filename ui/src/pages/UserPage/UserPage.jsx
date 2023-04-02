@@ -5,11 +5,14 @@ import { useGetUserData } from "../../hooks/useGetUserData";
 import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage";
 import { StudentDashboard } from "../../components/StudentDashboard/StudentDashboard";
 import { TeacherDashboard } from "../../components/TeacherDashboard/TeacherDashboard";
+import { AdminDashboard } from "../../components/AdminDashboard/AdminDashboard";
 
 export const UserPageError =
   "Ha ocurrido un error obteniendo la información del usuario";
 
 export const UnexpectedUserPageError = "Ha ocurrido un error inesperado";
+
+export const AuthorizationError = "No tienes acceso a esta información";
 
 export const UserPage = () => {
   const user = useParams().user;
@@ -27,6 +30,13 @@ export const UserPage = () => {
               <CircularProgress />
             </Box>
           </>
+        ) : userData.statusCode === 403 ? (
+          <>
+            <Typography level="display2" component="h1">
+              {user}
+            </Typography>
+            <ErrorMessage message={AuthorizationError} center={true} />
+          </>
         ) : userData.error ? (
           <>
             <Typography level="display2" component="h1">
@@ -35,9 +45,11 @@ export const UserPage = () => {
             <ErrorMessage message={UserPageError} center={true} />
           </>
         ) : userData.data.role === "STUDENT" ? (
-          <StudentDashboard data = {userData.data} />
+          <StudentDashboard data={userData.data} />
         ) : userData.data.role === "TEACHER" ? (
-          <TeacherDashboard data = {userData.data} />
+          <TeacherDashboard data={userData.data} />
+        ) : userData.data.role === "ADMIN" ? (
+          <AdminDashboard />
         ) : (
           <>
             <Typography level="display2" component="h1">
