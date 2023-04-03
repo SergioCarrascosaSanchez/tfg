@@ -92,7 +92,7 @@ public class AuthRestTests {
   
     }
     
-    @DisplayName("it is able to prevent the signup of a new user who has a role other than Student or Teacher")
+    @DisplayName("it is able to prevent the signup of a new user who has a role other than Student, Teacher or Admin")
     @Test
     void NotStudentSignUp() throws JSONException {
         
@@ -248,6 +248,85 @@ public class AuthRestTests {
             contentType("application/json").
             header("Authorization", this.adminToken).
             body(teacher.toString()).
+        when().
+            post("/signup").      
+        then().
+            statusCode(409);
+        
+    }
+    
+    @DisplayName("is able to signup a new Admin")
+    @Test
+    void AdminSignUp() throws JSONException {
+        
+        LinkedList<String> adminRoles = new LinkedList<>();
+        adminRoles.add("ADMIN");
+        
+        String username = "AdminForRestTest";
+        String email = "AdminForRestTest@email.com";
+        String password = "AdminForRestTest";
+        
+        JSONObject admin = new JSONObject();
+        JSONArray adminRolesArray = new JSONArray(adminRoles);
+        admin.put("roles", adminRolesArray);
+        admin.put("username", username);
+        admin.put("email", email);
+        admin.put("password", password);
+        
+        given().
+            contentType("application/json").
+            header("Authorization", this.adminToken).
+            body(admin.toString()).
+        when().
+            post("/signup").      
+        then().
+            statusCode(200);
+        
+        JSONObject adminLogin = new JSONObject();
+        adminLogin.put("username", username);
+        adminLogin.put("password", password);
+        
+        given().
+            contentType("application/json").
+            body(adminLogin.toString()).
+        when().
+            post("/login").      
+        then().
+            statusCode(200);
+        
+    }
+    
+    @DisplayName("is able to prevent signup when a admin username is already used")
+    @Test
+    void repeatedAdminSignUp() throws JSONException {
+        
+        LinkedList<String> adminRoles = new LinkedList<>();
+        adminRoles.add("ADMIN");
+        
+        String username = "AdminForRestTest2";
+        String email = "AdminForRestTest2@email.com";
+        String password = "AdminForRestTest";
+        
+        JSONObject admin = new JSONObject();
+        JSONArray adminRolesArray = new JSONArray(adminRoles);
+        admin.put("roles", adminRolesArray);
+        admin.put("username", username);
+        admin.put("email", email);
+        admin.put("password", password);
+        
+        given().
+            contentType("application/json").
+            header("Authorization", this.adminToken).
+            body(admin.toString()).
+        when().
+            post("/signup").      
+        then().
+            statusCode(200);
+        
+        given().
+            contentType("application/json").
+            header("Authorization", this.adminToken).
+            body(admin.toString()).
         when().
             post("/signup").      
         then().
