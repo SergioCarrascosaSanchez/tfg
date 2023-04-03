@@ -34,4 +34,11 @@ describe("MainPage", () => {
     screen.getByText(mainPageTexts.marketScreenshotTitle);
     screen.getByText(mainPageTexts.marketScreenshotText);
   });
+
+  it("should display teacher image with alt text and texts", () => {
+    render(<MainPage />);
+    screen.getAllByAltText(MainPageAltImages.TeacherImage);
+    screen.getByText(mainPageTexts.TeacherScreenshotTitle);
+    screen.getByText(mainPageTexts.TeacherScreenshotText);
+  });
 });

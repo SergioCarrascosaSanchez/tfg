@@ -1,4 +1,5 @@
 import MarketImage from "../../assets/MainPage_Market_ScreenShot.jpg";
+import TeacherImage from "../../assets/MainPage_TeacherTrades_ScreenShot.jpg";
 import { Navbar, appName } from "../../components/Navbar/Navbar";
 import { Box, Button, Typography, Modal, ModalDialog } from "@mui/joy";
 import { LoginForm } from "../../components/LoginForm/LoginForm";
@@ -12,9 +13,14 @@ export const mainPageTexts = {
   marketScreenshotTitle: "Compra y vende criptomonedas",
   marketScreenshotText:
     "Están disponibles todas los criptodivisas del mercado, con actualización en tiempo real.",
+  TeacherScreenshotTitle: "Operaciones con todos los detalles",
+  TeacherScreenshotText:
+    "Cada operación realizada por un alumno incluye el activo, el gráfico, el precio, la cantidad, la fecha y una justificación.",
 };
 export const MainPageAltImages = {
   MarketImage: "Captura de pantalla de la página de mercados",
+  TeacherImage:
+    "Captura de pantalla de las operaciones que han hecho los alumnos",
 };
 
 export const MainPage = () => {
@@ -70,6 +76,12 @@ export const MainPage = () => {
           text={mainPageTexts.marketScreenshotText}
           img={MarketImage}
           alt={MainPageAltImages.MarketImage}
+        />
+        <MainPageSection
+          title={mainPageTexts.TeacherScreenshotTitle}
+          text={mainPageTexts.TeacherScreenshotText}
+          img={TeacherImage}
+          alt={MainPageAltImages.TeacherImage}
         />
         <Modal open={open} onClose={() => setOpen(false)}>
           <ModalDialog
