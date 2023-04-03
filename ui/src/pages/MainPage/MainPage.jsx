@@ -71,6 +71,7 @@ export const MainPage = () => {
         <Button size="lg" onClick={handleClick}>
           Iniciar sesión
         </Button>
+        <Box sx={{marginBottom:"50px"}}>
         <MainPageSection
           title={mainPageTexts.marketScreenshotTitle}
           text={mainPageTexts.marketScreenshotText}
@@ -83,6 +84,7 @@ export const MainPage = () => {
           img={TeacherImage}
           alt={MainPageAltImages.TeacherImage}
         />
+        </Box>
         <Modal open={open} onClose={() => setOpen(false)}>
           <ModalDialog
             sx={{
