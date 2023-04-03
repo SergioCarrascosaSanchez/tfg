@@ -10,7 +10,7 @@ export const mainPageTexts = {
     "Observa las operaciones de tus estudiantes de una forma sencilla y rápida",
   marketScreenshotTitle: "Compra y vende criptomonedas",
   marketScreenshotText:
-    "Están disponibles todas los crytodivisas del mercado, con actualización en tiempo real.",
+    "Están disponibles todas los criptodivisas del mercado, con actualización en tiempo real.",
 };
 export const MainPageAltImages = {
   MarketImage: "Captura de pantalla de la página de mercados",
@@ -33,7 +33,7 @@ export const MainPage = () => {
           placeContent: "center",
           placeItems: "center",
           marginTop: "50px",
-          mx: { xs: "50px", md: "200px", lg: "200px", xl: "400px" },
+          mx: { xs: "50px", md: "200px", lg: "200px", xl: "300px" },
           textAlign: "center",
           marginBottom: "100px",
         }}
@@ -42,7 +42,7 @@ export const MainPage = () => {
           component="h1"
           sx={{
             typography: {
-              xs: "h2",
+              xs: "display3",
               md: "display2",
               lg: "display2",
               xl: "display1",
@@ -67,14 +67,18 @@ export const MainPage = () => {
         <Box
           sx={{
             marginTop: { xs: "40px", md: "40px", lg: "70px", xl: "90px" },
-            display: "grid",
+            display: { xs:"flex", md:"flex", lg: "grid", xl: "grid" },
             gridTemplateColumns: { lg: "60% 40%", xl: "60% 40%" },
+            justifyContent: { xs:"center", md:"center"},
+            flexWrap: { xs:"wrap", md:"center"}
           }}
         >
           <Box
             sx={{
               marginBottom: "20px",
-              width: { xs: "300px", md: "400px", lg: "500px", xl: "600px" },
+              placeItems:"center",
+
+              width: { xs: "300px", md: "400px", lg: "500px", xl: "80%" },
             }}
           >
             <img
