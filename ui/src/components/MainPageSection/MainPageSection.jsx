@@ -15,7 +15,7 @@ export const MainPageSection = ({title, img, text, alt}) => {
           marginBottom: "20px",
           placeItems: "center",
 
-          width: { xs: "300px", md: "400px", lg: "500px", xl: "80%" },
+          width: { xs: "300px", md: "400px", lg: "80%", xl: "80%" },
         }}
       >
         <img
