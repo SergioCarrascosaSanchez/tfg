@@ -3,6 +3,7 @@ import { Navbar, appName } from "../../components/Navbar/Navbar";
 import { Box, Button, Typography, Modal, ModalDialog } from "@mui/joy";
 import { LoginForm } from "../../components/LoginForm/LoginForm";
 import { useState } from "react";
+import { MainPageSection } from "../../components/MainPageSection/MainPageSection";
 
 export const mainPageTexts = {
   title: `${appName}, la aplicación de trading educativa`,
@@ -64,61 +65,12 @@ export const MainPage = () => {
         <Button size="lg" onClick={handleClick}>
           Iniciar sesión
         </Button>
-        <Box
-          sx={{
-            marginTop: { xs: "40px", md: "40px", lg: "70px", xl: "90px" },
-            display: { xs:"flex", md:"flex", lg: "grid", xl: "grid" },
-            gridTemplateColumns: { lg: "60% 40%", xl: "60% 40%" },
-            justifyContent: { xs:"center", md:"center"},
-            flexWrap: { xs:"wrap", md:"center"}
-          }}
-        >
-          <Box
-            sx={{
-              marginBottom: "20px",
-              placeItems:"center",
-
-              width: { xs: "300px", md: "400px", lg: "500px", xl: "80%" },
-            }}
-          >
-            <img
-              src={MarketImage}
-              alt={MainPageAltImages.MarketImage}
-              width="100%"
-            ></img>
-          </Box>
-          <Box
-            sx={{
-              textAlign: "center",
-              display: "grid",
-              placeContent: "center",
-            }}
-          >
-            <Typography
-              sx={{
-                marginBottom: {
-                  xs: "10px",
-                  md: "20px",
-                  lg: "20px",
-                  xl: "20px",
-                },
-                typography: { xs: "h2", md: "h2", lg: "h2", xl: "h2" },
-              }}
-              component="p"
-            >
-              {mainPageTexts.marketScreenshotTitle}
-            </Typography>
-            <Typography
-              sx={{
-                marginBottom: "4vh",
-                typography: { xs: "body", md: "body", lg: "p", xl: "p" },
-              }}
-              component="p"
-            >
-              {mainPageTexts.marketScreenshotText}
-            </Typography>
-          </Box>
-        </Box>
+        <MainPageSection
+          title={mainPageTexts.marketScreenshotTitle}
+          text={mainPageTexts.marketScreenshotText}
+          img={MarketImage}
+          alt={MainPageAltImages.MarketImage}
+        />
         <Modal open={open} onClose={() => setOpen(false)}>
           <ModalDialog
             sx={{
