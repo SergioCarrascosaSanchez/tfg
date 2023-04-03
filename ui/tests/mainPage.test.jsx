@@ -1,32 +1,44 @@
-import { cleanup, render, screen } from "@testing-library/react"
-import { describe, it } from "vitest"
-import { MainPage, altMainPageImage, textMainPage, mainPageTitle} from '../src/pages/MainPage/MainPage'
+import { cleanup, render, screen, fireEvent } from "@testing-library/react";
+import { describe, it } from "vitest";
+import {
+  MainPage,
+  MainPageAltImages,
+  mainPageTexts,
+} from "../src/pages/MainPage/MainPage";
 
-describe('MainPage', () => {
+describe("MainPage", () => {
+  afterEach(cleanup);
 
-    afterEach(cleanup)
+  it("should render", () => {
+    render(<MainPage />);
+  });
 
-    it('should render', () => {
-        render(<MainPage/>)
-    })
+  it("should display main page title", () => {
+    render(<MainPage />);
+    screen.getByText(mainPageTexts.title);
+  });
 
-    it('should display main page title', () => {
-        render(<MainPage/>)
-        expect(screen.getByText(mainPageTitle).tagName).toBe("H1")
-    })
+  it("should display main page paragraph", () => {
+    render(<MainPage />);
+    screen.getAllByText(mainPageTexts.mainText);
+  });
 
-    it('should display image with alt text', () => {
-        render(<MainPage/>)
-        screen.getAllByAltText(altMainPageImage)
-    })
+  it("should display a button for login", () => {
+    render(<MainPage />);
+    expect(screen.getByText("Iniciar sesión").tagName).toBe("BUTTON");
+  });
 
-    it('should display main page paragraph', () => {
-        render(<MainPage/>)
-        screen.getAllByText(textMainPage);
-    })
+  it("should display market image with alt text and texts", () => {
+    render(<MainPage />);
+    screen.getAllByAltText(MainPageAltImages.MarketImage);
+    screen.getByText(mainPageTexts.marketScreenshotTitle);
+    screen.getByText(mainPageTexts.marketScreenshotText);
+  });
 
-    it('should display a button for login', () => {
-        render(<MainPage/>)
-        expect(screen.getByText("Iniciar sesión").tagName).toBe("BUTTON")
-    })
-})
+  it("should display teacher image with alt text and texts", () => {
+    render(<MainPage />);
+    screen.getAllByAltText(MainPageAltImages.TeacherImage);
+    screen.getByText(mainPageTexts.TeacherScreenshotTitle);
+    screen.getByText(mainPageTexts.TeacherScreenshotText);
+  });
+});

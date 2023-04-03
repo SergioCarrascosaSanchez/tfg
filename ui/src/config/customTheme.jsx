@@ -37,6 +37,22 @@ export const customTheme = extendTheme({
         lineHeight: getCssVar('lineHeight-sm'),
         letterSpacing: getCssVar('letterSpacing-sm'),
         color: getCssVar('palette-text-primary')
+      },
+      display3:{
+        fontFamily: getCssVar('fontFamily-display'),
+        fontWeight: getCssVar('fontWeight-xl'),
+        fontSize: getCssVar('fontSize-xl4'),
+        lineHeight: getCssVar('lineHeight-sm'),
+        letterSpacing: getCssVar('letterSpacing-sm'),
+        color: getCssVar('palette-text-primary')
+      },
+      display4:{
+        fontFamily: getCssVar('fontFamily-display'),
+        fontWeight: getCssVar('fontWeight-xl'),
+        fontSize: getCssVar('fontSize-xl2'),
+        lineHeight: getCssVar('lineHeight-sm'),
+        letterSpacing: getCssVar('letterSpacing-sm'),
+        color: getCssVar('palette-text-primary')
       }
     },
   });
