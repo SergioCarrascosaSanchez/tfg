@@ -1,5 +1,5 @@
-import MarketImage from "../../assets/MainPage_Market_ScreenShot.jpg";
-import TeacherImage from "../../assets/MainPage_TeacherTrades_ScreenShot.jpg";
+import MarketImage from "../../assets/MainPage_Market_ScreenShot.png";
+import TeacherImage from "../../assets/MainPage_TeacherTrades_ScreenShot.png";
 import { Navbar, appName } from "../../components/Navbar/Navbar";
 import { Box, Button, Typography, Modal, ModalDialog } from "@mui/joy";
 import { LoginForm } from "../../components/LoginForm/LoginForm";
