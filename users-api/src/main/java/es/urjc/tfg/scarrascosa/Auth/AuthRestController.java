@@ -78,6 +78,11 @@ public class AuthRestController {
                 this.repo.save(teacher);
                 return new ResponseEntity<HttpStatus>(HttpStatus.OK);
             }
+            else if (dto.getRoles().contains("ADMIN")) {
+                UserProfile admin = new UserProfile(dto.getUsername(), dto.getEmail(), passwordEncoder.encode(dto.getPassword()), "ADMIN");
+                this.repo.save(admin);
+                return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+            }
             else {
                 return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);   
             }
