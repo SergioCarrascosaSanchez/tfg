@@ -3,17 +3,25 @@ import { useState } from "react";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import { useTradeCoin } from "../../hooks/useTradeCoin";
 
-export const TradeMenuTitle = "Transacción";
-export const TradeMenuAuthError =
-  "No tienes autorización para realizar esta operación";
-export const TradeMenuNotEnoughError = "No tienes suficiente cantidad del activo o dinero para completar la operación"
+export const TradeMenuMessages = {
+  IncorrectQuantity: "Cantidad no valida",
+  IncorrectJustification: "La justificacion es obligatoria",
+  NotEnough:
+    "No tienes suficiente cantidad del activo o dinero para completar la operación",
+  Auth: "No tienes autorización para realizar esta operación",
+  GenericError: "Error al ejecutar la transaccion",
+  SuccessfulTrade:"Transacción realizada con éxito!"
+};
+export const TradeMenuTexts = {
+  Title: "Transacción",
+};
 const URL = `${import.meta.env.VITE_USERS_API_URL}`;
 
 export const TradeMenu = ({ price, coin, chartData }) => {
   const [quantity, setQuantity] = useState(0);
   const [justification, setJustification] = useState("");
   const [incorrectQuantity, setIncorrectQuantity] = useState(false);
-  const [incorrectJustification, setIncorrectJustification] = useState(false);;
+  const [incorrectJustification, setIncorrectJustification] = useState(false);
 
   const username = localStorage.getItem("username");
 
@@ -65,29 +73,29 @@ export const TradeMenu = ({ price, coin, chartData }) => {
       }}
     >
       <Typography sx={{ lineHeight: "15px" }} level="h2">
-        {TradeMenuTitle}
+        {TradeMenuTexts.Title}
       </Typography>
       {incorrectQuantity && (
-        <ErrorMessage message={"Cantidad no valida"} form={true} />
+        <ErrorMessage message={TradeMenuMessages.IncorrectQuantity} form={true} />
       )}
       {incorrectJustification && (
-        <ErrorMessage message={"La justificacion es obligatoria"} form={true} />
+        <ErrorMessage message={TradeMenuMessages.IncorrectJustification} form={true} />
       )}
       {error && (
         <ErrorMessage
-          message={"Error al ejecutar la transaccion"}
+          message={TradeMenuMessages.GenericError}
           form={true}
         />
       )}
       {error && statusCode === 403 && (
-        <ErrorMessage message={TradeMenuAuthError} form={true} />
+        <ErrorMessage message={TradeMenuMessages.Auth} form={true} />
       )}
       {error && statusCode === 402 && (
-        <ErrorMessage message={TradeMenuNotEnoughError} form={true} />
+        <ErrorMessage message={TradeMenuMessages.NotEnough} form={true} />
       )}
       {statusCode === 200 && (
         <Typography level="p2" textColor="green">
-          Transacción realizada con éxito!
+          {TradeMenuMessages.SuccessfulTrade}
         </Typography>
       )}
       <TextField

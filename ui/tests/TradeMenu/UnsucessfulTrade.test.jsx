@@ -2,13 +2,12 @@ import {
   cleanup,
   render,
   screen,
-  fireEvent,
-  waitFor,
 } from "@testing-library/react";
 import { describe, it } from "vitest";
 import {
   TradeMenu,
-  TradeMenuTitle,
+  TradeMenuMessages,
+  TradeMenuTexts
 } from "../../src/components/TradeMenu/TradeMenu";
 
 describe("TradeMenu", () => {
@@ -29,9 +28,9 @@ describe("TradeMenu", () => {
 
   it("should render error message when unsuccesful trade", async () => {
     render(<TradeMenu coin={"BTC"} price={1} chartData={[1.0, 2.0, 3.0]}/>);
-    screen.getByText(TradeMenuTitle);
+    screen.getByText(TradeMenuTexts.Title);
     screen.getByPlaceholderText("Justificacion")
     screen.getByPlaceholderText("Cantidad")
-    screen.getByText("Error al ejecutar la transaccion")
+    screen.getByText(TradeMenuMessages.GenericError)
   });
 });

@@ -1,7 +1,7 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
 import { CoinPage } from "../../src/pages/CoinPage/CoinPage";
-import { TradeMenuTitle } from "../../src/components/TradeMenu/TradeMenu";
+import { TradeMenuTexts } from "../../src/components/TradeMenu/TradeMenu";
 
 const coinName = "BTC";
 
@@ -47,7 +47,7 @@ describe("CoinPage", () => {
     screen.getByTestId(`${coinName}Price`);
     screen.getByAltText(coinName);
     screen.getByTestId(`${coinName}Graph`);
-    screen.getByText(TradeMenuTitle);
+    screen.getByText(TradeMenuTexts.Title);
     screen.getByPlaceholderText("Cantidad");
     screen.getByPlaceholderText("Justificacion");
     screen.getByTestId("PurchaseButton")

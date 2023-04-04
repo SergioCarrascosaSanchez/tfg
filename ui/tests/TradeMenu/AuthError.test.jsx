@@ -8,8 +8,8 @@ import {
 import { describe, it } from "vitest";
 import {
   TradeMenu,
-  TradeMenuTitle,
-  TradeMenuAuthError,
+  TradeMenuTexts,
+  TradeMenuMessages,
 } from "../../src/components/TradeMenu/TradeMenu";
 
 describe("TradeMenu", () => {
@@ -30,12 +30,12 @@ describe("TradeMenu", () => {
 
   it("should render error message when unahutorize trade", async () => {
     render(<TradeMenu coin={"BTC"} price={1} chartData={[1.0, 2.0, 3.0]} />);
-    screen.getByText(TradeMenuTitle);
+    screen.getByText(TradeMenuTexts.Title);
     screen.getByPlaceholderText("Cantidad")
     screen.getByPlaceholderText("Justificacion")
     screen.getByTestId("SellButton")
     screen.getByTestId("PurchaseButton")
-    screen.getByText(TradeMenuAuthError)
+    screen.getByText(TradeMenuMessages.Auth)
 
   });
 });
