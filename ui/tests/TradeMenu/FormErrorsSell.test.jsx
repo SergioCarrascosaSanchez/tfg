@@ -15,8 +15,10 @@ describe("TradeMenu", () => {
   vi.mock("../../src/hooks/useTradeCoin", () => {
     const useTradeCoin = vi.fn();
     useTradeCoin.mockReturnValue({
-      BuyCoin: vi.fn().mockReturnValue({}),
-      SellCoin: vi.fn().mockReturnValue({})
+      loading: false,
+      statusCode: 200, 
+      error: false,
+      TradeCoin: vi.fn()
     });
     return {
       useTradeCoin,
