@@ -9,7 +9,8 @@ import { describe, it } from "vitest";
 import {
   TradeMenu,
   TradeMenuMessages,
-  TradeMenuTexts
+  TradeMenuTexts,
+  TradeMenuElements
 } from "../../src/components/TradeMenu/TradeMenu";
 
 describe("TradeMenu", () => {
@@ -31,8 +32,8 @@ describe("TradeMenu", () => {
   it("should render message when succesful trade", () => {
     render(<TradeMenu coin={"BTC"} price={1} chartData={[1.0, 2.0, 3.0]} />);
     screen.getByText(TradeMenuTexts.Title);
-    screen.getByPlaceholderText("Justificacion")
-    screen.getByPlaceholderText("Cantidad")
+    screen.getByPlaceholderText(TradeMenuElements.JustificationPlaceholder)
+    screen.getByPlaceholderText(TradeMenuElements.QuantityPlaceholder)
     screen.getByText(TradeMenuMessages.SuccessfulTrade)
   });
 });

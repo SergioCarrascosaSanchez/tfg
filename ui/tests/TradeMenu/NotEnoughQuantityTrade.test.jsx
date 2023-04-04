@@ -7,7 +7,8 @@ import { describe, it } from "vitest";
 import {
   TradeMenu,
   TradeMenuTexts,
-  TradeMenuMessages
+  TradeMenuMessages,
+  TradeMenuElements
 } from "../../src/components/TradeMenu/TradeMenu";
 
 describe("TradeMenu", () => {
@@ -29,8 +30,8 @@ describe("TradeMenu", () => {
   it("should render error message when not enough balance or quantity", () => {
     render(<TradeMenu coin={"BTC"} price={1} chartData={[1.0, 2.0, 3.0]}/>);
     screen.getByText(TradeMenuTexts.Title);
-    screen.getByPlaceholderText("Justificacion")
-    screen.getByPlaceholderText("Cantidad")
+    screen.getByPlaceholderText(TradeMenuElements.JustificationPlaceholder)
+    screen.getByPlaceholderText(TradeMenuElements.QuantityPlaceholder)
     screen.getByText(TradeMenuMessages.NotEnough)
   });
 });

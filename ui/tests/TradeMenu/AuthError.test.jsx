@@ -10,6 +10,7 @@ import {
   TradeMenu,
   TradeMenuTexts,
   TradeMenuMessages,
+  TradeMenuElements
 } from "../../src/components/TradeMenu/TradeMenu";
 
 describe("TradeMenu", () => {
@@ -31,10 +32,10 @@ describe("TradeMenu", () => {
   it("should render error message when unahutorize trade", async () => {
     render(<TradeMenu coin={"BTC"} price={1} chartData={[1.0, 2.0, 3.0]} />);
     screen.getByText(TradeMenuTexts.Title);
-    screen.getByPlaceholderText("Cantidad")
-    screen.getByPlaceholderText("Justificacion")
-    screen.getByTestId("SellButton")
-    screen.getByTestId("PurchaseButton")
+    screen.getByPlaceholderText(TradeMenuElements.QuantityPlaceholder)
+    screen.getByPlaceholderText(TradeMenuElements.JustificationPlaceholder)
+    screen.getByTestId(TradeMenuElements.PurchaseButton)
+    screen.getByTestId(TradeMenuElements.SellButton)
     screen.getByText(TradeMenuMessages.Auth)
 
   });

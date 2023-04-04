@@ -15,7 +15,13 @@ export const TradeMenuMessages = {
 export const TradeMenuTexts = {
   Title: "Transacción",
 };
-const URL = `${import.meta.env.VITE_USERS_API_URL}`;
+
+export const TradeMenuElements = {
+  PurchaseButton: "PurchaseButton",
+  SellButton: "SellButton",
+  QuantityPlaceholder: "Cantidad",
+  JustificationPlaceholder: "Justificacion"
+};
 
 export const TradeMenu = ({ price, coin, chartData }) => {
   const [quantity, setQuantity] = useState(0);
@@ -40,7 +46,7 @@ export const TradeMenu = ({ price, coin, chartData }) => {
       correct = false;
     }
     if (correct) {
-      if (event.target.name === "PurchaseButton") {
+      if (event.target.name === TradeMenuElements.PurchaseButton) {
         await TradeCoin(
           "purchase",
           username,
@@ -100,13 +106,13 @@ export const TradeMenu = ({ price, coin, chartData }) => {
       )}
       <TextField
         name="quantity"
-        placeholder="Cantidad"
+        placeholder={TradeMenuElements.QuantityPlaceholder}
         variant="outlined"
         onChange={(e) => setQuantity(e.target.value)}
       />
       <Textarea
         name="justification"
-        placeholder="Justificacion"
+        placeholder={TradeMenuElements.JustificationPlaceholder}
         minRows={5}
         onChange={(e) => setJustification(e.target.value)}
       />
@@ -115,8 +121,8 @@ export const TradeMenu = ({ price, coin, chartData }) => {
         variant="solid"
         color="success"
         onClick={handleSubmit}
-        name="PurchaseButton"
-        data-testid="PurchaseButton"
+        name={TradeMenuElements.PurchaseButton}
+        data-testid={TradeMenuElements.PurchaseButton}
       >
         Comprar
       </Button>
@@ -125,8 +131,8 @@ export const TradeMenu = ({ price, coin, chartData }) => {
         variant="solid"
         color="danger"
         onClick={handleSubmit}
-        name="SellButton"
-        data-testid="SellButton"
+        name={TradeMenuElements.SellButton}
+        data-testid={TradeMenuElements.SellButton}
       >
         Vender
       </Button>
