@@ -34,7 +34,7 @@ export const popularCryptocurrencies = [
   {
     coin: "DOT",
   },
-]
+];
 export const MarketPage = () => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
@@ -45,15 +45,30 @@ export const MarketPage = () => {
   return (
     <>
       <Navbar />
-      <Box sx={{ mx: "20vw", my: "5vh" }}>
-        <Typography level="display2" component="h1" sx={{ my: "2vh" }}>
+      <Box
+        sx={{
+          mx: { xs: "12%", md: "125px", lg: "200px", xl: "300px" },
+          my: "5vh",
+        }}
+      >
+        <Typography
+          component="h1"
+          sx={{
+            my: "2vh",
+            typography: {
+              xs: "display3",
+              md: "display2",
+              lg: "display2",
+              xl: "display2",
+            },
+          }}
+        >
           {MarketName}
         </Typography>
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: "80% 10%",
-            gap: 1,
+            gridTemplateColumns: { xs: "72% 23%", md: "85% 13%", lg: "86% 12%", xl: "85% 12%" },
             justifyContent: "space-between",
           }}
         >
@@ -64,12 +79,20 @@ export const MarketPage = () => {
           ></TextField>
           <Button
             onClick={handleSubmit}
-            sx={{ gridColumn: 2, minWidth: "90px" }}
+            sx={{ gridColumn: 2 }}
+            size="sm"
           >
             Buscar
           </Button>
         </Box>
-        <PanelOfCoinChartCard coins={popularCryptocurrencies} size={"lg"}/>
+        <Box
+          sx={{
+            display: "grid",
+            placeContent: "center",
+          }}
+        >
+          <PanelOfCoinChartCard coins={popularCryptocurrencies} size={"lg"} />
+        </Box>
       </Box>
     </>
   );

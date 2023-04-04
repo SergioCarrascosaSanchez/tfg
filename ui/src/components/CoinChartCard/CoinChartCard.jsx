@@ -14,6 +14,10 @@ export const CoinChartCard = ({ name, time }) => {
       component="li"
       variant="outlined"
       data-testid={`${name}CoinChartCard`}
+      sx={{
+        width: { xs: "260px", md: "265px", lg: "90%", xl: "90%" },
+        minWidth: { lg: "380px", xl:"300px" },
+      }}
     >
       {data.loading ? (
         <Box
@@ -26,7 +30,7 @@ export const CoinChartCard = ({ name, time }) => {
           <CircularProgress />
         </Box>
       ) : data.error ? (
-        <Typography level="h2" component="h2">
+        <Typography level="display4" component="h2">
           {`${CoinChartCardErrorMessage}${name}`}
         </Typography>
       ) : (
@@ -46,14 +50,34 @@ export const CoinChartCard = ({ name, time }) => {
             </Box>
 
             <Typography
-              level="h2"
               component="h2"
-              sx={{ gridColumn: 2, textAlign: "left" }}
+              sx={{
+                gridColumn: 2,
+                textAlign: "left",
+                typography: {
+                  xs: "display4",
+                  md: "h2",
+                  lg: "h2",
+                  xl: "h2",
+                },
+              }}
             >
               {name}
             </Typography>
 
-            <Typography level="h2" sx={{ gridColumn: 3, textAlign: "right" }}>
+            <Typography
+              component="h2"
+              sx={{
+                gridColumn: 3,
+                textAlign: "right",
+                typography: {
+                  xs: "display4",
+                  md: "display4",
+                  lg: "h2",
+                  xl: "h2",
+                },
+              }}
+            >
               {data.data[data.data.length - 1]}
             </Typography>
           </Box>
@@ -61,7 +85,7 @@ export const CoinChartCard = ({ name, time }) => {
             element="div"
             data-testid={`${name}Graph`}
             sx={{
-              width: "280px",
+              width: { xs: "230px", md: "250px", lg: "280px", xl: "280px" },
               height: "auto",
               margin: "auto",
               borderRadius: "12px",
