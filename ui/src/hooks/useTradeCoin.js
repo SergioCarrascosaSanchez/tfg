@@ -16,6 +16,8 @@ export const useTradeCoin = () => {
     chartData
   ) {
     setLoading(true)
+    setStatusCode(null)
+    setError(false)
     const response = await fetch(`${URL}/students/${username}/${type}`, {
       method: "POST",
       body: JSON.stringify({
