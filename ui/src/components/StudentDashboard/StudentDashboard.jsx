@@ -92,6 +92,7 @@ export const StudentDashboard = ({ data }) => {
             <DoughnutChart
               username={data.username}
               portfolio={data.portfolio}
+              balance={data.balance}
             />
           </Box>
         </Box>

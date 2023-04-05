@@ -8,18 +8,18 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const chartError = "No se puede mostrar el grafico";
 
-export function DoughnutChart({ portfolio, username }) {
+export function DoughnutChart({ portfolio, username, balance }) {
   const pricesData = useGetListOfPrices(
     portfolio.map((element) => element.coin)
   );
 
   const data = {
-    labels: portfolio.map((element) => element.coin),
+    labels: portfolio.map((element) => element.coin).concat("$"),
     datasets: [
       {
         data: portfolio.map(
           (element) => element.quantity * pricesData.data[element.coin]
-        ),
+        ).concat(balance),
         backgroundColor: [
           "#F06F64",
           "#60F0A0",
