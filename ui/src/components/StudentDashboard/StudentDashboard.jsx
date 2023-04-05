@@ -9,49 +9,119 @@ export const StudentDashboard = ({ data }) => {
     <>
       <Box
         sx={{
-          display: "grid",
-          gridTemplateColumns: "70% 30%",
-          gap: 8,
+          display: { md: "grid", lg: "grid", xl: "grid" },
+          gridTemplateColumns: {
+            md: "60% 0% 40%",
+            lg: "60% 10% 30%",
+            xl: "60% 10% 30%",
+          },
           placeContent: "center",
+          marginBottom:"20px"
         }}
       >
         <Typography
-          level="display2"
           component="h1"
-          sx={{ gridColumn: 1, textAlign: "left", lineHeight: "100px" }}
+          sx={{
+            gridColumn: 1,
+            textAlign: {
+              xs: "center",
+              md: "left",
+              lg: "left",
+              xl: "left",
+            },
+            alignSelf: "center",
+            typography: {
+              xs: "display3",
+              md: "display3",
+              lg: "display3",
+              xl: "display2",
+            },
+          }}
         >
           {data.username}
         </Typography>
         <Typography
-          level="h2"
           component="h2"
-          sx={{ gridColumn: 2, textAlign: "right", lineHeight: "100px" }}
+          sx={{
+            typography: {
+              xs: "display4",
+              md: "display4",
+              lg: "display4",
+              xl: "h2",
+            },
+            gridColumn: 3,
+            textAlign: "center",
+            alignSelf: "center",
+          }}
         >{`Balance: ${data.balance}$`}</Typography>
       </Box>
       <Box
         sx={{
-          display: "grid",
+          display: { md: "grid", lg: "grid", xl: "grid" },
           placeContent: "center",
-          gridTemplateColumns: "70% 30%",
-          gap: 8,
-          }}
+          gridTemplateColumns: {
+            md: "60% 0% 40%",
+            lg: "60% 10% 30%",
+            xl: "60% 10% 30%",
+          },
+          marginBottom:"20px"
+        }}
       >
-        <Box sx={{ gridColumn: 1 }}>
-          <Typography level="h3" component="h2">
-            {StudentInvestmentsTitle}
-          </Typography>
-          <PanelOfCoinChartCard coins={data.portfolio} size={"md"}/>
-        </Box>
-        <Box sx={{ gridColumn: 2 }}>
+        <Box sx={{ gridColumn: 3, gridRow: 1, marginBottom: { xs: "60px", md: "0", lg: "0", xl: "0" }}}>
           <Typography
-            level="h3"
             component="h2"
-            sx={{ textAlign: "center", marginBottom: "20px" }}
+            sx={{
+              textAlign: "center",
+              marginBottom: "20px",
+              typography: {
+                xs: "h5",
+                md: "h5",
+                lg: "h5",
+                xl: "h4",
+              },
+            }}
           >
             {StudentPortfolioTitle}
           </Typography>
-          <Box>
-            <DoughnutChart username={data.username} portfolio={data.portfolio} />
+          <Box
+            sx={{
+              maxWidth: { xs: "300px", md: "500px", lg: "500px", xl: "500px" },
+              mx: { xs: "auto", md: "0", lg: "0", xl: "0" },
+            }}
+          >
+            <DoughnutChart
+              username={data.username}
+              portfolio={data.portfolio}
+            />
+          </Box>
+        </Box>
+        <Box sx={{ gridColumn: 1, gridRow: 1 }}>
+          <Typography
+            component="h2"
+            sx={{
+              textAlign: {
+                xs: "center",
+                md: "left",
+                lg: "left",
+                xl: "left",
+              },
+              typography: {
+                xs: "h5",
+                md: "h5",
+                lg: "h5",
+                xl: "h4",
+              },
+            }}
+          >
+            {StudentInvestmentsTitle}
+          </Typography>
+          <Box
+            sx={{
+              display: { xs: "grid", md: "block", lg: "block", xl: "block" },
+              placeContent: "center",
+            }}
+          >
+            <PanelOfCoinChartCard coins={data.portfolio} size={"md"} />
           </Box>
         </Box>
       </Box>
