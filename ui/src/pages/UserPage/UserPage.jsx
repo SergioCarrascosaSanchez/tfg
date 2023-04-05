@@ -20,7 +20,14 @@ export const UserPage = () => {
   return (
     <>
       <Navbar />
-      <Box sx={{ mx: "20vw", my: "5vh", maxWidth: "1200px" }}>
+      <Box
+        sx={{
+          mx: { xs: "12%", md: "125px", lg: "200px", xl: "auto" },
+          px: { xs: "0", md: "0", lg: "0", xl: "15%" },
+          my: "5vh",
+          maxWidth:"1800px"
+        }}
+      >
         {userData.loading ? (
           <>
             <Typography level="display2" component="h1">
