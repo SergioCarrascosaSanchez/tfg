@@ -20,32 +20,65 @@ export const CoinPage = () => {
   return (
     <>
       <Navbar />
-      <Box sx={{ mx: "20vw", my: "5vh", maxWidth: "1000px" }}>
+      <Box
+        sx={{
+          mx: { xs: "12%", md: "125px", lg: "200px", xl: "auto" },
+          px: { xs: "0", md: "0", lg: "0", xl: "15%" },
+          my: "5vh",
+          maxWidth: "1800px",
+        }}
+      >
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: "18% 42% 40%",
-            gap: 0,
+            gridTemplateColumns: {
+              xs: "18% 42% 40%",
+              md: "10% 39% 51%",
+              lg: "10% 39% 51%",
+              xl: "7% 42% 51%",
+            },
             marginBottom: 5,
           }}
         >
           <Box sx={{ gridColumn: 1, display: "grid", placeContent: "center" }}>
             <CoinLogo coin={name} size="xl" />
           </Box>
-
-          <Typography
-            level="display2"
-            component="h1"
-            sx={{ gridColumn: 2, textAlign: "left", verticalAlign: "middle" }}
+          <Box
+            sx={{
+              gridColumn: 2,
+              verticalAlign: "middle",
+            }}
           >
-            {name}
-          </Typography>
+            <Typography
+              component="h1"
+              sx={{
+                textAlign: "left",
+                typography: {
+                  xs: "display3",
+                  md: "display3",
+                  lg: "display2",
+                  xl: "display2",
+                },
+              }}
+            >
+              {name}
+            </Typography>
+          </Box>
 
           {data.data.length > 0 && (
             <Typography
-              level="display2"
               data-testid={`${name}Price`}
-              sx={{ gridColumn: 3, textAlign: "right" }}
+              sx={{
+                gridColumn: 3,
+                textAlign: "right",
+                alignSelf: "center",
+                typography: {
+                  xs: "display4",
+                  md: "display3",
+                  lg: "display2",
+                  xl: "display2",
+                },
+              }}
             >
               {`${data.data[data.data.length - 1]} $`}
             </Typography>
@@ -61,22 +94,36 @@ export const CoinPage = () => {
         ) : data.error ? (
           <ErrorMessage message={coinErrorMessage} center={true} />
         ) : (
-          <Box sx={{ display: "grid", gridTemplateColumns: "62% 8% 32%", gap:"2", placeContent: "center" }}>
+          <Box
+            sx={{
+              display: { xs: "block", md: "grid", lg: "grid", xl: "grid" },
+              gridTemplateColumns: {
+                md: "69% 4% 27%",
+                lg: "66% 4% 30%",
+                xl: "60% 8% 30%",
+              },
+              placeContent: "center",
+            }}
+          >
             <Box
               element="div"
               data-testid={`${name}Graph`}
               sx={{
-                maxWidth: "1000px",
                 borderRadius: "12px",
+                marginBottom: { xs: "40px", md: "0", lg: "0", xl: "0" },
                 gridColumn: 1,
-                dispay: "grid",
+                display: "grid",
                 placeContent: "center",
               }}
             >
               <Chart data={data.data} refresh={true} />
             </Box>
             <Box sx={{ gridColumn: 3 }}>
-              <TradeMenu price={data.data[data.data.length - 1]} coin={name} chartData={data.data}/>
+              <TradeMenu
+                price={data.data[data.data.length - 1]}
+                coin={name}
+                chartData={data.data}
+              />
             </Box>
           </Box>
         )}

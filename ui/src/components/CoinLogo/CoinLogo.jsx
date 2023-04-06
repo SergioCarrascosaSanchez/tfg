@@ -1,19 +1,33 @@
+import { Box } from "@mui/joy";
 import { CoinLogoFinder } from "./CoinLogoFinder";
 
 export const CoinLogo = ({ coin, size }) => {
   return (
-    <img
-      src={CoinLogoFinder[coin] || CoinLogoFinder["DefaultCoin"]}
-      alt={coin}
-      style={
-        size === "xs"
-          ? { width: "35px", height: "35px", borderRadius:"50%" }
-          : size === "md"
-          ? { width: "45px", height: "45px", borderRadius:"50%" }
-          : size === "lg"
-          ? { width: "50px", height: "50px", borderRadius:"50%" }
-          : size === "xl" && { width: "60px", height: "60px", borderRadius:"50%" }
-      }
-    />
+    <Box
+      sx={{
+        display: "grid",
+        placeContent: "center",
+        width:
+          size === "xl"
+            ? {
+                xs: "40px",
+                md: "50px",
+                lg: "55px",
+                xl: "55px",
+              }
+            : size === "xs"
+            ? "35px"
+            : size === "md"
+            ? "45px"
+            : size === "lg" && "50px",
+      }}
+    >
+      <img
+        src={CoinLogoFinder[coin] || CoinLogoFinder["DefaultCoin"]}
+        alt={coin}
+        width="100%"
+        style={{ borderRadius: "50%" }}
+      />
+    </Box>
   );
 };
