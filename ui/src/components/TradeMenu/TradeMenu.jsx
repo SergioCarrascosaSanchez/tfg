@@ -10,7 +10,7 @@ export const TradeMenuMessages = {
     "No tienes suficiente cantidad del activo o dinero para completar la operación",
   Auth: "No tienes autorización para realizar esta operación",
   GenericError: "Error al ejecutar la transaccion",
-  SuccessfulTrade:"Transacción realizada con éxito!"
+  SuccessfulTrade: "Transacción realizada con éxito!",
 };
 export const TradeMenuTexts = {
   Title: "Transacción",
@@ -20,7 +20,7 @@ export const TradeMenuElements = {
   PurchaseButton: "PurchaseButton",
   SellButton: "SellButton",
   QuantityPlaceholder: "Cantidad",
-  JustificationPlaceholder: "Justificacion"
+  JustificationPlaceholder: "Justificacion",
 };
 
 export const TradeMenu = ({ price, coin, chartData }) => {
@@ -78,20 +78,34 @@ export const TradeMenu = ({ price, coin, chartData }) => {
         flexWrap: "wrap",
       }}
     >
-      <Typography sx={{ lineHeight: "15px" }} level="h2">
+      <Typography
+        sx={{
+          lineHeight: "15px",
+          typography: {
+            xs: "display4",
+            md: "h2",
+            lg: "h2",
+            xl: "display3",
+          },
+        }}
+        level="h2"
+      >
         {TradeMenuTexts.Title}
       </Typography>
       {incorrectQuantity && (
-        <ErrorMessage message={TradeMenuMessages.IncorrectQuantity} form={true} />
-      )}
-      {incorrectJustification && (
-        <ErrorMessage message={TradeMenuMessages.IncorrectJustification} form={true} />
-      )}
-      {error && (
         <ErrorMessage
-          message={TradeMenuMessages.GenericError}
+          message={TradeMenuMessages.IncorrectQuantity}
           form={true}
         />
+      )}
+      {incorrectJustification && (
+        <ErrorMessage
+          message={TradeMenuMessages.IncorrectJustification}
+          form={true}
+        />
+      )}
+      {error && (
+        <ErrorMessage message={TradeMenuMessages.GenericError} form={true} />
       )}
       {error && statusCode === 403 && (
         <ErrorMessage message={TradeMenuMessages.Auth} form={true} />
