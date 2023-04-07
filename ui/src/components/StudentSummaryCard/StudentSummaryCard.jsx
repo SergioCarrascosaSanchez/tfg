@@ -1,5 +1,5 @@
 import { UserAvatar } from "../UserAvatar/UserAvatar";
-import {StudentTradingInfo} from "../StudentTradingInfo/StudentTradingInfo"
+import { StudentTradingInfo } from "../StudentTradingInfo/StudentTradingInfo";
 import {
   Card,
   Box,
@@ -49,9 +49,18 @@ export const StudentSummaryCard = ({ username, tradeHistory }) => {
       </Card>
 
       <Modal open={open} onClose={() => setOpen(false)}>
-        <ModalDialog>
+        <ModalDialog
+          sx={{
+            mx: {
+              xs: 0,
+              md: 3,
+              lg: 3,
+              xl: 3,
+            },
+          }}
+        >
           <ModalClose />
-          <StudentTradingInfo info={tradeHistory} username={username}/>
+          <StudentTradingInfo info={tradeHistory} username={username} />
         </ModalDialog>
       </Modal>
     </>
