@@ -3,11 +3,13 @@ package es.urjc.tfg.scarrascosa.restTesting;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static io.restassured.path.json.JsonPath.from;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.json.JSONArray;
@@ -401,6 +403,137 @@ class TeacherRestTests {
         then().
             statusCode(403);
     }
+    
+    @Test
+    void addFeedback() throws JSONException {
+        String teacherUsername = "teacherRestTest_9";
+        
+        String teacherToken = teacherSignUp(teacherUsername);
+        
+        given().
+            header("Authorization", teacherToken).
+        when().
+            get("/users/"+teacherUsername).
+        then().
+            statusCode(200);
+        
+        String student_1 = "studentAddToTeacher_11";
+        studentSignUp(student_1);
+        
+        LinkedList<String> studentList = new LinkedList<>();
+        studentList.add(student_1);
+        
+        JSONObject studentListObject = new JSONObject();
+        JSONArray studentListArray = new JSONArray(studentList);
+        studentListObject.put("studentList", studentListArray);
+        
+        given().
+            contentType("application/json").
+            header("Authorization", this.adminToken).
+            body(studentListObject.toString()).
+        when().
+            post("/teacher/"+teacherUsername).      
+        then().
+            statusCode(200);
+        
+        JSONObject studentLogin = new JSONObject();
+        studentLogin.put("username", student_1);
+        studentLogin.put("password", "pass");
+        
+        Response response = given().
+                contentType("application/json").
+                body(studentLogin.toString()).  
+            when().
+                post("/login").      
+            then().
+                statusCode(200)
+            .extract().response();
+        
+         String studentToken = "Bearer "+from(response.getBody().asString()).get("token");
+         
+         String coin = "TestCoin1";
+         double quantity = 2.0;
+         double price = 0.4055;
+         String justification = "adjhagsdjkhgad";
+         LinkedList<Double> list = new LinkedList<>();
+         list.add(1.2);
+         list.add(2.0);
+         JSONArray pricesArray = new JSONArray(list);
+         
+         JSONObject trade = new JSONObject();
+         trade.put("coin", coin);
+         trade.put("quantity", quantity);
+         trade.put("price", price);
+         trade.put("justification", justification);
+         trade.put("chartData", pricesArray);
+         
+         given().
+             contentType("application/json").
+             header("Authorization", studentToken).
+             body(trade.toString()).
+         when().
+             post("students/"+student_1+"/purchase").
+         then().
+             statusCode(200);
+         
+           
+         Response response2 = given().
+             header("Authorization", teacherToken).
+         when().
+             get("/users/"+teacherUsername).
+         then().
+             statusCode(200)
+             .extract().response();
+         
+         ArrayList<ArrayList<Integer>> ArraysOfTradeId = from(response2.getBody().asString()).get("studentList.tradeHistory.id");
+         Integer tradeId = ArraysOfTradeId.get(0).get(0);
+         
+         
+         String feedbackText = "Buen trabajo identificado ese patron de bandera alcista";
+         JSONObject feedback = new JSONObject();
+         feedback.put("feedback", feedbackText);
+         
+         given().
+             contentType("application/json").
+             header("Authorization", teacherToken).
+             body(feedback.toString()).
+         when().
+             post("teacher/"+"NotExistingTeacherName"+"/trade/"+tradeId.toString()+"/feedback").
+         then().
+             statusCode(404);
+         
+         given().
+             contentType("application/json").
+             header("Authorization", teacherToken).
+             body(feedback.toString()).
+         when().
+             post("teacher/"+teacherUsername+"/trade/"+"348675"+"/feedback").
+         then().
+             statusCode(404);
+         
+         given().
+             contentType("application/json").
+             header("Authorization", teacherToken).
+             body(feedback.toString()).
+         when().
+             post("teacher/"+teacherUsername+"/trade/"+tradeId.toString()+"/feedback").
+         then().
+             statusCode(200);
+         
+         Response response3 = given().
+                 header("Authorization", teacherToken).
+             when().
+                 get("/users/"+teacherUsername).
+             then().
+                 statusCode(200)
+                 .extract().response();
+             
+         ArrayList<ArrayList<String>> ArraysOfTradeFeedback = from(response3.getBody().asString()).get("studentList.tradeHistory.feedback");
+         String tradeFeedback = ArraysOfTradeFeedback.get(0).get(0);
+         assertThat(tradeFeedback).isEqualTo(feedbackText);
+    }
+    
+    
     
     String teacherSignUp(String username) throws JSONException {
         

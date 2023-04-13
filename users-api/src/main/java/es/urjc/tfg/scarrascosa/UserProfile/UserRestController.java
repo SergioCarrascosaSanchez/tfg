@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.urjc.tfg.scarrascosa.DTO.AdminDTO;
+import es.urjc.tfg.scarrascosa.DTO.FeedbackDTO;
 import es.urjc.tfg.scarrascosa.DTO.StudentDTO;
 import es.urjc.tfg.scarrascosa.DTO.StudentListDTO;
 import es.urjc.tfg.scarrascosa.DTO.TeacherDTO;
@@ -139,6 +140,26 @@ public class UserRestController {
             else {
                 return ResponseEntity.notFound().build();
             } 
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    @PostMapping("teacher/{username}/trade/{id}/feedback")
+    public ResponseEntity<HttpStatus> addFeedback (@PathVariable String username, @PathVariable Long id, @RequestBody FeedbackDTO feedback) {
+        Optional<UserProfile> optional = repo.findByName(username);
+        if (optional.isPresent()) {
+            Optional<Trade> optionalTrade = tradeRepo.findById(id);
+            if (optionalTrade.isPresent()) {
+                Trade trade = optionalTrade.get();
+                trade.setFeedback(feedback.getFeedback());
+                this.tradeRepo.save(trade);
+                return ResponseEntity.ok().build();
+            }
+            else {
+                return ResponseEntity.notFound().build();
+            }
         }
         else {
             return ResponseEntity.notFound().build();

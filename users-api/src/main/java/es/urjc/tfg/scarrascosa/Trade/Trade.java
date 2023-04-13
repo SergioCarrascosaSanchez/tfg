@@ -45,6 +45,10 @@ public class Trade {
         this.date = formattedDateTime;
     }
     
+    public Long getId() {
+        return this.id;
+    }
+    
     public TradeType getType() {
         return this.type;
     }
