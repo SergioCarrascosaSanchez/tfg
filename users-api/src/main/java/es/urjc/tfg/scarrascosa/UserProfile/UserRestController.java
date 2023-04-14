@@ -146,23 +146,24 @@ public class UserRestController {
         }
     }
     
-    @PostMapping("teacher/{username}/trade/{id}/feedback")
-    public ResponseEntity<HttpStatus> addFeedback (@PathVariable String username, @PathVariable Long id, @RequestBody FeedbackDTO feedback) {
-        Optional<UserProfile> optional = repo.findByName(username);
-        if (optional.isPresent()) {
-            Optional<Trade> optionalTrade = tradeRepo.findById(id);
-            if (optionalTrade.isPresent()) {
-                Trade trade = optionalTrade.get();
-                trade.setFeedback(feedback.getFeedback());
-                this.tradeRepo.save(trade);
-                return ResponseEntity.ok().build();
-            }
-            else {
-                return ResponseEntity.notFound().build();
-            }
-        }
-        else {
+    @PostMapping("teachers/{teacherUsername}/students/{studentUsername}/trades/{id}/feedback")
+    public ResponseEntity<HttpStatus> addFeedback (@PathVariable String teacherUsername, @PathVariable String studentUsername, @PathVariable Long id, @RequestBody FeedbackDTO feedback) {
+        Optional<UserProfile> teacherOptional = repo.findByName(teacherUsername);
+        Optional<UserProfile> studentOptional = repo.findByName(studentUsername);
+        Optional<Trade> tradeOptional = tradeRepo.findById(id);
+        
+        if (teacherOptional.isEmpty() || studentOptional.isEmpty() || tradeOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+        Teacher teacher = (Teacher) teacherOptional.get();
+        Student student = (Student) studentOptional.get();
+        Trade trade = tradeOptional.get();
+
+        if (teacher.getStudentList().contains(student) && student.getTradeHistory().contains(trade)) {
+            trade.setFeedback(feedback.getFeedback());
+            this.tradeRepo.save(trade);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();       
     }
 }

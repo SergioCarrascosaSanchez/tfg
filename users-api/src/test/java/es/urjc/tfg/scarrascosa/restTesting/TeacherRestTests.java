@@ -498,7 +498,7 @@ class TeacherRestTests {
              header("Authorization", teacherToken).
              body(feedback.toString()).
          when().
-             post("teacher/"+"NotExistingTeacherName"+"/trade/"+tradeId.toString()+"/feedback").
+             post("teachers/"+"NotExistingTeacherName"+"/students/"+student_1+"/trades/"+tradeId.toString()+"/feedback").
          then().
              statusCode(404);
          
@@ -507,7 +507,7 @@ class TeacherRestTests {
              header("Authorization", teacherToken).
              body(feedback.toString()).
          when().
-             post("teacher/"+teacherUsername+"/trade/"+"348675"+"/feedback").
+             post("teachers/"+teacherUsername+"/students/"+"NotExistingStudentName"+"/trades/"+tradeId.toString()+"/feedback").
          then().
              statusCode(404);
          
@@ -516,7 +516,16 @@ class TeacherRestTests {
              header("Authorization", teacherToken).
              body(feedback.toString()).
          when().
-             post("teacher/"+teacherUsername+"/trade/"+tradeId.toString()+"/feedback").
+             post("teachers/"+teacherUsername+"/students/"+student_1+"/trades/"+"348675"+"/feedback").
+         then().
+             statusCode(404);
+         
+         given().
+             contentType("application/json").
+             header("Authorization", teacherToken).
+             body(feedback.toString()).
+         when().
+             post("teachers/"+teacherUsername+"/students/"+student_1+"/trades/"+tradeId.toString()+"/feedback").
          then().
              statusCode(200);
          
@@ -532,6 +541,114 @@ class TeacherRestTests {
          String tradeFeedback = ArraysOfTradeFeedback.get(0).get(0);
          assertThat(tradeFeedback).isEqualTo(feedbackText);
     }
+    
+    @Test
+    void rejectFeedbackWithoutAssignedStudentOrTrade() throws JSONException {
+        String teacherUsername = "teacherRestTest_10";
+        
+        String teacherToken = teacherSignUp(teacherUsername);
+        
+        
+        String student_1 = "studentAddToTeacher_12";
+        studentSignUp(student_1);
+        
+        JSONObject studentLogin = new JSONObject();
+        studentLogin.put("username", student_1);
+        studentLogin.put("password", "pass");
+        
+        Response response = given().
+            contentType("application/json").
+            body(studentLogin.toString()).  
+        when().
+            post("/login").      
+        then().
+            statusCode(200)
+        .extract().response();
+        
+         String studentToken = "Bearer "+from(response.getBody().asString()).get("token");
+         
+         String coin = "TestCoin1";
+         double quantity = 2.0;
+         double price = 0.4055;
+         String justification = "adjhagsdjkhgad";
+         LinkedList<Double> list = new LinkedList<>();
+         list.add(1.2);
+         list.add(2.0);
+         JSONArray pricesArray = new JSONArray(list);
+         
+         JSONObject trade = new JSONObject();
+         trade.put("coin", coin);
+         trade.put("quantity", quantity);
+         trade.put("price", price);
+         trade.put("justification", justification);
+         trade.put("chartData", pricesArray);
+         
+         given().
+             contentType("application/json").
+             header("Authorization", studentToken).
+             body(trade.toString()).
+         when().
+             post("students/"+student_1+"/purchase").
+         then().
+             statusCode(200);
+         
+            
+         Response response2 = given().
+             header("Authorization", studentToken).
+         when().
+             get("/users/"+student_1).
+         then().
+             statusCode(200)
+             .extract().response();
+         
+         ArrayList<Integer> ArrayOfTradeId = from(response2.getBody().asString()).get("tradeHistory.id");
+         Integer tradeId = ArrayOfTradeId.get(0);
+         
+         
+         String feedbackText = "Buen trabajo identificado ese patron de bandera alcista";
+         JSONObject feedback = new JSONObject();
+         feedback.put("feedback", feedbackText);
+         
+         given().
+             contentType("application/json").
+             header("Authorization", teacherToken).
+             body(feedback.toString()).
+         when().
+             post("teachers/"+teacherUsername+"/students/"+student_1+"/trades/"+tradeId.toString()+"/feedback").
+         then().
+             statusCode(404);
+         
+         String student_2 = "studentAddToTeacher_13";
+         studentSignUp(student_2);
+         
+         LinkedList<String> studentList = new LinkedList<>();
+         studentList.add(student_2);
+         
+         JSONObject studentListObject = new JSONObject();
+         JSONArray studentListArray = new JSONArray(studentList);
+         studentListObject.put("studentList", studentListArray);
+         
+         given().
+             contentType("application/json").
+             header("Authorization", this.adminToken).
+             body(studentListObject.toString()).
+         when().
+             post("/teacher/"+teacherUsername).      
+         then().
+             statusCode(200);
+          
+         given().
+             contentType("application/json").
+             header("Authorization", teacherToken).
+             body(feedback.toString()).
+         when().
+             post("teachers/"+teacherUsername+"/students/"+student_2+"/trades/"+tradeId.toString()+"/feedback").
+         then().
+             statusCode(404);
+         
+    }
+    
+    
     
     
     
