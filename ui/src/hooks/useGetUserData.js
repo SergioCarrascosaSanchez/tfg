@@ -10,9 +10,11 @@ export function useGetUserData(username) {
 
   const context = useContext(UserContext)
 
-  const GetUserData = () => {
+  const GetUserData = (updateLoading) => {
+    if(updateLoading){
+      setLoading(true);
+    }
     context.loading = true
-    setLoading(true);
     fetch(`${URL}/users/${username}`, {
       method: "GET",
       headers: {
@@ -46,11 +48,11 @@ export function useGetUserData(username) {
       });
   };
 
-  context.loading = true
+  context.loading = false
   context.GetUserData = GetUserData
 
   useEffect(() => {
-    GetUserData()
+    GetUserData(true)
   }, [])
 
   return { loading, error, statusCode, data, GetUserData };
