@@ -6,7 +6,6 @@ import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage";
 import { StudentDashboard } from "../../components/StudentDashboard/StudentDashboard";
 import { TeacherDashboard } from "../../components/TeacherDashboard/TeacherDashboard";
 import { AdminDashboard } from "../../components/AdminDashboard/AdminDashboard";
-import { UserContext } from "../../context/UserContext";
 
 export const UserPageError =
   "Ha ocurrido un error obteniendo la información del usuario";
@@ -17,11 +16,11 @@ export const AuthorizationError = "No tienes acceso a esta información";
 
 export const UserPage = () => {
   const user = useParams().user;
-  const userData = useGetUserData(user);
+  const {loading, error, statusCode, data, GetUserData} = useGetUserData(user);
+
   return (
     <>
       <Navbar />
-      <UserContext.Provider value={{loading: false, GetUserData: () => {}}}>
         <Box
           sx={{
             mx: { xs: "12%", md: "125px", lg: "200px", xl: "auto" },
@@ -30,7 +29,7 @@ export const UserPage = () => {
             maxWidth: "1800px",
           }}
         >
-          {userData.loading ? (
+          {loading ? (
             <>
               <Typography level="display2" component="h1">
                 {user}
@@ -39,25 +38,25 @@ export const UserPage = () => {
                 <CircularProgress />
               </Box>
             </>
-          ) : userData.statusCode === 403 ? (
+          ) : statusCode === 403 ? (
             <>
               <Typography level="display2" component="h1">
                 {user}
               </Typography>
               <ErrorMessage message={AuthorizationError} center={true} />
             </>
-          ) : userData.error ? (
+          ) : error ? (
             <>
               <Typography level="display2" component="h1">
                 {user}
               </Typography>
               <ErrorMessage message={UserPageError} center={true} />
             </>
-          ) : userData.data.role === "STUDENT" ? (
-            <StudentDashboard data={userData.data} />
-          ) : userData.data.role === "TEACHER" ? (
-            <TeacherDashboard data={userData.data} />
-          ) : userData.data.role === "ADMIN" ? (
+          ) : data.role === "STUDENT" ? (
+            <StudentDashboard data={data} />
+          ) : data.role === "TEACHER" ? (
+            <TeacherDashboard data={data} />
+          ) : data.role === "ADMIN" ? (
             <AdminDashboard />
           ) : (
             <>
@@ -68,7 +67,6 @@ export const UserPage = () => {
             </>
           )}
         </Box>
-      </UserContext.Provider>
     </>
   );
 };
