@@ -176,7 +176,12 @@ export const TradeCard = ({ username, trade, index }) => {
           >
             {trade.date}
           </Typography>
-          <TeacherFeedback comment={trade.feedback} role={"TEACHER"}/>
+          <TeacherFeedback
+            comment={trade.feedback}
+            role={"TEACHER"}
+            student={username}
+            tradeId={trade.id}
+          />
         </Box>
       </Box>
     </Card>
