@@ -21,6 +21,22 @@ describe("TeacherFeedback", () => {
       useUpdateComment,
     };
   });
+  vi.mock('react', async () => {
+    const ActualReact = await vi.importActual('react')
+    return {
+      ...ActualReact,
+      useContext: () => ({ })
+    }
+  })
+
+  vi.mock("../../src/context/UserContext", () => {
+    const UserContext = vi.fn();
+    UserContext.mockReturnValue({});
+    return {
+      UserContext,
+    };
+  })
+  
 
   it("should not render error for failed api call", () => {
 

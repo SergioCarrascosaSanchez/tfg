@@ -22,6 +22,22 @@ describe("TeacherFeedback", () => {
     };
   });
 
+  vi.mock('react', async () => {
+    const ActualReact = await vi.importActual('react')
+    return {
+      ...ActualReact,
+      useContext: () => ({ })
+    }
+  })
+
+  vi.mock("../../src/context/UserContext", () => {
+    const UserContext = vi.fn();
+    UserContext.mockReturnValue({});
+    return {
+      UserContext,
+    };
+  })
+
   it("should render comment if there is a comment and role is student", () => {
     const comment = "Esto es un comentario";
     render(<TeacherFeedback comment={comment} role={"STUDENT"} />);
