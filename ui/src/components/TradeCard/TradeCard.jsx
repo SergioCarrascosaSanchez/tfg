@@ -2,6 +2,7 @@ import { Typography, Box, Card } from "@mui/joy";
 import { Chart } from "../Chart/Chart";
 import { TradeTypeChip } from "../TradeTypeChip/TradeTypeChip";
 import { CoinLogo } from "../CoinLogo/CoinLogo";
+import { TeacherFeedback } from "../TeacherFeedback/TeacherFeedback";
 
 export const TradeCard = ({ username, trade, index }) => {
   return (
@@ -175,6 +176,7 @@ export const TradeCard = ({ username, trade, index }) => {
           >
             {trade.date}
           </Typography>
+          <TeacherFeedback comment={trade.feedback} role={"TEACHER"}/>
         </Box>
       </Box>
     </Card>
