@@ -47,6 +47,7 @@ describe("UserPage rendering TeacherDashBoard", () => {
                 justification: "justification sample 1",
                 chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
                 date: "2023-03-17 08:14:38",
+                feedback: "Buen trabajo 1"
               },
               {
                 type: "SELL",
@@ -56,6 +57,7 @@ describe("UserPage rendering TeacherDashBoard", () => {
                 justification: "justification sample 2",
                 chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
                 date: "2023-03-17 08:14:13",
+                feedback: "Buen trabajo 2"
               },
               {
                 type: "BUY",
@@ -65,6 +67,7 @@ describe("UserPage rendering TeacherDashBoard", () => {
                 justification: "justification sample 3",
                 chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
                 date: "2023-03-17 08:14:11",
+                feedback: "Buen trabajo 3"
               },
             ],
           },
@@ -90,6 +93,7 @@ describe("UserPage rendering TeacherDashBoard", () => {
                 justification: "justification sample 4",
                 chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
                 date: "2023-03-17 08:14:39",
+                feedback: "Buen trabajo 4"
               },
               {
                 type: "BUY",
@@ -99,6 +103,7 @@ describe("UserPage rendering TeacherDashBoard", () => {
                 justification: "justification sample 5",
                 chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
                 date: "2023-03-17 08:14:15",
+                feedback: "Buen trabajo 5"
               },
             ],
           },
@@ -163,6 +168,9 @@ describe("UserPage rendering TeacherDashBoard", () => {
     screen.getByTestId("UserTest2Trade0CoinADA")
     screen.getByTestId("UserTest2Trade1CoinBTC")
     screen.getByTestId("UserTest2Trade2CoinBTC")
+    screen.getByText("Buen trabajo 1")
+    screen.getByText("Buen trabajo 2")
+    screen.getByText("Buen trabajo 3")
     
 
   })
@@ -190,6 +198,8 @@ describe("UserPage rendering TeacherDashBoard", () => {
     screen.getByTestId("UserTest3TradeChart1")
     screen.getByTestId("UserTest3Trade0CoinADA")
     screen.getByTestId("UserTest3Trade1CoinBTC")
+    screen.getByText("Buen trabajo 4")
+    screen.getByText("Buen trabajo 5")
   })
 
   it("should render UserTest4 Info", () => {
