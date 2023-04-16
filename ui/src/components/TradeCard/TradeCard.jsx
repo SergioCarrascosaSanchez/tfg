@@ -120,7 +120,7 @@ export const TradeCard = ({ username, trade, index }) => {
             }}
           >
             <Typography
-              level="body1"
+              level="body2"
               component="p"
               sx={{
                 maxWidth: "80%",
@@ -136,7 +136,7 @@ export const TradeCard = ({ username, trade, index }) => {
               {`Cantidad: ${trade.quantity}`}
             </Typography>
             <Typography
-              level="body1"
+              level="body2"
               component="p"
               sx={{
                 maxWidth: "80%",
@@ -169,21 +169,21 @@ export const TradeCard = ({ username, trade, index }) => {
             {trade.justification}
           </Typography>
           <Typography
-            level="p2"
+            level="body1"
             component="p"
-            sx={{ maxWidth: "80%", py: 1 }}
+            sx={{ maxWidth: "80%", paddingTop: 1 }}
             textColor="neutral.500"
           >
             {trade.date}
           </Typography>
-          <TeacherFeedback
+        </Box>
+      </Box>
+      <TeacherFeedback
             comment={trade.feedback}
             role={"TEACHER"}
             student={username}
             tradeId={trade.id}
           />
-        </Box>
-      </Box>
     </Card>
   );
 };

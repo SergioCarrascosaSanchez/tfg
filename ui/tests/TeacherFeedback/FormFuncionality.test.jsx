@@ -4,6 +4,7 @@ import {
   TeacherFeedback,
   TeacherFeedbackErrors,
   TeacherFeedbackElements,
+  TeacherFeedbackTexts
 } from "../../src/components/TeacherFeedback/TeacherFeedback";
 
 describe("TeacherFeedback", () => {
@@ -55,12 +56,14 @@ describe("TeacherFeedback", () => {
         tradeId={3}
       />
     );
+    screen.getByText(TeacherFeedbackTexts.TeacherFeedback)
     screen.getByText(comment);
   });
 
   it("should render message if there isnt a comment and the role is student", () => {
     const comment = "";
     render(<TeacherFeedback comment={comment} role={"STUDENT"} />);
+    screen.getByText(TeacherFeedbackTexts.TeacherFeedback)
     screen.getByText(TeacherFeedbackErrors.NoComment);
   });
 
@@ -78,6 +81,7 @@ describe("TeacherFeedback", () => {
     screen.getByRole("textbox");
     screen.getByRole("button");
     screen.getByText(TeacherFeedbackElements.SubmitButton);
+    screen.getByText(TeacherFeedbackTexts.TeacherFeedback)
   });
 
   it("should render error if text area is empty when submit", () => {

@@ -1,4 +1,4 @@
-import { Box, Button, Textarea } from "@mui/joy";
+import { Box, Button, Textarea, Typography } from "@mui/joy";
 import { useState } from "react";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import { useUpdateComment } from "../../hooks/useUpdateComment";
@@ -14,6 +14,11 @@ export const TeacherFeedbackErrors = {
 export const TeacherFeedbackElements = {
   SubmitButton: "Enviar comentario",
 };
+
+export const TeacherFeedbackTexts = {
+  TeacherFeedback: "Comentarios del profesor:"
+}
+
 
 export const TeacherFeedback = ({ comment, role, student, tradeId }) => {
   const [newComment, setNewComment] = useState("");
@@ -37,11 +42,22 @@ export const TeacherFeedback = ({ comment, role, student, tradeId }) => {
   return (
     <Box
       sx={{
-        maxWidth: {xs:"100%", md:"80%", lg:"80%", xl:"80%"},
+        maxWidth: { xs: "100%", md: "100%", lg: "100%", xl: "100%" },
+        marginTop: 3,
       }}
     >
+      <p>{TeacherFeedbackTexts.TeacherFeedback}</p>
       {comment.length > 0 ? (
-        <p>{comment}</p>
+        <Typography
+          textColor="neutral.600"
+          level="body"
+          component="p"
+          sx={{
+            textAlign: "justify",
+          }}
+        >
+          {comment}
+        </Typography>
       ) : role === "TEACHER" ? (
         <>
           {emptyCommentError && (
@@ -57,11 +73,31 @@ export const TeacherFeedback = ({ comment, role, student, tradeId }) => {
             />
           )}
           <Textarea
-            minRows={2}
+            minRows={3}
+            sx={{
+              my: 1,
+            }}
             onChange={(e) => setNewComment(e.target.value)}
           />
-          <Box size={"xs"} sx={{display:"grid", placeContent:"right", my:1}}>
-            <Button loading={loading || contextLoading} onClick={handleSubmit}>
+          <Box
+            size={"xs"}
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "0% 100%",
+                md: "75% 25%",
+                lg: "75% 25%",
+                xl: "77% 23%",
+              },
+              placeContent: "right",
+              my: 1,
+            }}
+          >
+            <Button
+              loading={loading || contextLoading}
+              onClick={handleSubmit}
+              sx={{ gridColumn: 2 }}
+            >
               {TeacherFeedbackElements.SubmitButton}
             </Button>
           </Box>
