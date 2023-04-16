@@ -272,6 +272,10 @@ describe("Complete app", () => {
       cy.get("@price2").then((priceSell) => {
         cy.contains(`Precio: ${priceSell}`);
       });
+      cy.contains("Comentarios del profesor:")
+      cy.get('textarea').eq(0).type('Comentario')
+      cy.contains("Enviar comentario").eq(0).click()
+      cy.contains("Comentario")
     });
   });
   describe("navbar redirect", () => {
