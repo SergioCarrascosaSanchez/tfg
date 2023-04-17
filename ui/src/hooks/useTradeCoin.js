@@ -1,7 +1,13 @@
 const URL = `${import.meta.env.VITE_USERS_API_URL}`;
+import { useState } from "react";
 
 export const useTradeCoin = () => {
-  async function BuyCoin(
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [statusCode, setStatusCode] = useState(null);
+
+  async function TradeCoin(
+    type,
     username,
     coin,
     quantity,
@@ -9,7 +15,10 @@ export const useTradeCoin = () => {
     justification,
     chartData
   ) {
-    const response = await fetch(`${URL}/students/${username}/purchase`, {
+    setLoading(true)
+    setStatusCode(null)
+    setError(false)
+    const response = await fetch(`${URL}/students/${username}/${type}`, {
       method: "POST",
       body: JSON.stringify({
         coin: coin,
@@ -25,41 +34,15 @@ export const useTradeCoin = () => {
     });
 
     if (response.status === 200) {
-      return { statusCode: 200, error: false };
+      setLoading(false)
+      setStatusCode(200)
+      setError(false)
     } else {
-      return { statusCode: response.status, error: false };
+      setLoading(false)
+      setStatusCode(response.status)
+      setError(true)
     }
   }
 
-  async function SellCoin(
-    username,
-    coin,
-    quantity,
-    price,
-    justification,
-    chartData
-  ) {
-    const response = await fetch(`${URL}/students/${username}/sell`, {
-      method: "POST",
-      body: JSON.stringify({
-        coin: coin,
-        quantity: quantity,
-        price: price,
-        justification: justification,
-        chartData: chartData,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
-      },
-    });
-
-    if (response.status === 200) {
-      return { statusCode: 200, error: false };
-    } else {
-      return { statusCode: response.status, error: false };
-    }
-  }
-
-  return { BuyCoin, SellCoin };
+  return { loading, error, statusCode, TradeCoin};
 };

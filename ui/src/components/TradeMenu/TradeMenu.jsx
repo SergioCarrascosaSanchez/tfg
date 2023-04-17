@@ -1,67 +1,73 @@
 import { Typography, Box, TextField, Textarea, Button } from "@mui/joy";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import { useTradeCoin } from "../../hooks/useTradeCoin";
 
-export const TradeMenuTitle = "Transacción";
-export const TradeMenuAuthError = "No tienes autorización para realizar esta operación";
-const URL = `${import.meta.env.VITE_USERS_API_URL}`;
+export const TradeMenuMessages = {
+  IncorrectQuantity: "Cantidad no valida",
+  IncorrectJustification: "La justificacion es obligatoria",
+  NotEnough:
+    "No tienes suficiente cantidad del activo o dinero para completar la operación",
+  Auth: "No tienes autorización para realizar esta operación",
+  GenericError: "Error al ejecutar la transaccion",
+  SuccessfulTrade: "Transacción realizada con éxito!",
+};
+export const TradeMenuTexts = {
+  Title: "Transacción",
+};
+
+export const TradeMenuElements = {
+  PurchaseButton: "PurchaseButton",
+  SellButton: "SellButton",
+  QuantityPlaceholder: "Cantidad",
+  JustificationPlaceholder: "Justificacion",
+};
 
 export const TradeMenu = ({ price, coin, chartData }) => {
   const [quantity, setQuantity] = useState(0);
   const [justification, setJustification] = useState("");
   const [incorrectQuantity, setIncorrectQuantity] = useState(false);
   const [incorrectJustification, setIncorrectJustification] = useState(false);
-  const [purchaseError, setPurchaseError] = useState(false);
-  const [authError, setAuthError] = useState(false);
-  const [successfulPurchase, setSuccessfulPurchase] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const username = localStorage.getItem("username");
 
-  const {BuyCoin, SellCoin} = useTradeCoin();
-  useEffect(() => {
-    if (successfulPurchase) {
-      const timeoutId = setTimeout(() => {
-        setSuccessfulPurchase(false);
-      }, 4000);
-      return () => clearTimeout(timeoutId);
-    }
-  }, [successfulPurchase]);
+  const { loading, error, statusCode, TradeCoin } = useTradeCoin();
 
   async function handleSubmit(event) {
-    setLoading(true);
-    if (quantity <= 0 && justification === "") {
+    let correct = true;
+    setIncorrectQuantity(false);
+    setIncorrectJustification(false);
+    if (quantity <= 0) {
       setIncorrectQuantity(true);
+      correct = false;
+    }
+    if (justification === "") {
       setIncorrectJustification(true);
-    } else if (quantity <= 0) {
-      setIncorrectQuantity(true);
-      setIncorrectJustification(false);
-    } else if (justification === "") {
-      setIncorrectJustification(true);
-      setIncorrectQuantity(false);
-    } else {
-      setIncorrectQuantity(false);
-      setIncorrectJustification(false);
-      let data;
-      if(event.target.name === "PurchaseButton"){
-        data = await BuyCoin(username, coin, quantity, price, justification, chartData);
-      }
-      else{
-        data = await SellCoin(username, coin, quantity, price, justification, chartData);
-      }
-      if (data.statusCode === 200) {
-        setSuccessfulPurchase(true);
-        setPurchaseError(false);
-      } else if (data.statusCode === 403){
-        setPurchaseError(false);
-        setAuthError(true)
-      }else {
-        setPurchaseError(true);
-        setSuccessfulPurchase(false);
+      correct = false;
+    }
+    if (correct) {
+      if (event.target.name === TradeMenuElements.PurchaseButton) {
+        await TradeCoin(
+          "purchase",
+          username,
+          coin,
+          quantity,
+          price,
+          justification,
+          chartData
+        );
+      } else {
+        await TradeCoin(
+          "sell",
+          username,
+          coin,
+          quantity,
+          price,
+          justification,
+          chartData
+        );
       }
     }
-    setLoading(false);
   }
   return (
     <Box
@@ -72,70 +78,78 @@ export const TradeMenu = ({ price, coin, chartData }) => {
         flexWrap: "wrap",
       }}
     >
-      <Typography sx={{ lineHeight: "15px" }} level="h2">
-        {TradeMenuTitle}
+      <Typography
+        sx={{
+          lineHeight: "15px",
+          typography: {
+            xs: "display4",
+            md: "h2",
+            lg: "h2",
+            xl: "display3",
+          },
+        }}
+        level="h2"
+      >
+        {TradeMenuTexts.Title}
       </Typography>
       {incorrectQuantity && (
-        <ErrorMessage message={"Cantidad no valida"} form={true} />
+        <ErrorMessage
+          message={TradeMenuMessages.IncorrectQuantity}
+          form={true}
+        />
       )}
       {incorrectJustification && (
-        <ErrorMessage message={"La justificacion es obligatoria"} form={true} />
-      )}
-      {purchaseError && (
         <ErrorMessage
-          message={"Error al ejecutar la transaccion"}
+          message={TradeMenuMessages.IncorrectJustification}
           form={true}
         />
       )}
-      {authError && (
-        <ErrorMessage
-          message={TradeMenuAuthError}
-          form={true}
-        />
+      {error && (
+        <ErrorMessage message={TradeMenuMessages.GenericError} form={true} />
       )}
-      {successfulPurchase && (
+      {error && statusCode === 403 && (
+        <ErrorMessage message={TradeMenuMessages.Auth} form={true} />
+      )}
+      {error && statusCode === 402 && (
+        <ErrorMessage message={TradeMenuMessages.NotEnough} form={true} />
+      )}
+      {statusCode === 200 && (
         <Typography level="p2" textColor="green">
-          Transacción realizada con éxito!
+          {TradeMenuMessages.SuccessfulTrade}
         </Typography>
       )}
       <TextField
         name="quantity"
-        placeholder="Cantidad"
+        placeholder={TradeMenuElements.QuantityPlaceholder}
         variant="outlined"
         onChange={(e) => setQuantity(e.target.value)}
       />
       <Textarea
         name="justification"
-        placeholder="Justificacion"
+        placeholder={TradeMenuElements.JustificationPlaceholder}
         minRows={5}
         onChange={(e) => setJustification(e.target.value)}
       />
-      {loading ? (
-        <Button variant="solid" onClick={handleSubmit} loading></Button>
-      ) : (
-        <Button
-          variant="solid"
-          color="success"
-          onClick={handleSubmit}
-          name="PurchaseButton"
-          data-testid="PurchaseButton"
-        >
-          Comprar
-        </Button>
-      )}
-      {loading ? (
-        <Button variant="solid" onClick={handleSubmit} loading></Button>
-      ) : (
-        <Button
-          variant="solid"
-          color="danger"
-          onClick={handleSubmit}
-          name="SellButton"
-          data-testid="SellButton"
-        >
-          Vender
-        </Button>
-      )}
+      <Button
+        loading={loading}
+        variant="solid"
+        color="success"
+        onClick={handleSubmit}
+        name={TradeMenuElements.PurchaseButton}
+        data-testid={TradeMenuElements.PurchaseButton}
+      >
+        Comprar
+      </Button>
+      <Button
+        loading={loading}
+        variant="solid"
+        color="danger"
+        onClick={handleSubmit}
+        name={TradeMenuElements.SellButton}
+        data-testid={TradeMenuElements.SellButton}
+      >
+        Vender
+      </Button>
     </Box>
   );
 };

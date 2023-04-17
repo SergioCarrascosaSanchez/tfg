@@ -6,10 +6,50 @@ export const TeacherDashboardTitle = "Listado de alumnos";
 export const TeacherDashboard = ({ data }) => {
   return (
     <>
-      <Typography level="display2" component="h1" sx={{ lineHeight: "100px", my:"30px"}}>
+      <Typography
+        component="h1"
+        sx={{
+          my: {
+            xs: "10px",
+            md: "10px",
+            lg: "10px",
+            xl: "20px",
+          },
+          textAlign: {
+            xs: "center",
+            md: "left",
+            lg: "left",
+            xl: "left",
+          },
+          alignSelf: "center",
+          typography: {
+            xs: "display3",
+            md: "display3",
+            lg: "display3",
+            xl: "display2",
+          },
+        }}
+      >
         {data.username}
       </Typography>
-      <Typography level="h3" component="h2">
+      <Typography
+        component="h2"
+        sx={{
+          textAlign: {
+            xs: "center",
+            md: "left",
+            lg: "left",
+            xl: "left",
+          },
+          alignSelf: "center",
+          typography: {
+            xs: "h4",
+            md: "h4",
+            lg: "h4",
+            xl: "h3",
+          },
+        }}
+      >
         {TeacherDashboardTitle}
       </Typography>
       <Box
@@ -26,7 +66,7 @@ export const TeacherDashboard = ({ data }) => {
           columnGap: "60px",
           rowGap: "60px",
           p: 0,
-          marginTop:"20px"
+          marginTop: "20px",
         }}
       >
         {data.studentList.map((student) => (
