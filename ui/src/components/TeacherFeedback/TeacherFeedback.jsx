@@ -46,7 +46,7 @@ export const TeacherFeedback = ({ comment, role, student, tradeId }) => {
       }}
     >
       <p>{TeacherFeedbackTexts.TeacherFeedback}</p>
-      {comment.length > 0 ? (
+      {typeof comment === "string" && comment.length > 0 ? (
         <Typography
           textColor="neutral.600"
           level="body"
