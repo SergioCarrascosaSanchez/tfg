@@ -25,6 +25,7 @@ public class Trade {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Double> chartData;
     private String date;
+    private String feedback;
     
     public Trade() {};
     
@@ -35,12 +36,17 @@ public class Trade {
         this.price = price;
         this.justification = justification;
         this.chartData = chartData;
+        this.feedback = "";
         
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDateTime = now.format(formatter);
         
         this.date = formattedDateTime;
+    }
+    
+    public Long getId() {
+        return this.id;
     }
     
     public TradeType getType() {
@@ -84,6 +90,14 @@ public class Trade {
     }
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
     }
     
     

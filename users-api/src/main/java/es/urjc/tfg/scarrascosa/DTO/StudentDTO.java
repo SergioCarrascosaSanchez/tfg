@@ -38,7 +38,7 @@ public class StudentDTO {
         this.tradeHistory = new LinkedList<TradeItem>();
         if(!tradeList.isEmpty()) {
             for(Trade trade : tradeList) {
-                this.tradeHistory.add(new TradeItem(trade.getType(), trade.getCoin(), trade.getQuantity(), trade.getPrice(), trade.getJustification(), trade.getChartData(), trade.getDate()));
+                this.tradeHistory.add(new TradeItem(trade.getId(),trade.getType(), trade.getCoin(), trade.getQuantity(), trade.getPrice(), trade.getJustification(), trade.getChartData(), trade.getDate(), trade.getFeedback()));
             }
         }
         
@@ -110,6 +110,7 @@ public class StudentDTO {
     }
     
     private class TradeItem{
+        private Long id;
         private TradeType type;
         private String coin;
         private double quantity;
@@ -117,10 +118,12 @@ public class StudentDTO {
         private String justification;
         private List<Double> chartData;
         private String date;
+        private String feedback;
         
         public TradeItem() {};
         
-        public TradeItem(TradeType type, String coin, double quantity, double price, String justification, List<Double> chartData, String date) {
+        public TradeItem(Long id, TradeType type, String coin, double quantity, double price, String justification, List<Double> chartData, String date, String feedback) {
+            this.id = id;
             this.type = type;
             this.coin = coin;
             this.quantity = quantity;
@@ -128,6 +131,7 @@ public class StudentDTO {
             this.justification = justification;
             this.chartData = chartData;
             this.date = date;
+            this.feedback = feedback;
         }
         
         public TradeType getType() {
@@ -171,6 +175,22 @@ public class StudentDTO {
         }
         public void setDate(String date) {
             this.date = date;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getFeedback() {
+            return feedback;
+        }
+
+        public void setFeedback(String feedback) {
+            this.feedback = feedback;
         }
     }
 }

@@ -1,9 +1,6 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
-import {
-  StudentInvestmentsTitle,
-  StudentPortfolioTitle,
-} from "../../src/components/StudentDashboard/StudentDashboard";
+import { StudentTitles } from "../../src/components/StudentDashboard/StudentDashboard";
 import { UserPage } from "../../src/pages/UserPage/UserPage";
 import { chartError } from "../../src/components/DoughnutChart/DoughnutChart";
 
@@ -38,6 +35,7 @@ describe("UserPage rendering StudentDashBoard", () => {
             quantity: 2,
           },
         ],
+        tradeHistory: []
       },
     });
     return {
@@ -90,12 +88,13 @@ describe("UserPage rendering StudentDashBoard", () => {
 
   it("should render student investments", () => {
     render(<UserPage />);
-    screen.getByText(StudentInvestmentsTitle);
+    screen.getByText(StudentTitles.Investments);
     screen.getByText("BTC");
     screen.getByText("ETH");
     screen.getByTestId(`BTCGraph`);
     screen.getByTestId(`ETHGraph`);
-    screen.getByText(StudentPortfolioTitle);
+    screen.getByText(StudentTitles.Portfolio);
     screen.getByText(chartError);
+    screen.getAllByText(StudentTitles.History)
   });
 });

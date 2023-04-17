@@ -1,9 +1,13 @@
 import { Box, Typography } from "@mui/joy";
 import { PanelOfCoinChartCard } from "../PanelOfCoinChartCard/PanelOfCoinChartCard";
 import { DoughnutChart } from "../DoughnutChart/DoughnutChart";
+import { TradeCard } from "../TradeCard/TradeCard";
 
-export const StudentInvestmentsTitle = "Portfolio de inversion:";
-export const StudentPortfolioTitle = "Resumen del portfolio:";
+export const StudentTitles = {
+  Investments: "Portfolio de inversion:",
+  Portfolio: "Resumen del portfolio:",
+  History: "Historial:"
+}
 export const StudentDashboard = ({ data }) => {
   return (
     <>
@@ -16,7 +20,7 @@ export const StudentDashboard = ({ data }) => {
             xl: "60% 10% 30%",
           },
           placeContent: "center",
-          marginBottom:"20px"
+          marginBottom: "20px",
         }}
       >
         <Typography
@@ -64,10 +68,16 @@ export const StudentDashboard = ({ data }) => {
             lg: "60% 10% 30%",
             xl: "60% 10% 30%",
           },
-          marginBottom:"20px"
+          marginBottom: "20px",
         }}
       >
-        <Box sx={{ gridColumn: 3, gridRow: 1, marginBottom: { xs: "60px", md: "0", lg: "0", xl: "0" }}}>
+        <Box
+          sx={{
+            gridColumn: 3,
+            gridRow: 1,
+            marginBottom: { xs: "60px", md: "0", lg: "0", xl: "0" },
+          }}
+        >
           <Typography
             component="h2"
             sx={{
@@ -81,7 +91,7 @@ export const StudentDashboard = ({ data }) => {
               },
             }}
           >
-            {StudentPortfolioTitle}
+            {StudentTitles.Portfolio}
           </Typography>
           <Box
             sx={{
@@ -114,7 +124,7 @@ export const StudentDashboard = ({ data }) => {
               },
             }}
           >
-            {StudentInvestmentsTitle}
+            {StudentTitles.Investments}
           </Typography>
           <Box
             sx={{
@@ -125,6 +135,52 @@ export const StudentDashboard = ({ data }) => {
             <PanelOfCoinChartCard coins={data.portfolio} size={"md"} />
           </Box>
         </Box>
+      </Box>
+
+      <Typography
+            component="h2"
+            sx={{
+              textAlign: "left",
+              marginBottom: "20px",
+              typography: {
+                xs: "h5",
+                md: "h5",
+                lg: "h5",
+                xl: "h4",
+              },
+            }}
+          >
+            {StudentTitles.History}
+          </Typography>
+
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          alignContent: "space-around",
+        }}
+      >
+        {data.tradeHistory.map((trade, index) => (
+          <Box
+            sx={{
+              width: {
+                xs: "100%",
+                md: "100%",
+                lg: "48%",
+                xl: "46%",
+              },
+            }}
+          >
+            <TradeCard
+              key={`${data.username}TradeCard${index}`}
+              trade={trade}
+              username={data.username}
+              index={index}
+              role={"STUDENT"}
+            />
+          </Box>
+        ))}
       </Box>
     </>
   );

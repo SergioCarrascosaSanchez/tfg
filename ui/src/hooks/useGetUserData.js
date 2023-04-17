@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../context/UserContext" 
 const URL = `${import.meta.env.VITE_USERS_API_URL}`;
 
 export function useGetUserData(username) {
@@ -8,7 +8,13 @@ export function useGetUserData(username) {
   const [statusCode, setStatusCode] = useState(null);
   const [data, setData] = useState([]);
 
-  useEffect(() => {
+  const context = useContext(UserContext)
+
+  const GetUserData = (updateLoading) => {
+    if(updateLoading){
+      setLoading(true);
+    }
+    context.loading = true
     fetch(`${URL}/users/${username}`, {
       method: "GET",
       headers: {
@@ -25,19 +31,29 @@ export function useGetUserData(username) {
             setStatusCode(res.status);
             setData(resData);
             setLoading(false);
+            context.loading = false
           });
         } else {
           setStatusCode(res.status);
           setLoading(false);
           setError(true);
+          context.loading = false
         }
       })
       .catch((err) => {
         setError(true);
         setLoading(false);
+        context.loading = false
         console.log(err);
       });
-  }, []);
+  };
 
-  return { loading, error, statusCode, data };
+  context.loading = false
+  context.GetUserData = GetUserData
+
+  useEffect(() => {
+    GetUserData(true)
+  }, [])
+
+  return { loading, error, statusCode, data, GetUserData };
 }

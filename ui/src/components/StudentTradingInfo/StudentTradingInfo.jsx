@@ -43,6 +43,7 @@ export const StudentTradingInfo = ({ info, username }) => {
                 trade={trade}
                 username={username}
                 index={index}
+                role={"TEACHER"}
               />
             ))}
           </List>
