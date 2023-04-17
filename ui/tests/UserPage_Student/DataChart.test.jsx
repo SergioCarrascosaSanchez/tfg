@@ -1,9 +1,6 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
-import {
-  StudentInvestmentsTitle,
-  StudentPortfolioTitle,
-} from "../../src/components/StudentDashboard/StudentDashboard";
+import { StudentTitles } from "../../src/components/StudentDashboard/StudentDashboard";
 import { UserPage } from "../../src/pages/UserPage/UserPage";
 
 const studentName = "Sergio";
@@ -16,6 +13,22 @@ describe("UserPage rendering StudentDashBoard", () => {
       Link: ({ children, to }) => <a href={to}>{children}</a>,
     };
   });
+
+  vi.mock('react', async () => {
+    const ActualReact = await vi.importActual('react')
+    return {
+      ...ActualReact,
+      useContext: () => ({ })
+    }
+  })
+
+  vi.mock("../../src/context/UserContext", () => {
+    const UserContext = vi.fn();
+    UserContext.mockReturnValue({});
+    return {
+      UserContext,
+    };
+  })
 
   vi.mock("../../src/hooks/useGetUserData", () => {
     const useGetUserData = vi.fn();
@@ -35,6 +48,38 @@ describe("UserPage rendering StudentDashBoard", () => {
           {
             coin: "ETH",
             quantity: 2,
+          },
+        ],
+        tradeHistory: [
+          {
+            type: "BUY",
+            coin: "ETH",
+            quantity: 2,
+            price: 1400.0,
+            justification: "justification sample 1",
+            chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
+            date: "2023-03-17 08:14:38",
+            feedback: "Buen trabajo!",
+          },
+          {
+            type: "SELL",
+            coin: "BTC",
+            quantity: 1.0,
+            price: 18000.2,
+            justification: "justification sample 2",
+            chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
+            date: "2023-03-17 08:14:13",
+            feedback: "",
+          },
+          {
+            type: "BUY",
+            coin: "BTC",
+            quantity: 4.2,
+            price: 17000.1,
+            justification: "justification sample 3",
+            chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
+            date: "2023-03-17 08:14:11",
+            feedback: "",
           },
         ],
       },
@@ -90,14 +135,19 @@ describe("UserPage rendering StudentDashBoard", () => {
     screen.getByText("Balance: 1000$");
   });
 
-  it("should render student investments", () => {
+  it("should render student portfolio and tradeHistory", () => {
     render(<UserPage />);
-    screen.getByText(StudentInvestmentsTitle);
-    screen.getByText("BTC");
-    screen.getByText("ETH");
+    screen.getByText(StudentTitles.Investments);
+    expect(screen.queryAllByText("BTC").length).toBe(3);
+    expect(screen.queryAllByText("ETH").length).toBe(2);
     screen.getByTestId(`BTCGraph`);
     screen.getByTestId(`ETHGraph`);
-    screen.getByText(StudentPortfolioTitle);
+    screen.getByText(StudentTitles.Portfolio);
     screen.getByTestId(`${studentName}PortfolioChart`);
+    screen.getByText(StudentTitles.History);
+    expect(screen.queryAllByText("Compra").length).toBe(2);
+    expect(screen.queryAllByText("Venta").length).toBe(1);
+    screen.getByText("Buen trabajo!");
+
   });
 });

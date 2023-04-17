@@ -4,34 +4,50 @@ import { TradeTypeChip } from "../TradeTypeChip/TradeTypeChip";
 import { CoinLogo } from "../CoinLogo/CoinLogo";
 import { TeacherFeedback } from "../TeacherFeedback/TeacherFeedback";
 
-export const TradeCard = ({ username, trade, index }) => {
+export const TradeCard = ({ username, trade, index, role }) => {
   return (
     <Card
       sx={{
-        p: {
-          xs: 2,
-          md: 4,
-          lg: 4,
-          xl: 4,
-        },
-        my: {
-          xs: 2,
-          md: 3,
-          lg: 3,
-          xl: 3,
-        },
-        mx: {
-          xs: 0,
-          md: 3,
-          lg: 3,
-          xl: 3,
-        },
+        p:
+          role === "STUDENT"
+            ? {
+              xs: 3,
+              md: 8,
+              lg: 4,
+              xl: 6,
+            }
+            : role === "TEACHER" && {
+                xs: 2,
+                md: 4,
+                lg: 4,
+                xl: 4,
+              },
+        my:
+          role === "STUDENT"
+            ? 2
+            : role === "TEACHER" && {
+                xs: 2,
+                md: 3,
+                lg: 3,
+                xl: 3,
+              },
+        mx:
+          role === "STUDENT"
+            ? 0
+            : role === "TEACHER" && {
+                xs: 0,
+                md: 3,
+                lg: 3,
+                xl: 3,
+              },
       }}
       variant="outlined"
     >
       <Box
         sx={{
-          display: {
+          display: role === "STUDENT"
+          ? "block"
+          : role === "TEACHER" &&{
             xs: "block",
             md: "grid",
             lg: "grid",
@@ -50,13 +66,22 @@ export const TradeCard = ({ username, trade, index }) => {
           data-testid={`${username}TradeChart${index}`}
           sx={{
             gridColumn: 1,
-            minWidth: {
+            minWidth: role === "STUDENT"
+            ? {
+              xs: "280px",
+              md: "350px",
+              lg: "300px",
+              xl: "350px",
+            }
+            : role === "TEACHER" &&{
               xs: "300px",
               md: "350px",
               lg: "350px",
               xl: "350px",
             },
-            marginBottom: {
+            marginBottom: role === "STUDENT"
+            ? "20px"
+            : role === "TEACHER" &&{
               xs: "20px",
               md: "0px",
               lg: "0px",
@@ -70,7 +95,6 @@ export const TradeCard = ({ username, trade, index }) => {
           <Box
             sx={{
               display: "grid",
-
               placeContent: "left",
               gridTemplateColumns: {
                 xs: "43% 57%",
@@ -179,11 +203,11 @@ export const TradeCard = ({ username, trade, index }) => {
         </Box>
       </Box>
       <TeacherFeedback
-            comment={trade.feedback}
-            role={"TEACHER"}
-            student={username}
-            tradeId={trade.id}
-          />
+        comment={trade.feedback}
+        role={role}
+        student={username}
+        tradeId={trade.id}
+      />
     </Card>
   );
 };

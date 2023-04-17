@@ -16,9 +16,8 @@ export const TeacherFeedbackElements = {
 };
 
 export const TeacherFeedbackTexts = {
-  TeacherFeedback: "Comentarios del profesor:"
-}
-
+  TeacherFeedback: "Comentarios del profesor:",
+};
 
 export const TeacherFeedback = ({ comment, role, student, tradeId }) => {
   const [newComment, setNewComment] = useState("");
@@ -103,7 +102,15 @@ export const TeacherFeedback = ({ comment, role, student, tradeId }) => {
           </Box>
         </>
       ) : (
-        role === "STUDENT" && <p>{TeacherFeedbackErrors.NoComment}</p>
+        role === "STUDENT" && (
+          <Typography
+            textColor="neutral.600"
+            level="body"
+            component="p"
+          >
+            {TeacherFeedbackErrors.NoComment}
+          </Typography>
+        )
       )}
     </Box>
   );
