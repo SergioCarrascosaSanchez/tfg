@@ -59,12 +59,61 @@ describe("TeacherFeedback", () => {
     screen.getByText(TeacherFeedbackTexts.TeacherFeedback)
     screen.getByText(comment);
   });
+  
 
   it("should render message if there isnt a comment and the role is student", () => {
     const comment = "";
     render(<TeacherFeedback comment={comment} role={"STUDENT"} />);
     screen.getByText(TeacherFeedbackTexts.TeacherFeedback)
     screen.getByText(TeacherFeedbackErrors.NoComment);
+  });
+
+  it("should render message if comment is null and the role is student", () => {
+    const comment = null;
+    render(<TeacherFeedback comment={comment} role={"STUDENT"} />);
+    screen.getByText(TeacherFeedbackTexts.TeacherFeedback)
+    screen.getByText(TeacherFeedbackErrors.NoComment);
+  })
+
+  it("should render message if comment is undefined and the role is student", () => {
+    const comment = undefined;
+    render(<TeacherFeedback comment={comment} role={"STUDENT"} />);
+    screen.getByText(TeacherFeedbackTexts.TeacherFeedback)
+    screen.getByText(TeacherFeedbackErrors.NoComment);
+  })
+
+  it("should render textarea and button if comment is null and the role is teacher", () => {
+    const comment = null;
+    render(
+      <TeacherFeedback
+        comment={comment}
+        role={"TEACHER"}
+        teacher={"Teacher"}
+        student={"Student"}
+        tradeId={3}
+      />
+    );
+    screen.getByRole("textbox");
+    screen.getByRole("button");
+    screen.getByText(TeacherFeedbackElements.SubmitButton);
+    screen.getByText(TeacherFeedbackTexts.TeacherFeedback)
+  });
+
+  it("should render textarea and button if comment is undefined and the role is teacher", () => {
+    const comment = undefined;
+    render(
+      <TeacherFeedback
+        comment={comment}
+        role={"TEACHER"}
+        teacher={"Teacher"}
+        student={"Student"}
+        tradeId={3}
+      />
+    );
+    screen.getByRole("textbox");
+    screen.getByRole("button");
+    screen.getByText(TeacherFeedbackElements.SubmitButton);
+    screen.getByText(TeacherFeedbackTexts.TeacherFeedback)
   });
 
   it("should render textarea and button if there isnt a comment and the role is teacher", () => {

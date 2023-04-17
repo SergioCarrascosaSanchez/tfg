@@ -79,7 +79,7 @@ describe("UserPage rendering StudentDashBoard", () => {
             justification: "justification sample 3",
             chartData: [1.2, 1.9, 1.2, 1.9, 1.2, 1.9, 1.2, 1.9],
             date: "2023-03-17 08:14:11",
-            feedback: "",
+            feedback: null,
           },
         ],
       },
