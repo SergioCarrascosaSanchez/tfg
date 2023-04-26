@@ -1,69 +1,34 @@
-import * as React from "react";
-import Box from "@mui/joy/Box";
-import TextField from "@mui/joy/TextField";
-import Button from "@mui/joy/Button";
-import { Typography } from "@mui/joy";
+import { Typography, TextField, Button, Box } from "@mui/joy";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
+import { useLogin } from "../../hooks/useLogin";
+
+export const LoginFormErrors = {
+  Unexpected: "Error al iniciar sesion",
+  NotFound: "Usuario o contraseña incorrectos",
+  EmptyFields: "Debes rellenar todos los campos",
+};
+export const LoginFormTexts = {
+  Title: "Iniciar sesión",
+  Button: "Iniciar sesión",
+  UsernamePlaceholder: "Usuario",
+  PasswordPlaceholder: "Contraseña",
+};
 
 export const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [IncorrectUserPass, setIncorrectUserPass] = useState("none");
-  const [loginError, setLoginError] = useState("none");
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [emptyFields, setEmptyFields] = useState(false);
 
+  const { loading, error, statusCode, Login } = useLogin();
   const handleSubmit = async () => {
-    setLoginError("none");
-    setIncorrectUserPass("none");
-    setLoading(true);
-    await fetch(`${import.meta.env.VITE_USERS_API_URL}/login`, {
-      method: "POST",
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          res.json().then((resData) => {
-            localStorage.setItem("username", username);
-            localStorage.setItem("token", resData.token);
-            navigate(`/users/${username}`);
-          });
-        } else if (res.status === 403) {
-          setIncorrectUserPass("block");
-        } else {
-          setLoginError("block");
-        }
-      })
-      .catch((err) => {
-        setLoginError("block");
-      });
-    setLoading(false);
+    setEmptyFields(false);
+    if (username.length === 0 || password.length === 0) {
+      setEmptyFields(true);
+    } else {
+      Login(username, password);
+    }
   };
-
-  let LoadingButton;
-
-  if (!loading) {
-    LoadingButton = (
-      <Button
-        variant="solid"
-        onClick={handleSubmit}
-        data-testid="submitLoginButton"
-      >
-        Iniciar sesión
-      </Button>
-    );
-  } else {
-    LoadingButton = (
-      <Button variant="solid" onClick={handleSubmit} loading></Button>
-    );
-  }
 
   return (
     <>
@@ -77,28 +42,42 @@ export const LoginForm = () => {
           flexWrap: "wrap",
         }}
       >
-        <Typography level="h2">Iniciar sesión</Typography>
-        <Typography level="p2" textColor="red" display={loginError}>
-          Error al iniciar sesion
-        </Typography>
-        <Typography level="p2" textColor="red" display={IncorrectUserPass}>
-          Usuario o contraseña incorrectos
-        </Typography>
+        <Typography level="h2">{LoginFormTexts.Title}</Typography>
+
+        {emptyFields && (
+          <ErrorMessage message={LoginFormErrors.EmptyFields} form={true} />
+        )}
+        {error && statusCode === 403 ? (
+          <ErrorMessage message={LoginFormErrors.NotFound} form={true} />
+        ) : (
+          error && (
+            <ErrorMessage message={LoginFormErrors.Unexpected} form={true} />
+          )
+        )}
+
         <TextField
           name="username"
-          label="Usuario"
+          placeholder={LoginFormTexts.UsernamePlaceholder}
           variant="outlined"
           onChange={(e) => setUsername(e.target.value)}
         />
         <TextField
           name="password"
           role="password"
-          label="Contraseña"
+          placeholder={LoginFormTexts.PasswordPlaceholder}
           type="password"
           variant="outlined"
           onChange={(e) => setPassword(e.target.value)}
         />
-        {LoadingButton}
+        <Button
+          loading={loading}
+          variant="solid"
+          onClick={handleSubmit}
+          data-testid="submitLoginButton"
+          type="submit"
+        >
+          {LoginFormTexts.Button}
+        </Button>
       </Box>
     </>
   );
