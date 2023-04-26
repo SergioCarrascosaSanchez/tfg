@@ -1,22 +1,19 @@
-import * as React from "react";
-import Box from "@mui/joy/Box";
-import TextField from "@mui/joy/TextField";
-import Button from "@mui/joy/Button";
-import { Typography } from "@mui/joy";
+import { Typography, TextField, Button, Box } from "@mui/joy";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 
 export const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [IncorrectUserPass, setIncorrectUserPass] = useState("none");
-  const [loginError, setLoginError] = useState("none");
+  const [IncorrectUserPass, setIncorrectUserPass] = useState(false);
+  const [loginError, setLoginError] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    setLoginError("none");
-    setIncorrectUserPass("none");
+    setLoginError(false);
+    setIncorrectUserPass(false);
     setLoading(true);
     await fetch(`${import.meta.env.VITE_USERS_API_URL}/login`, {
       method: "POST",
@@ -36,34 +33,16 @@ export const LoginForm = () => {
             navigate(`/users/${username}`);
           });
         } else if (res.status === 403) {
-          setIncorrectUserPass("block");
+          setIncorrectUserPass(true);
         } else {
-          setLoginError("block");
+          setLoginError(true);
         }
       })
       .catch((err) => {
-        setLoginError("block");
+        setLoginError(true);
       });
     setLoading(false);
   };
-
-  let LoadingButton;
-
-  if (!loading) {
-    LoadingButton = (
-      <Button
-        variant="solid"
-        onClick={handleSubmit}
-        data-testid="submitLoginButton"
-      >
-        Iniciar sesión
-      </Button>
-    );
-  } else {
-    LoadingButton = (
-      <Button variant="solid" onClick={handleSubmit} loading></Button>
-    );
-  }
 
   return (
     <>
@@ -78,12 +57,17 @@ export const LoginForm = () => {
         }}
       >
         <Typography level="h2">Iniciar sesión</Typography>
-        <Typography level="p2" textColor="red" display={loginError}>
-          Error al iniciar sesion
-        </Typography>
-        <Typography level="p2" textColor="red" display={IncorrectUserPass}>
-          Usuario o contraseña incorrectos
-        </Typography>
+
+        {loginError && (
+          <ErrorMessage message={"Error al iniciar sesion"} form={true} />
+        )}
+        {IncorrectUserPass && (
+          <ErrorMessage
+            message={"Usuario o contraseña incorrectos"}
+            form={true}
+          />
+        )}
+
         <TextField
           name="username"
           label="Usuario"
@@ -98,7 +82,14 @@ export const LoginForm = () => {
           variant="outlined"
           onChange={(e) => setPassword(e.target.value)}
         />
-        {LoadingButton}
+        <Button
+          loading={loading}
+          variant="solid"
+          onClick={handleSubmit}
+          data-testid="submitLoginButton"
+        >
+          Iniciar sesión
+        </Button>
       </Box>
     </>
   );
