@@ -3,6 +3,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 
+export const LoginFormErrors = {
+  Unexpected: "Error al iniciar sesion",
+  NotFound: "Usuario o contraseña incorrectos"
+}
+export const LoginFormTexts = {
+  Title: "Iniciar sesión",
+  Button: "Iniciar sesión"
+}
+
 export const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -56,14 +65,14 @@ export const LoginForm = () => {
           flexWrap: "wrap",
         }}
       >
-        <Typography level="h2">Iniciar sesión</Typography>
+        <Typography level="h2">{LoginFormTexts.Title}</Typography>
 
         {loginError && (
-          <ErrorMessage message={"Error al iniciar sesion"} form={true} />
+          <ErrorMessage message={LoginFormErrors.Unexpected} form={true} />
         )}
         {IncorrectUserPass && (
           <ErrorMessage
-            message={"Usuario o contraseña incorrectos"}
+            message={LoginFormErrors.NotFound}
             form={true}
           />
         )}
@@ -88,7 +97,7 @@ export const LoginForm = () => {
           onClick={handleSubmit}
           data-testid="submitLoginButton"
         >
-          Iniciar sesión
+          {LoginFormTexts.Button}
         </Button>
       </Box>
     </>
