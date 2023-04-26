@@ -44,7 +44,7 @@ public class CoinRestController {
         if(optionalCoin.isPresent()) {
             Coin coin = optionalCoin.get();
             PricesResponseDTO response = new PricesResponseDTO();
-            response.setPrices(coin.getListOf10sPrices());
+            response.setPrices(coin.get10sPrices());
             return new ResponseEntity<PricesResponseDTO>(response, HttpStatus.OK);
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -58,7 +58,7 @@ public class CoinRestController {
         if(optionalCoin.isPresent()) {
             Coin coin = optionalCoin.get();
             PricesResponseDTO response = new PricesResponseDTO();
-            response.setPrices(coin.getListOf30mPrices());
+            response.setPrices(coin.get30mPrices());
             return new ResponseEntity<PricesResponseDTO>(response, HttpStatus.OK);
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
