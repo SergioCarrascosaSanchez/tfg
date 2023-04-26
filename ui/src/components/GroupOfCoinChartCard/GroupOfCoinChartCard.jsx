@@ -2,7 +2,7 @@ import { Box } from "@mui/joy";
 import { CoinChartCard } from "../CoinChartCard/CoinChartCard";
 import { Link } from "react-router-dom";
 
-export const PanelOfCoinChartCard = ({ coins, size, quantity }) => {
+export const GroupOfCoinChartCard = ({ coins, size, quantity }) => {
   return (
     <Box
       component="ul"

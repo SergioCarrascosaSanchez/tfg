@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/joy";
-import { PanelOfCoinChartCard } from "../PanelOfCoinChartCard/PanelOfCoinChartCard";
+import { GroupOfCoinChartCard } from "../GroupOfCoinChartCard/GroupOfCoinChartCard";
 import { DoughnutChart } from "../DoughnutChart/DoughnutChart";
 import { TradeCard } from "../TradeCard/TradeCard";
 
@@ -132,7 +132,7 @@ export const StudentDashboard = ({ data }) => {
               placeContent: "center",
             }}
           >
-            <PanelOfCoinChartCard coins={data.portfolio} quantity={true} size={"md"} />
+            <GroupOfCoinChartCard coins={data.portfolio} quantity={true} size={"md"} />
           </Box>
         </Box>
       </Box>
