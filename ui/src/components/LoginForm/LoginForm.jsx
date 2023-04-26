@@ -1,7 +1,7 @@
 import { Typography, TextField, Button, Box } from "@mui/joy";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
+import { useLogin } from "../../hooks/useLogin";
 
 export const LoginFormErrors = {
   Unexpected: "Error al iniciar sesion",
@@ -18,47 +18,16 @@ export const LoginFormTexts = {
 export const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [IncorrectUserPass, setIncorrectUserPass] = useState(false);
-  const [loginError, setLoginError] = useState(false);
   const [emptyFields, setEmptyFields] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
+  const { loading, error, statusCode, Login } = useLogin();
   const handleSubmit = async () => {
-    setLoginError(false);
     setEmptyFields(false);
-    setIncorrectUserPass(false);
-    setLoading(true);
     if (username.length === 0 || password.length === 0) {
       setEmptyFields(true);
+    } else {
+      Login(username, password);
     }
-    await fetch(`${import.meta.env.VITE_USERS_API_URL}/login`, {
-      method: "POST",
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          res.json().then((resData) => {
-            localStorage.setItem("username", username);
-            localStorage.setItem("token", resData.token);
-            navigate(`/users/${username}`);
-          });
-        } else if (res.status === 403) {
-          setIncorrectUserPass(true);
-        } else {
-          setLoginError(true);
-        }
-      })
-      .catch((err) => {
-        setLoginError(true);
-      });
-    setLoading(false);
   };
 
   return (
@@ -78,11 +47,12 @@ export const LoginForm = () => {
         {emptyFields && (
           <ErrorMessage message={LoginFormErrors.EmptyFields} form={true} />
         )}
-        {loginError && (
-          <ErrorMessage message={LoginFormErrors.Unexpected} form={true} />
-        )}
-        {IncorrectUserPass && (
+        {error && statusCode === 403 ? (
           <ErrorMessage message={LoginFormErrors.NotFound} form={true} />
+        ) : (
+          error && (
+            <ErrorMessage message={LoginFormErrors.Unexpected} form={true} />
+          )
         )}
 
         <TextField
@@ -104,6 +74,7 @@ export const LoginForm = () => {
           variant="solid"
           onClick={handleSubmit}
           data-testid="submitLoginButton"
+          type="submit"
         >
           {LoginFormTexts.Button}
         </Button>

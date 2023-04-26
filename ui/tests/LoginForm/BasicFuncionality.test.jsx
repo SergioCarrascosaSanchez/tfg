@@ -6,11 +6,23 @@ import {
   LoginFormErrors,
 } from "../../src/components/LoginForm/LoginForm";
 
-describe("CoinChartCard Loading", () => {
+describe("LoginForm", () => {
   vi.mock("react-router-dom", async () => {
     return {
       ...vi.importMock("react-router-dom"),
       useNavigate: () => {},
+    };
+  });
+  vi.mock("../../src/hooks/useLogin", () => {
+    const useLogin = vi.fn();
+    useLogin.mockReturnValue({
+      loading: false,
+      statusCode: null,
+      error: false,
+      Login: vi.fn(),
+    });
+    return {
+      useLogin,
     };
   });
 
@@ -31,13 +43,13 @@ describe("CoinChartCard Loading", () => {
   });
   it("should render error if empty fields", () => {
     render(<LoginForm />);
-    expect(screen.queryAllByText(LoginFormErrors.EmptyFields).length).toBe(0)
-    fireEvent.click(screen.getByRole("button"))
-    screen.getByText(LoginFormErrors.EmptyFields)
+    expect(screen.queryAllByText(LoginFormErrors.EmptyFields).length).toBe(0);
+    fireEvent.click(screen.getByRole("button"));
+    screen.getByText(LoginFormErrors.EmptyFields);
   });
   it("should render not error if not empty fields", () => {
     render(<LoginForm />);
-    expect(screen.queryAllByText(LoginFormErrors.EmptyFields).length).toBe(0)
+    expect(screen.queryAllByText(LoginFormErrors.EmptyFields).length).toBe(0);
     fireEvent.change(
       screen.getByPlaceholderText(LoginFormTexts.UsernamePlaceholder),
       {
@@ -50,7 +62,7 @@ describe("CoinChartCard Loading", () => {
         target: { value: "Test" },
       }
     );
-    fireEvent.click(screen.getByRole("button"))
-    expect(screen.queryAllByText(LoginFormErrors.EmptyFields).length).toBe(0)
+    fireEvent.click(screen.getByRole("button"));
+    expect(screen.queryAllByText(LoginFormErrors.EmptyFields).length).toBe(0);
   });
 });
