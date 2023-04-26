@@ -50,18 +50,18 @@ public class Coin {
     
     public void addLastPrice(double price) {
         this.lastPrice = price;
-        addToListOf10sPrices(price);
+        add10sPrice(price);
     }
     
     public double getLastPrice() {
         return lastPrice;
     }
 
-    public List<Double> getListOf10sPrices() {
+    public List<Double> get10sPrices() {
         return this.listOf10sPrices;
     }
     
-    public void addToListOf10sPrices(double price) {
+    public void add10sPrice(double price) {
         if(listOf10sPrices.size() == MAX_10s_PRICES) {
             listOf10sPrices.remove(0);
         }
@@ -72,7 +72,7 @@ public class Coin {
         this.listOf30mPrices.add(price);
     }
 
-    public List<Double> getListOf30mPrices() {
+    public List<Double> get30mPrices() {
         return this.listOf30mPrices;
     }
 
