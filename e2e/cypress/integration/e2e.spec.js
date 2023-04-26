@@ -72,7 +72,7 @@ describe("Complete app", () => {
       });
       cy.get('a:contains("ADA")').should('have.length', 1);
       cy.get('p:contains("ADA")').should('have.length', 1);
-
+      cy.get('p:contains("Cantidad: 2")').should('have.length', 2);
       cy.visit("/market");
       cy.contains("ADA").click();
       cy.contains("ADA");
@@ -92,6 +92,7 @@ describe("Complete app", () => {
       cy.contains("UserTest");
       cy.get('a:contains("ADA")').should('have.length', 1);
       cy.get('p:contains("ADA")').should('have.length', 2);
+      cy.get('p:contains("Cantidad: 1")').should('have.length', 2);
       cy.contains("Balance:")
         .invoke("text")
         .then((text) => {

@@ -3,7 +3,7 @@ import { Navbar } from "../../components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { stringBUSD } from "../../utils/stringBUSD";
-import { PanelOfCoinChartCard } from "../../components/PanelOfCoinChartCard/PanelOfCoinChartCard";
+import { GroupOfCoinChartCard } from "../../components/GroupOfCoinChartCard/GroupOfCoinChartCard";
 
 export const MarketName = "Mercados";
 export const popularCryptocurrencies = [
@@ -91,7 +91,7 @@ export const MarketPage = () => {
             placeContent: "center",
           }}
         >
-          <PanelOfCoinChartCard coins={popularCryptocurrencies} size={"lg"} />
+          <GroupOfCoinChartCard coins={popularCryptocurrencies} size={"lg"} />
         </Box>
       </Box>
     </>
