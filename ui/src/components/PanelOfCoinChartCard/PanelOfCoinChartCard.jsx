@@ -2,7 +2,7 @@ import { Box } from "@mui/joy";
 import { CoinChartCard } from "../CoinChartCard/CoinChartCard";
 import { Link } from "react-router-dom";
 
-export const PanelOfCoinChartCard = ({ coins, size }) => {
+export const PanelOfCoinChartCard = ({ coins, size, quantity }) => {
   return (
     <Box
       component="ul"
@@ -26,7 +26,11 @@ export const PanelOfCoinChartCard = ({ coins, size }) => {
           key={coinObject.coin}
           style={{ textDecoration: "none" }}
         >
-          <CoinChartCard name={coinObject.coin} time={"30m"} />
+          {quantity ? (
+            <CoinChartCard name={coinObject.coin} time={"30m"} quantity={coinObject.quantity}/>
+          ) : (
+            <CoinChartCard name={coinObject.coin} time={"30m"} />
+          )}
         </Link>
       ))}
     </Box>

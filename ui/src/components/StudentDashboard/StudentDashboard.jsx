@@ -132,7 +132,7 @@ export const StudentDashboard = ({ data }) => {
               placeContent: "center",
             }}
           >
-            <PanelOfCoinChartCard coins={data.portfolio} size={"md"} />
+            <PanelOfCoinChartCard coins={data.portfolio} quantity={true} size={"md"} />
           </Box>
         </Box>
       </Box>
