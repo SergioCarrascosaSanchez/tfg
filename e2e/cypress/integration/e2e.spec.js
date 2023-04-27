@@ -31,7 +31,7 @@ describe("Complete app", () => {
       cy.get('[data-testid="submitLoginButton"]').click();
 
       cy.contains("UserTest");
-      cy.contains("Cartera de inversion:");
+      cy.contains("Cartera de inversión:");
       cy.contains("Saldo disponible:")
         .invoke("text")
         .then((text) => {
@@ -56,7 +56,7 @@ describe("Complete app", () => {
 
       cy.visit("/users/UserTest");
       cy.contains("UserTest");
-      cy.contains("Cartera de inversion:");
+      cy.contains("Cartera de inversión:");
       cy.contains("Saldo disponible:")
         .invoke("text")
         .then((text) => {

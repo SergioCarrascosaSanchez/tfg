@@ -4,7 +4,7 @@ import { DoughnutChart } from "../DoughnutChart/DoughnutChart";
 import { TradeCard } from "../TradeCard/TradeCard";
 
 export const StudentTitles = {
-  Investments: "Cartera de inversion:",
+  Investments: "Cartera de inversión:",
   Portfolio: "Resumen de la cartera:",
   History: "Historial:",
   Balance: "Saldo disponible: "
