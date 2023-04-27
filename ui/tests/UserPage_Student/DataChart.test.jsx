@@ -132,7 +132,7 @@ describe("UserPage rendering StudentDashBoard", () => {
   it("should render student name and balance", () => {
     render(<UserPage />);
     screen.getByText(studentName);
-    screen.getByText("Balance: 1000$");
+    screen.getByText(`${StudentTitles.Balance}1000$`);
   });
 
   it("should render student portfolio and tradeHistory", () => {

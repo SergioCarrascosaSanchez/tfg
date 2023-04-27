@@ -31,11 +31,11 @@ describe("Complete app", () => {
       cy.get('[data-testid="submitLoginButton"]').click();
 
       cy.contains("UserTest");
-      cy.contains("Portfolio de inversion:");
-      cy.contains("Balance:")
+      cy.contains("Cartera de inversión:");
+      cy.contains("Saldo disponible:")
         .invoke("text")
         .then((text) => {
-          const balance = text.slice(8, -1);
+          const balance = text.slice(18, -1);
           cy.wrap(Number(balance)).as("balance");
         });
 
@@ -56,11 +56,11 @@ describe("Complete app", () => {
 
       cy.visit("/users/UserTest");
       cy.contains("UserTest");
-      cy.contains("Portfolio de inversion:");
-      cy.contains("Balance:")
+      cy.contains("Cartera de inversión:");
+      cy.contains("Saldo disponible:")
         .invoke("text")
         .then((text) => {
-          const balance2 = text.slice(8, -1);
+          const balance2 = text.slice(18, -1);
           cy.wrap(Number(balance2)).as("newBalance");
         });
 
@@ -93,10 +93,10 @@ describe("Complete app", () => {
       cy.get('a:contains("ADA")').should('have.length', 1);
       cy.get('p:contains("ADA")').should('have.length', 2);
       cy.get('p:contains("Cantidad: 1")').should('have.length', 2);
-      cy.contains("Balance:")
+      cy.contains("Saldo disponible:")
         .invoke("text")
         .then((text) => {
-          const balance = text.slice(8, -1);
+          const balance = text.slice(18, -1);
           cy.wrap(Number(balance)).as("newBalanceAfterFirstSell");
         });
       cy.get("@newBalance").then((balance) => {
@@ -128,10 +128,10 @@ describe("Complete app", () => {
       cy.contains("UserTest");
       cy.get('a:contains("ADA")').should('have.length', 0);
       cy.get('p:contains("ADA")').should('have.length', 3);
-      cy.contains("Balance:")
+      cy.contains("Saldo disponible:")
         .invoke("text")
         .then((text) => {
-          const balance = text.slice(8, -1);
+          const balance = text.slice(18, -1);
           cy.wrap(Number(balance)).as("newBalanceAfterSecondSell");
         });
       cy.get("@newBalanceAfterFirstSell").then((balance) => {

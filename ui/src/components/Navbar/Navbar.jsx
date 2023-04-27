@@ -7,7 +7,7 @@ export const options = {
   "Mi perfil": "/users/",
   "Cerrar sesión": "/",
 };
-export const appName = "CryptoMince";
+export const appName = "CryptoMynce";
 
 export const Navbar = () => {
   return (
