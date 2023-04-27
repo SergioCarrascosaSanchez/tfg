@@ -6,7 +6,8 @@ import { TradeCard } from "../TradeCard/TradeCard";
 export const StudentTitles = {
   Investments: "Cartera de inversion:",
   Portfolio: "Resumen de la cartera:",
-  History: "Historial:"
+  History: "Historial:",
+  Balance: "Saldo disponible: "
 }
 export const StudentDashboard = ({ data }) => {
   return (
@@ -57,7 +58,7 @@ export const StudentDashboard = ({ data }) => {
             textAlign: "center",
             alignSelf: "center",
           }}
-        >{`Balance: ${data.balance}$`}</Typography>
+        >{`${StudentTitles.Balance}${data.balance}$`}</Typography>
       </Box>
       <Box
         sx={{
