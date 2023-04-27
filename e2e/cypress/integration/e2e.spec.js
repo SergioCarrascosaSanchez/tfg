@@ -332,4 +332,26 @@ describe("Complete app", () => {
       });
     });
   });
+  describe("NotFoundPage", () => {
+    it("Should load error message", () => {
+      cy.visit("/ajkh");
+      cy.contains("Esta página no existe")
+    });
+    it("Should load error message", () => {
+      cy.visit("/adkadjhk/akjhdakjhsd");
+      cy.contains("Esta página no existe")
+    });
+    it("Should load error message", () => {
+      cy.visit("/cin/BTC");
+      cy.contains("Esta página no existe")
+    });
+    it("Should load error message", () => {
+      cy.visit("/usnn/Sergio");
+      cy.contains("Esta página no existe")
+    });
+    it("Should load error message", () => {
+      cy.visit("/murket");
+      cy.contains("Esta página no existe")
+    });
+  });
 });
