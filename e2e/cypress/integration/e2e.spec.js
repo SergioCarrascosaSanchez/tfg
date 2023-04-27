@@ -35,7 +35,7 @@ describe("Complete app", () => {
       cy.contains("Saldo disponible:")
         .invoke("text")
         .then((text) => {
-          const balance = text.slice(8, -1);
+          const balance = text.slice(18, -1);
           cy.wrap(Number(balance)).as("balance");
         });
 
@@ -60,7 +60,7 @@ describe("Complete app", () => {
       cy.contains("Saldo disponible:")
         .invoke("text")
         .then((text) => {
-          const balance2 = text.slice(8, -1);
+          const balance2 = text.slice(18, -1);
           cy.wrap(Number(balance2)).as("newBalance");
         });
 
@@ -96,7 +96,7 @@ describe("Complete app", () => {
       cy.contains("Saldo disponible:")
         .invoke("text")
         .then((text) => {
-          const balance = text.slice(8, -1);
+          const balance = text.slice(18, -1);
           cy.wrap(Number(balance)).as("newBalanceAfterFirstSell");
         });
       cy.get("@newBalance").then((balance) => {
@@ -131,7 +131,7 @@ describe("Complete app", () => {
       cy.contains("Saldo disponible:")
         .invoke("text")
         .then((text) => {
-          const balance = text.slice(8, -1);
+          const balance = text.slice(18, -1);
           cy.wrap(Number(balance)).as("newBalanceAfterSecondSell");
         });
       cy.get("@newBalanceAfterFirstSell").then((balance) => {
