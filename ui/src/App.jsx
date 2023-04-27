@@ -6,6 +6,7 @@ import { customTheme } from "./config/customTheme";
 import { CoinPage } from "./pages/CoinPage/CoinPage";
 import { UserPage } from "./pages/UserPage/UserPage";
 import { UserContext } from "./context/UserContext";
+import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
 function App() {
   return (
     <CssVarsProvider theme={customTheme}>
@@ -16,11 +17,14 @@ function App() {
         <Route
           path="/users/:user"
           element={
-            <UserContext.Provider value={{loading: true, GetUserData:()=>{}}}>
+            <UserContext.Provider
+              value={{ loading: true, GetUserData: () => {} }}
+            >
               <UserPage />
             </UserContext.Provider>
           }
         ></Route>
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </CssVarsProvider>
   );
