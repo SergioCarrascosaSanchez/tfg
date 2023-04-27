@@ -90,4 +90,17 @@ describe("Navbar", () => {
       expect(screen.queryAllByTestId(`${opt}Navbar`).length).toBe(1);
     });
   });
+
+  it("should render appName, github image and options when location pathname is the notFoundPage", () => {
+    Object.defineProperty(window, "location", {
+      writable: true,
+      value: { pathname: "/NotExistingPage" },
+    });
+    render(<Navbar />);
+    screen.getByTestId(`${appName}Navbar`);
+    screen.getByTestId("githubImage");
+    Object.keys(options).forEach((opt) => {
+      expect(screen.queryAllByTestId(`${opt}Navbar`).length).toBe(1);
+    });
+  });
 });
