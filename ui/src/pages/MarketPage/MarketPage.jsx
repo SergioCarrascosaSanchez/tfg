@@ -87,8 +87,18 @@ export const MarketPage = () => {
         </Box>
         <Box
           sx={{
-            display: "grid",
-            placeContent: "center",
+            display: {
+              xs:"grid",
+              md:"grid",
+              lg:"block",
+              xl:"block",
+            },
+            placeContent: {
+              xs:"center",
+              md:"center",
+              lg:"",
+              xl:"",
+            },
           }}
         >
           <GroupOfCoinChartCard coins={popularCryptocurrencies} size={"lg"} />
