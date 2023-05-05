@@ -325,6 +325,7 @@ describe("Complete app", () => {
       cy.get('[name="username"]').type("StudentForE2ENotFoundPage");
       cy.get('[name="password"]').type("elrijjkfh");
       cy.get('[data-testid="submitLoginButton"]').click();
+      cy.wait(200);
       cy.visit("/ajkh");
       cy.contains("Esta página no existe");
       cy.visit("/adkadjhk/akjhdakjhsd");
