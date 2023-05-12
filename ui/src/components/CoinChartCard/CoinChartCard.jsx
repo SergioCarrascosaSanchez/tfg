@@ -5,8 +5,8 @@ import CircularProgress from "@mui/joy/CircularProgress";
 import { CoinLogo } from "../CoinLogo/CoinLogo";
 
 export const CoinChartCardErrorMessage = "Ha ocurrido un error con ";
-
-export const CoinChartCard = ({ name, time }) => {
+export const CoinChartCardQuantityText = "Cantidad: "
+export const CoinChartCard = ({ name, time, quantity }) => {
   const data = useGetPrice(`${time}`, `${name}BUSD`);
   return (
     <Card
@@ -16,7 +16,7 @@ export const CoinChartCard = ({ name, time }) => {
       data-testid={`${name}CoinChartCard`}
       sx={{
         width: { xs: "260px", md: "265px", lg: "90%", xl: "90%" },
-        minWidth: { lg: "380px", xl:"300px" },
+        minWidth: { lg: "380px", xl: "300px" },
       }}
     >
       {data.loading ? (
@@ -40,7 +40,6 @@ export const CoinChartCard = ({ name, time }) => {
               display: "grid",
               gridTemplateColumns: "18% 42% 40%",
               gap: 0,
-              marginBottom: 2,
             }}
           >
             <Box
@@ -81,6 +80,23 @@ export const CoinChartCard = ({ name, time }) => {
               {data.data[data.data.length - 1]}
             </Typography>
           </Box>
+          {quantity && (
+            <Box
+              sx={{
+                textAlign: "right",
+                marginTop: {
+                  xs: "0px",
+                  md: "0px",
+                  lg: "4px",
+                  xl: "4px",
+                },
+                marginBottom: 2,
+              }}
+            >
+              <p>{`${CoinChartCardQuantityText}${quantity}`}</p>
+            </Box>
+          )}
+
           <Box
             element="div"
             data-testid={`${name}Graph`}

@@ -1,7 +1,7 @@
 import MarketImage from "../../assets/MainPage_Market_ScreenShot.png";
 import TeacherImage from "../../assets/MainPage_TeacherTrades_ScreenShot.png";
 import { Navbar, appName } from "../../components/Navbar/Navbar";
-import { Box, Button, Typography, Modal, ModalDialog } from "@mui/joy";
+import { Box, Button, Typography, Modal, ModalDialog, ModalClose } from "@mui/joy";
 import { LoginForm } from "../../components/LoginForm/LoginForm";
 import { useState } from "react";
 import { MainPageSection } from "../../components/MainPageSection/MainPageSection";
@@ -96,6 +96,7 @@ export const MainPage = () => {
             }}
           >
             <LoginForm />
+            <ModalClose />
           </ModalDialog>
         </Modal>
       </Box>

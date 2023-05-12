@@ -2,10 +2,8 @@ describe("Complete app", () => {
   before(() => {
     cy.wait(60000);
   });
-
   describe("Trade Coins", () => {
     it("Buy coin", () => {
-      
       cy.visit("/");
       cy.contains("Iniciar sesión").click();
       cy.get('[name="username"]').type("Admin");
@@ -13,29 +11,29 @@ describe("Complete app", () => {
       cy.get('[data-testid="submitLoginButton"]').click();
 
       cy.contains("Panel de control de usuarios");
-      cy.contains("Dar de alta un estudiante").click()
-      cy.contains("Nuevo estudiante")
+      cy.contains("Dar de alta un estudiante").click();
+      cy.contains("Nuevo estudiante");
       cy.get('[placeholder="Nombre de usuario"]').type("UserTest");
       cy.get('[placeholder="Email"]').type("UserTest@gmail.com");
-      cy.get('[placeholder="Balance inicial"]').type("1000")
+      cy.get('[placeholder="Balance inicial"]').type("1000");
       cy.get('[placeholder="Contraseña"]').type("elrijjkfh");
-      cy.contains("Crear estudiante").click()
-      cy.contains("Operación completada con éxito")
+      cy.contains("Crear estudiante").click();
+      cy.contains("Operación completada con éxito");
       cy.get('[data-testid="CloseIcon"]').click();
 
       cy.get("[data-testid='Cerrar sesiónNavbar']").click();
-      
+
       cy.contains("Iniciar sesión").click();
       cy.get('[name="username"]').type("UserTest");
       cy.get('[name="password"]').type("elrijjkfh");
       cy.get('[data-testid="submitLoginButton"]').click();
 
       cy.contains("UserTest");
-      cy.contains("Portfolio de inversion:");
-      cy.contains("Balance:")
+      cy.contains("Cartera de inversión:");
+      cy.contains("Saldo disponible:")
         .invoke("text")
         .then((text) => {
-          const balance = text.slice(8, -1);
+          const balance = text.slice(18, -1);
           cy.wrap(Number(balance)).as("balance");
         });
 
@@ -56,11 +54,11 @@ describe("Complete app", () => {
 
       cy.visit("/users/UserTest");
       cy.contains("UserTest");
-      cy.contains("Portfolio de inversion:");
-      cy.contains("Balance:")
+      cy.contains("Cartera de inversión:");
+      cy.contains("Saldo disponible:")
         .invoke("text")
         .then((text) => {
-          const balance2 = text.slice(8, -1);
+          const balance2 = text.slice(18, -1);
           cy.wrap(Number(balance2)).as("newBalance");
         });
 
@@ -70,9 +68,9 @@ describe("Complete app", () => {
           cy.get("@newBalance").should("be.closeTo", expectedNewBalance, 0.01);
         });
       });
-      cy.get('a:contains("ADA")').should('have.length', 1);
-      cy.get('p:contains("ADA")').should('have.length', 1);
-
+      cy.get('a:contains("ADA")').should("have.length", 1);
+      cy.get('p:contains("ADA")').should("have.length", 1);
+      cy.get('p:contains("Cantidad: 2")').should("have.length", 2);
       cy.visit("/market");
       cy.contains("ADA").click();
       cy.contains("ADA");
@@ -90,12 +88,13 @@ describe("Complete app", () => {
 
       cy.visit("/users/UserTest");
       cy.contains("UserTest");
-      cy.get('a:contains("ADA")').should('have.length', 1);
-      cy.get('p:contains("ADA")').should('have.length', 2);
-      cy.contains("Balance:")
+      cy.get('a:contains("ADA")').should("have.length", 1);
+      cy.get('p:contains("ADA")').should("have.length", 2);
+      cy.get('p:contains("Cantidad: 1")').should("have.length", 2);
+      cy.contains("Saldo disponible:")
         .invoke("text")
         .then((text) => {
-          const balance = text.slice(8, -1);
+          const balance = text.slice(18, -1);
           cy.wrap(Number(balance)).as("newBalanceAfterFirstSell");
         });
       cy.get("@newBalance").then((balance) => {
@@ -125,12 +124,12 @@ describe("Complete app", () => {
 
       cy.visit("/users/UserTest");
       cy.contains("UserTest");
-      cy.get('a:contains("ADA")').should('have.length', 0);
-      cy.get('p:contains("ADA")').should('have.length', 3);
-      cy.contains("Balance:")
+      cy.get('a:contains("ADA")').should("have.length", 0);
+      cy.get('p:contains("ADA")').should("have.length", 3);
+      cy.contains("Saldo disponible:")
         .invoke("text")
         .then((text) => {
-          const balance = text.slice(8, -1);
+          const balance = text.slice(18, -1);
           cy.wrap(Number(balance)).as("newBalanceAfterSecondSell");
         });
       cy.get("@newBalanceAfterFirstSell").then((balance) => {
@@ -146,7 +145,17 @@ describe("Complete app", () => {
     });
   });
   describe("marketSearch", () => {
+    before(() => {
+      createUser("StudentForE2EMarketSearch");
+    });
+
     beforeEach(() => {
+      cy.visit("/");
+      cy.contains("Iniciar sesión").click();
+      cy.get('[name="username"]').type("StudentForE2EMarketSearch");
+      cy.get('[name="password"]').type("elrijjkfh");
+      cy.get('[data-testid="submitLoginButton"]').click();
+      cy.wait(100);
       cy.visit("/market");
     });
 
@@ -182,27 +191,27 @@ describe("Complete app", () => {
 
       cy.contains("Panel de control de usuarios");
 
-      cy.contains("Dar de alta un estudiante").click()
-      cy.contains("Nuevo estudiante")
+      cy.contains("Dar de alta un estudiante").click();
+      cy.contains("Nuevo estudiante");
       cy.get('[placeholder="Nombre de usuario"]').type("StudentForE2E");
       cy.get('[placeholder="Email"]').type("StudentForE2E@UserTest.com");
-      cy.get('[placeholder="Balance inicial"]').type("1000")
+      cy.get('[placeholder="Balance inicial"]').type("1000");
       cy.get('[placeholder="Contraseña"]').type("elrijjkfh");
-      cy.contains("Crear estudiante").click()
-      cy.contains("Operación completada con éxito")
+      cy.contains("Crear estudiante").click();
+      cy.contains("Operación completada con éxito");
       cy.get('[data-testid="CloseIcon"]').click();
 
-      cy.contains("Dar de alta un profesor").click()
-      cy.contains("Nuevo profesor")
+      cy.contains("Dar de alta un profesor").click();
+      cy.contains("Nuevo profesor");
       cy.get('[placeholder="Nombre de usuario"]').type("TeacherForE2E");
       cy.get('[placeholder="Email"]').type("TeacherForE2E@UserTest.com");
       cy.get('[placeholder="Contraseña"]').type("elrijjkfh2");
-      cy.contains("Crear profesor").click()
-      cy.contains("Operación completada con éxito")
+      cy.contains("Crear profesor").click();
+      cy.contains("Operación completada con éxito");
       cy.get('[data-testid="CloseIcon"]').click();
 
-      cy.contains("Agregar estudiantes a un profesor").click()
-      cy.contains("Añadir alumnos a un profesor")
+      cy.contains("Agregar estudiantes a un profesor").click();
+      cy.contains("Añadir alumnos a un profesor");
       cy.get('[placeholder="Nombre del profesor"]').type("TeacherForE2E");
       cy.get('[data-testid="student2RemoveButton"]').click();
       cy.get('[data-testid="student3RemoveButton"]').click();
@@ -210,7 +219,7 @@ describe("Complete app", () => {
       cy.get('[data-testid="student5RemoveButton"]').click();
       cy.get('[placeholder="Nombre del alumno 1"]').type("StudentForE2E");
       cy.get('[data-testid="submitAddStudentsButton"]').click();
-      cy.contains("Operacion correcta")
+      cy.contains("Operacion correcta");
       cy.get('[data-testid="CloseIcon"]').click();
 
       cy.get("[data-testid='Cerrar sesiónNavbar']").click();
@@ -256,7 +265,7 @@ describe("Complete app", () => {
       cy.get('[name="password"]').type("elrijjkfh2");
       cy.get('[data-testid="submitLoginButton"]').click();
 
-      cy.contains("TeacherForE2E")
+      cy.contains("TeacherForE2E");
       cy.contains("Transacciones: 2");
       cy.contains("StudentForE2E").click();
       cy.contains("Transacciones de StudentForE2E");
@@ -275,60 +284,76 @@ describe("Complete app", () => {
       cy.get("@price2").then((priceSell) => {
         cy.contains(`Precio: ${priceSell}`);
       });
-      cy.contains("Comentarios del profesor:")
-      cy.get('textarea').eq(0).type('Comentario')
-      cy.contains("Enviar comentario").eq(0).click()
-      cy.contains("Comentario")
+      cy.contains("Comentarios del profesor:");
+      cy.get("textarea").eq(0).type("Comentario");
+      cy.contains("Enviar comentario").eq(0).click();
+      cy.contains("Comentario");
     });
   });
   describe("navbar redirect", () => {
-    it("Should redirect to market when clicking Mercados option", () => {
-      cy.visit("/users/User");
-      cy.get("[data-testid='MercadosNavbar']").click();
-      cy.location().should((location) => {
-        expect(location.pathname).to.equal('/market');
-      });
-    });
-
-    it("Should redirect to mainPage when clicking Cerrar sesión option", () => {
-      cy.visit("/market");
-      cy.get("[data-testid='Cerrar sesiónNavbar']").click();
-      cy.location().should((location) => {
-        expect(location.pathname).to.equal('/');
-      });
-    });
-
-    it("Should redirect to mainPage when clicking Mi perfil option", () => {
-      cy.visit("/");
-      cy.contains("Iniciar sesión").click();
-      cy.get('[name="username"]').type("Admin");
-      cy.get('[name="password"]').type("'testpass'");
-      cy.get('[data-testid="submitLoginButton"]').click();
-
-      cy.contains("Panel de control de usuarios");
-      cy.contains("Dar de alta un estudiante").click()
-      cy.contains("Nuevo estudiante")
-      cy.get('[placeholder="Nombre de usuario"]').type("StudentForE2ENavbar");
-      cy.get('[placeholder="Email"]').type("StudentForE2ENavbar@gmail.com");
-      cy.get('[placeholder="Balance inicial"]').type("1000")
-      cy.get('[placeholder="Contraseña"]').type("elrijjkfh");
-      cy.contains("Crear estudiante").click()
-      cy.contains("Operación completada con éxito")
-      cy.get('[data-testid="CloseIcon"]').click();
-
-      cy.get("[data-testid='Cerrar sesiónNavbar']").click();
-      
+    it("Should show pages correctly when clicking in navbar links", () => {
+      createUser("StudentForE2ENavbar");
       cy.contains("Iniciar sesión").click();
       cy.get('[name="username"]').type("StudentForE2ENavbar");
       cy.get('[name="password"]').type("elrijjkfh");
       cy.get('[data-testid="submitLoginButton"]').click();
-      cy.contains("StudentForE2ENavbar");
-
-      cy.visit("/market");
+      cy.get("[data-testid='MercadosNavbar']").click();
+      cy.location().should((location) => {
+        expect(location.pathname).to.equal("/market");
+      });
       cy.get("[data-testid='Mi perfilNavbar']").click();
       cy.location().should((location) => {
-        expect(location.pathname).to.equal('/users/StudentForE2ENavbar');
+        expect(location.pathname).to.equal("/users/StudentForE2ENavbar");
       });
+      cy.get("[data-testid='Cerrar sesiónNavbar']").click();
+
+      cy.contains("Iniciar sesión").click();
     });
   });
+  describe("NotFoundPage and Protected Routes", () => {
+    it("Should load error message", () => {
+      cy.visit("/ajkh");
+      cy.contains("Iniciar sesión");
+      cy.visit("/adkadjhk/akjhdakjhsd");
+      cy.contains("Iniciar sesión");
+      cy.visit("/cin/BTC");
+      cy.contains("Iniciar sesión");
+      cy.visit("/usnn/Sergio");
+      cy.contains("Iniciar sesión");
+      createUser("StudentForE2ENotFoundPage");
+      cy.contains("Iniciar sesión").click();
+      cy.get('[name="username"]').type("StudentForE2ENotFoundPage");
+      cy.get('[name="password"]').type("elrijjkfh");
+      cy.get('[data-testid="submitLoginButton"]').click();
+      cy.wait(200);
+      cy.visit("/ajkh");
+      cy.contains("Esta página no existe");
+      cy.visit("/adkadjhk/akjhdakjhsd");
+      cy.contains("Esta página no existe");
+      cy.visit("/cin/BTC");
+      cy.contains("Esta página no existe");
+      cy.visit("/usnn/Sergio");
+      cy.contains("Esta página no existe");
+    });
+  });
+
+  const createUser = (username) => {
+    cy.visit("/");
+    cy.contains("Iniciar sesión").click();
+    cy.get('[name="username"]').type("Admin");
+    cy.get('[name="password"]').type("'testpass'");
+    cy.get('[data-testid="submitLoginButton"]').click();
+
+    cy.contains("Panel de control de usuarios");
+
+    cy.contains("Dar de alta un estudiante").click();
+    cy.contains("Nuevo estudiante");
+    cy.get('[placeholder="Nombre de usuario"]').type(username);
+    cy.get('[placeholder="Email"]').type(username + "@UserTest.com");
+    cy.get('[placeholder="Balance inicial"]').type("1000");
+    cy.get('[placeholder="Contraseña"]').type("elrijjkfh");
+    cy.contains("Crear estudiante").click();
+    cy.contains("Operación completada con éxito");
+    cy.visit("/");
+  };
 });

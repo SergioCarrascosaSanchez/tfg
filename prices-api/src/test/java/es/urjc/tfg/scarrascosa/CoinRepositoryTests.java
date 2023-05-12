@@ -44,8 +44,8 @@ class CoinRepositoryTests {
         assertThat(optionalCoin.get().getId()).isEqualTo(savedCoin.getId());
         
         assertThat(optionalCoin.get().getLastPrice()).isEqualTo(price2);
-        assertThat(Arrays.asList(optionalCoin.get().getListOf10sPrices().toArray())).isEqualTo(Arrays.asList(price1, price2));
-        assertThat(Arrays.asList(optionalCoin.get().getListOf30mPrices().toArray())).isEqualTo(Arrays.asList(price3, price4));
+        assertThat(Arrays.asList(optionalCoin.get().get10sPrices().toArray())).isEqualTo(Arrays.asList(price1, price2));
+        assertThat(Arrays.asList(optionalCoin.get().get30mPrices().toArray())).isEqualTo(Arrays.asList(price3, price4));
         assertThat(Arrays.asList(optionalCoin.get().getListOf1dPrices().toArray())).isEqualTo(Arrays.asList(price5, price6));
         
     }

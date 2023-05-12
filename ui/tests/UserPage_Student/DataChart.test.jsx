@@ -47,7 +47,7 @@ describe("UserPage rendering StudentDashBoard", () => {
           },
           {
             coin: "ETH",
-            quantity: 2,
+            quantity: 11,
           },
         ],
         tradeHistory: [
@@ -132,7 +132,7 @@ describe("UserPage rendering StudentDashBoard", () => {
   it("should render student name and balance", () => {
     render(<UserPage />);
     screen.getByText(studentName);
-    screen.getByText("Balance: 1000$");
+    screen.getByText(`${StudentTitles.Balance}1000$`);
   });
 
   it("should render student portfolio and tradeHistory", () => {
@@ -148,6 +148,8 @@ describe("UserPage rendering StudentDashBoard", () => {
     expect(screen.queryAllByText("Compra").length).toBe(2);
     expect(screen.queryAllByText("Venta").length).toBe(1);
     screen.getByText("Buen trabajo!");
+    screen.getByText("Cantidad: 10")
+    screen.getByText("Cantidad: 11")
 
   });
 });

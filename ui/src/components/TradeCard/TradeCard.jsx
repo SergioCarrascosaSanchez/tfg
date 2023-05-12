@@ -66,19 +66,7 @@ export const TradeCard = ({ username, trade, index, role }) => {
           data-testid={`${username}TradeChart${index}`}
           sx={{
             gridColumn: 1,
-            minWidth: role === "STUDENT"
-            ? {
-              xs: "280px",
-              md: "350px",
-              lg: "300px",
-              xl: "350px",
-            }
-            : role === "TEACHER" &&{
-              xs: "300px",
-              md: "350px",
-              lg: "350px",
-              xl: "350px",
-            },
+            maxWidth: "100%",
             marginBottom: role === "STUDENT"
             ? "20px"
             : role === "TEACHER" &&{

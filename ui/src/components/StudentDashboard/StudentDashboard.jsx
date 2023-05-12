@@ -1,12 +1,13 @@
 import { Box, Typography } from "@mui/joy";
-import { PanelOfCoinChartCard } from "../PanelOfCoinChartCard/PanelOfCoinChartCard";
+import { GroupOfCoinChartCard } from "../GroupOfCoinChartCard/GroupOfCoinChartCard";
 import { DoughnutChart } from "../DoughnutChart/DoughnutChart";
 import { TradeCard } from "../TradeCard/TradeCard";
 
 export const StudentTitles = {
-  Investments: "Portfolio de inversion:",
-  Portfolio: "Resumen del portfolio:",
-  History: "Historial:"
+  Investments: "Cartera de inversión:",
+  Portfolio: "Resumen de la cartera:",
+  History: "Historial:",
+  Balance: "Saldo disponible: "
 }
 export const StudentDashboard = ({ data }) => {
   return (
@@ -57,7 +58,7 @@ export const StudentDashboard = ({ data }) => {
             textAlign: "center",
             alignSelf: "center",
           }}
-        >{`Balance: ${data.balance}$`}</Typography>
+        >{`${StudentTitles.Balance}${data.balance}$`}</Typography>
       </Box>
       <Box
         sx={{
@@ -132,7 +133,7 @@ export const StudentDashboard = ({ data }) => {
               placeContent: "center",
             }}
           >
-            <PanelOfCoinChartCard coins={data.portfolio} size={"md"} />
+            <GroupOfCoinChartCard coins={data.portfolio} quantity={true} size={"md"} />
           </Box>
         </Box>
       </Box>
