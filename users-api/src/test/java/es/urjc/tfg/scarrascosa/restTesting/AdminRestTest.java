@@ -20,7 +20,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DisplayName("Auth REST tests")
+@DisplayName("Admin REST tests")
 public class AdminRestTest {
 
     @Value("${passwords.admin}")
@@ -54,8 +54,6 @@ public class AdminRestTest {
         
         String responseToken = from(response.getBody().asString()).get("token");
         String token = "Bearer "+responseToken;
-        
-        System.out.println(token);
         
         given().
             header("Authorization", token).

@@ -461,6 +461,7 @@ class TeacherRestTests {
          JSONArray pricesArray = new JSONArray(list);
          
          JSONObject trade = new JSONObject();
+         trade.put("type", "BUY");
          trade.put("coin", coin);
          trade.put("quantity", quantity);
          trade.put("price", price);
@@ -472,7 +473,7 @@ class TeacherRestTests {
              header("Authorization", studentToken).
              body(trade.toString()).
          when().
-             post("students/"+student_1+"/purchase").
+             post("students/"+student_1+"/trade").
          then().
              statusCode(200);
          
@@ -577,6 +578,7 @@ class TeacherRestTests {
          JSONArray pricesArray = new JSONArray(list);
          
          JSONObject trade = new JSONObject();
+         trade.put("type", "BUY");
          trade.put("coin", coin);
          trade.put("quantity", quantity);
          trade.put("price", price);
@@ -588,7 +590,7 @@ class TeacherRestTests {
              header("Authorization", studentToken).
              body(trade.toString()).
          when().
-             post("students/"+student_1+"/purchase").
+             post("students/"+student_1+"/trade").
          then().
              statusCode(200);
          

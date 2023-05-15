@@ -18,9 +18,10 @@ export const useTradeCoin = () => {
     setLoading(true)
     setStatusCode(null)
     setError(false)
-    const response = await fetch(`${URL}/students/${username}/${type}`, {
+    const response = await fetch(`${URL}/students/${username}/trade`, {
       method: "POST",
       body: JSON.stringify({
+        type: type,
         coin: coin,
         quantity: quantity,
         price: price,
