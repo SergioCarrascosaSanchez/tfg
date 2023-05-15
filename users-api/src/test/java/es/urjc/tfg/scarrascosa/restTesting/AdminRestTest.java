@@ -55,8 +55,6 @@ public class AdminRestTest {
         String responseToken = from(response.getBody().asString()).get("token");
         String token = "Bearer "+responseToken;
         
-        System.out.println(token);
-        
         given().
             header("Authorization", token).
         when().
