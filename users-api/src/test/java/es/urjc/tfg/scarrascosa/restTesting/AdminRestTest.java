@@ -20,7 +20,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DisplayName("Auth REST tests")
+@DisplayName("Admin REST tests")
 public class AdminRestTest {
 
     @Value("${passwords.admin}")
