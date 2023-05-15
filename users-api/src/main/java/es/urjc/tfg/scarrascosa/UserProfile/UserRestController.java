@@ -1,4 +1,5 @@
 package es.urjc.tfg.scarrascosa.UserProfile;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,134 +25,117 @@ import es.urjc.tfg.scarrascosa.Trade.TradeType;
 
 @RestController
 public class UserRestController {
-    
+
     @Autowired
     private UserProfileRepository repo;
-    
+
     @Autowired
     private TradeRepository tradeRepo;
-    
+
     @GetMapping("/users/{username}")
-    public ResponseEntity<Object> getUserDataByUsername (@PathVariable String username ) {
+    public ResponseEntity<Object> getUserDataByUsername(@PathVariable String username) {
         Optional<UserProfile> optional = repo.findByName(username);
         if (optional.isPresent()) {
             UserProfile user = optional.get();
-            if(user instanceof Student) {
+            if (user instanceof Student) {
                 Student student = (Student) user;
-                return ResponseEntity.ok(new StudentDTO(student.getName(), "STUDENT" ,student.getBalance(), student.getPortfolio(), student.getTradeHistory()));
-            }
-            else if(user instanceof Teacher) {
+                return ResponseEntity.ok(new StudentDTO(student.getName(), "STUDENT", student.getBalance(),
+                        student.getPortfolio(), student.getTradeHistory()));
+            } else if (user instanceof Teacher) {
                 Teacher teacher = (Teacher) user;
                 TeacherDTO teacherDTO = new TeacherDTO();
                 teacherDTO.TeacherDTOStudentEntity(username, "TEACHER", teacher.getStudentList());
                 return ResponseEntity.ok(teacherDTO);
-            }
-            else if(user.getRoles().contains("ADMIN")) {
+            } else if (user.getRoles().contains("ADMIN")) {
                 AdminDTO teacherDTO = new AdminDTO(username, "ADMIN");
                 return ResponseEntity.ok(teacherDTO);
-            }
-            else {
+            } else {
                 return ResponseEntity.notFound().build();
-            } 
-        }
-        else {
+            }
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
-    
-    @PostMapping("/students/{username}/purchase")
-    public ResponseEntity<HttpStatus> purchaseCoin (@PathVariable String username, @RequestBody TradeDTO trade) {
+
+    @PostMapping("/students/{username}/trade")
+    public ResponseEntity<HttpStatus> purchaseCoin(@PathVariable String username, @RequestBody TradeDTO trade) {
         Optional<UserProfile> optional = repo.findByName(username);
         if (optional.isPresent()) {
             UserProfile user = optional.get();
-            if(user instanceof Student) {
+            if (user instanceof Student) {
                 Student student = (Student) user;
-                Trade newTrade = new Trade(TradeType.BUY, trade.getCoin(),trade.getQuantity(), trade.getPrice(), trade.getJustification(), trade.getChartData());
-                try {
-                    student.addToPortfolio(newTrade);
-                    this.tradeRepo.save(newTrade);
-                    this.repo.save(student);
-                    return ResponseEntity.ok().build();
-                } catch (Exception e) {
-                    return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).build();
-                }
-            }
-            else {
-                return ResponseEntity.notFound().build();
-            } 
-        }
-        else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-    
-    @PostMapping("/students/{username}/sell")
-    public ResponseEntity<HttpStatus> sellCoin (@PathVariable String username, @RequestBody TradeDTO trade) {
-        Optional<UserProfile> optional = repo.findByName(username);
-        if (optional.isPresent()) {
-            UserProfile user = optional.get();
-            if(user instanceof Student) {
-                Student student = (Student) user;
-                Trade newTrade = new Trade(TradeType.SELL, trade.getCoin(),trade.getQuantity(), trade.getPrice(), trade.getJustification(), trade.getChartData());
-                try {
-                    student.sellFromPortfolio(newTrade);
-                    this.tradeRepo.save(newTrade);
-                    this.repo.save(student);
-                    return ResponseEntity.ok().build();
-                } catch (Exception e) {
+                if (trade.getType().equals(TradeType.BUY.toString())) {
+                    Trade newTrade = new Trade(TradeType.BUY, trade.getCoin(), trade.getQuantity(), trade.getPrice(),
+                            trade.getJustification(), trade.getChartData());
+                    try {
+                        student.addToPortfolio(newTrade);
+                        this.tradeRepo.save(newTrade);
+                        this.repo.save(student);
+                        return ResponseEntity.ok().build();
+                    } catch (Exception e) {
+                        return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).build();
+                    }
+                } else if (trade.getType().equals(TradeType.SELL.toString())) {
+                    Trade newTrade = new Trade(TradeType.SELL, trade.getCoin(), trade.getQuantity(), trade.getPrice(),
+                            trade.getJustification(), trade.getChartData());
+                    try {
+                        student.sellFromPortfolio(newTrade);
+                        this.tradeRepo.save(newTrade);
+                        this.repo.save(student);
+                        return ResponseEntity.ok().build();
+                    } catch (Exception e) {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+                    }
+                } else {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
                 }
-            }
-            else {
+            } else {
                 return ResponseEntity.notFound().build();
-            } 
-        }
-        else {
+            }
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
     @PostMapping("/teacher/{username}")
-    public ResponseEntity<HttpStatus> addStudentToTeacher (@PathVariable String username, @RequestBody StudentListDTO studentListDTO ) {
+    public ResponseEntity<HttpStatus> addStudentToTeacher(@PathVariable String username,
+            @RequestBody StudentListDTO studentListDTO) {
         Optional<UserProfile> optional = repo.findByName(username);
         if (optional.isPresent()) {
             UserProfile user = optional.get();
-            if(user instanceof Teacher) {
+            if (user instanceof Teacher) {
                 Teacher teacher = (Teacher) user;
-                for(String studentUsername : studentListDTO.getStudentList()) {
+                for (String studentUsername : studentListDTO.getStudentList()) {
                     Optional<UserProfile> studentOptional = repo.findByName(studentUsername);
                     if (studentOptional.isPresent()) {
                         UserProfile studentUser = studentOptional.get();
-                        if(studentUser instanceof Student) {
+                        if (studentUser instanceof Student) {
                             Student student = (Student) studentUser;
                             teacher.addStudent(student);
-                        }
-                        else {
+                        } else {
                             return ResponseEntity.unprocessableEntity().build();
-                        } 
-                    }
-                    else {
+                        }
+                    } else {
                         return ResponseEntity.unprocessableEntity().build();
                     }
                 }
                 this.repo.save(teacher);
                 return ResponseEntity.ok().build();
-            }
-            else {
+            } else {
                 return ResponseEntity.notFound().build();
-            } 
-        }
-        else {
+            }
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
     @PostMapping("teachers/{teacherUsername}/students/{studentUsername}/trades/{id}/feedback")
-    public ResponseEntity<HttpStatus> addFeedback (@PathVariable String teacherUsername, @PathVariable String studentUsername, @PathVariable Long id, @RequestBody FeedbackDTO feedback) {
+    public ResponseEntity<HttpStatus> addFeedback(@PathVariable String teacherUsername,
+            @PathVariable String studentUsername, @PathVariable Long id, @RequestBody FeedbackDTO feedback) {
         Optional<UserProfile> teacherOptional = repo.findByName(teacherUsername);
         Optional<UserProfile> studentOptional = repo.findByName(studentUsername);
         Optional<Trade> tradeOptional = tradeRepo.findById(id);
-        
+
         if (teacherOptional.isEmpty() || studentOptional.isEmpty() || tradeOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -164,6 +148,6 @@ public class UserRestController {
             this.tradeRepo.save(trade);
             return ResponseEntity.ok().build();
         }
-        return ResponseEntity.notFound().build();       
+        return ResponseEntity.notFound().build();
     }
 }

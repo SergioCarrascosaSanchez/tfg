@@ -48,7 +48,7 @@ export const TradeMenu = ({ price, coin, chartData }) => {
     if (correct) {
       if (event.target.name === TradeMenuElements.PurchaseButton) {
         await TradeCoin(
-          "purchase",
+          "BUY",
           username,
           coin,
           quantity,
@@ -58,7 +58,7 @@ export const TradeMenu = ({ price, coin, chartData }) => {
         );
       } else {
         await TradeCoin(
-          "sell",
+          "SELL",
           username,
           coin,
           quantity,
