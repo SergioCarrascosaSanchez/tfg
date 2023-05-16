@@ -7,8 +7,8 @@ export const StudentTitles = {
   Investments: "Cartera de inversión:",
   Portfolio: "Resumen de la cartera:",
   History: "Historial:",
-  Balance: "Saldo disponible: "
-}
+  Balance: "Saldo disponible: ",
+};
 export const StudentDashboard = ({ data }) => {
   return (
     <>
@@ -133,26 +133,30 @@ export const StudentDashboard = ({ data }) => {
               placeContent: "center",
             }}
           >
-            <GroupOfCoinChartCard coins={data.portfolio} quantity={true} size={"md"} />
+            <GroupOfCoinChartCard
+              coins={data.portfolio}
+              quantity={true}
+              size={"md"}
+            />
           </Box>
         </Box>
       </Box>
 
       <Typography
-            component="h2"
-            sx={{
-              textAlign: "left",
-              marginBottom: "20px",
-              typography: {
-                xs: "h5",
-                md: "h5",
-                lg: "h5",
-                xl: "h4",
-              },
-            }}
-          >
-            {StudentTitles.History}
-          </Typography>
+        component="h2"
+        sx={{
+          textAlign: "left",
+          marginBottom: "20px",
+          typography: {
+            xs: "h5",
+            md: "h5",
+            lg: "h5",
+            xl: "h4",
+          },
+        }}
+      >
+        {StudentTitles.History}
+      </Typography>
 
       <Box
         sx={{
@@ -162,26 +166,28 @@ export const StudentDashboard = ({ data }) => {
           alignContent: "space-around",
         }}
       >
-        {data.tradeHistory.map((trade, index) => (
-          <Box
-            sx={{
-              width: {
-                xs: "100%",
-                md: "100%",
-                lg: "48%",
-                xl: "46%",
-              },
-            }}
-          >
-            <TradeCard
-              key={`${data.username}TradeCard${index}`}
-              trade={trade}
-              username={data.username}
-              index={index}
-              role={"STUDENT"}
-            />
-          </Box>
-        ))}
+        {data.tradeHistory
+          .sort((a, b) => (a.id > b.id ? -1 : 1))
+          .map((trade) => (
+            <Box
+              sx={{
+                width: {
+                  xs: "100%",
+                  md: "100%",
+                  lg: "48%",
+                  xl: "46%",
+                },
+              }}
+            >
+              <TradeCard
+                key={`${data.username}TradeCard${trade.id}`}
+                trade={trade}
+                username={data.username}
+                id={trade.id}
+                role={"STUDENT"}
+              />
+            </Box>
+          ))}
       </Box>
     </>
   );

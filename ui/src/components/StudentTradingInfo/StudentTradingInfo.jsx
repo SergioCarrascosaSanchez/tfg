@@ -37,15 +37,17 @@ export const StudentTradingInfo = ({ info, username }) => {
           <List
             sx={{ overflowY: "scroll", overflowX: "hidden", maxHeight: "80vh" }}
           >
-            {info.map((trade) => (
-              <TradeCard
-                key={`${username}TradeCard${trade.id}`}
-                trade={trade}
-                username={username}
-                id={trade.id}
-                role={"TEACHER"}
-              />
-            ))}
+            {info
+              .sort((a, b) => (a.id > b.id ? -1 : 1))
+              .map((trade) => (
+                <TradeCard
+                  key={`${username}TradeCard${trade.id}`}
+                  trade={trade}
+                  username={username}
+                  id={trade.id}
+                  role={"TEACHER"}
+                />
+              ))}
           </List>
         </>
       ) : (
