@@ -168,7 +168,7 @@ export const StudentDashboard = ({ data }) => {
       >
         {data.tradeHistory
           .sort((a, b) => (a.id > b.id ? -1 : 1))
-          .map((trade, index) => (
+          .map((trade) => (
             <Box
               sx={{
                 width: {
@@ -180,10 +180,10 @@ export const StudentDashboard = ({ data }) => {
               }}
             >
               <TradeCard
-                key={`${data.username}TradeCard${index}`}
+                key={`${data.username}TradeCard${trade.id}`}
                 trade={trade}
                 username={data.username}
-                index={index}
+                id={trade.id}
                 role={"STUDENT"}
               />
             </Box>
