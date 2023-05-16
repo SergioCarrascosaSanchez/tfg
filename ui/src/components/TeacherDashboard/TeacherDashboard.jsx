@@ -69,13 +69,15 @@ export const TeacherDashboard = ({ data }) => {
           marginTop: "20px",
         }}
       >
-        {data.studentList.map((student) => (
-          <StudentSummaryCard
-            key={`${student.username}ResumeCard`}
-            username={student.username}
-            tradeHistory={student.tradeHistory}
-          />
-        ))}
+        {data.studentList
+          .sort((a, b) => (a.username > b.username ? 1 : -1))
+          .map((student) => (
+            <StudentSummaryCard
+              key={`${student.username}ResumeCard`}
+              username={student.username}
+              tradeHistory={student.tradeHistory}
+            />
+          ))}
       </Box>
     </>
   );
