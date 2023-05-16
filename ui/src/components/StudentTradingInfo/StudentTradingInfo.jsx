@@ -37,12 +37,12 @@ export const StudentTradingInfo = ({ info, username }) => {
           <List
             sx={{ overflowY: "scroll", overflowX: "hidden", maxHeight: "80vh" }}
           >
-            {info.map((trade, index) => (
+            {info.map((trade) => (
               <TradeCard
-                key={`${username}TradeCard${index}`}
+                key={`${username}TradeCard${trade.id}`}
                 trade={trade}
                 username={username}
-                index={index}
+                id={trade.id}
                 role={"TEACHER"}
               />
             ))}

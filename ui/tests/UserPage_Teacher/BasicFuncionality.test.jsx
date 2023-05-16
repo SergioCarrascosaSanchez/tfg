@@ -55,6 +55,7 @@ describe("UserPage rendering TeacherDashBoard", () => {
             ],
             tradeHistory: [
               {
+                id:0,
                 type: "BUY",
                 coin: "ADA",
                 quantity: 129.7,
@@ -65,6 +66,7 @@ describe("UserPage rendering TeacherDashBoard", () => {
                 feedback: "Buen trabajo 1",
               },
               {
+                id:1,
                 type: "SELL",
                 coin: "BTC",
                 quantity: 1.0,
@@ -75,6 +77,7 @@ describe("UserPage rendering TeacherDashBoard", () => {
                 feedback: "Buen trabajo 2",
               },
               {
+                id:2,
                 type: "BUY",
                 coin: "BTC",
                 quantity: 4.2,
@@ -101,6 +104,7 @@ describe("UserPage rendering TeacherDashBoard", () => {
             ],
             tradeHistory: [
               {
+                id:0,
                 type: "BUY",
                 coin: "ADA",
                 quantity: 2.3,
@@ -111,6 +115,7 @@ describe("UserPage rendering TeacherDashBoard", () => {
                 feedback: "Buen trabajo 4",
               },
               {
+                id:1,
                 type: "BUY",
                 coin: "BTC",
                 quantity: 1.2,
