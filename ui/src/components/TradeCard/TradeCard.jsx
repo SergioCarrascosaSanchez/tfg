@@ -4,7 +4,7 @@ import { TradeTypeChip } from "../TradeTypeChip/TradeTypeChip";
 import { CoinLogo } from "../CoinLogo/CoinLogo";
 import { TeacherFeedback } from "../TeacherFeedback/TeacherFeedback";
 
-export const TradeCard = ({ username, trade, index, role }) => {
+export const TradeCard = ({ username, trade, id, role }) => {
   return (
     <Card
       sx={{
@@ -63,7 +63,7 @@ export const TradeCard = ({ username, trade, index, role }) => {
         }}
       >
         <Box
-          data-testid={`${username}TradeChart${index}`}
+          data-testid={`${username}TradeChart${id}`}
           sx={{
             gridColumn: 1,
             maxWidth: "100%",
@@ -103,7 +103,7 @@ export const TradeCard = ({ username, trade, index, role }) => {
             >
               <Box
                 sx={{ gridColumn: 1, display: "grid", placeContent: "left" }}
-                data-testid={`${username}Trade${index}Coin${trade.coin}`}
+                data-testid={`${username}Trade${id}Coin${trade.coin}`}
               >
                 <CoinLogo coin={trade.coin} size="xs" />
               </Box>
