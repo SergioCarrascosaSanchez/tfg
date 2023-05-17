@@ -37,7 +37,7 @@ public class ScheduledTasks {
     @Value("${prices.password}")
     private String pass;
     
-    private RestTemplate restTemplate = new RestTemplate();
+    private RestTemplate restTemplate = new RestTemplate(); 
     
     public List<BinanceResponseDTO> fetchApiCall(){
         
@@ -127,5 +127,9 @@ public class ScheduledTasks {
                 this.coinRepo.save(coin);
             }
         }
+    }
+    
+    public void setRestTemplate(RestTemplate rt) {
+        this.restTemplate = rt;
     }
 }
