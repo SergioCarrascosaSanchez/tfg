@@ -84,7 +84,7 @@ public class StudentDTO {
         this.role = role;
     }
 
-    private class PortfolioItem{
+    public class PortfolioItem{
         private String coin;
         private Double quantity;
         
@@ -109,7 +109,7 @@ public class StudentDTO {
         }
     }
     
-    private class TradeItem{
+    public class TradeItem{
         private Long id;
         private TradeType type;
         private String coin;
