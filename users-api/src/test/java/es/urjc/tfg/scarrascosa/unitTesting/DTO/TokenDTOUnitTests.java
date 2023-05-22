@@ -1,4 +1,4 @@
-package es.urjc.tfg.scarrascosa.unitTesting;
+package es.urjc.tfg.scarrascosa.unitTesting.DTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

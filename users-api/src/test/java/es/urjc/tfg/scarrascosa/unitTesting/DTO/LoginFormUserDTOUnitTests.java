@@ -1,4 +1,4 @@
-package es.urjc.tfg.scarrascosa.unitTesting;
+package es.urjc.tfg.scarrascosa.unitTesting.DTO;
 
 import es.urjc.tfg.scarrascosa.DTO.LoginFormUserDTO;
 import org.junit.jupiter.api.Assertions;
