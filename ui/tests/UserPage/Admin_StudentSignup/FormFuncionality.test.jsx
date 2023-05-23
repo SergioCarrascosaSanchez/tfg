@@ -1,11 +1,11 @@
 import { cleanup, render, screen, fireEvent } from "@testing-library/react";
 import { describe, it } from "vitest";
-import { UserPage } from "../../src/pages/UserPage/UserPage";
+import { UserPage } from "../../../src/pages/UserPage/UserPage";
 import {
   AdminDashboardTitle,
-  AdminDashboardSignupTeacherButtonText,
-} from "../../src/components/AdminDashboard/AdminDashboard";
-import {TeacherSignupFormPlaceHolders, TeacherSignupFormMessages} from "../../src/components/TeacherSignupForm/TeacherSignupForm"
+  AdminDashboardSignupStudentButtonText,
+} from "../../../src/components/AdminDashboard/AdminDashboard";
+import { StudentSignupFormPlaceHolders, StudentSignupFormMessages } from "../../../src/components/StudentSignupForm/StudentSignupForm";
 
 describe("UserPage rendering AdminDashboard", () => {
   vi.mock("react-router-dom", async () => {
@@ -16,7 +16,7 @@ describe("UserPage rendering AdminDashboard", () => {
     };
   });
 
-  vi.mock("../../src/hooks/useGetUserData", () => {
+  vi.mock("../../../src/hooks/useGetUserData", () => {
     const useGetUserData = vi.fn();
     useGetUserData.mockReturnValue({
       loading: false,
@@ -31,7 +31,7 @@ describe("UserPage rendering AdminDashboard", () => {
       useGetUserData,
     };
   });
-  vi.mock("../../src/hooks/useSignupUser", () => {
+  vi.mock("../../../src/hooks/useSignupUser", () => {
     const useSignupUser = vi.fn();
     useSignupUser.mockReturnValue({
       loading: false,
@@ -50,23 +50,23 @@ describe("UserPage rendering AdminDashboard", () => {
     render(<UserPage />);
     screen.getByText(AdminDashboardTitle);
   });
-  it("should render button for signup a new teacher", () => {
+  it("should render button for signup a new student", () => {
     render(<UserPage />);
-    screen.getByText(AdminDashboardSignupTeacherButtonText)
+    screen.getByText(AdminDashboardSignupStudentButtonText)
   }); 
-  it("should render teacher form when clicking on the button", () => {
+  it("should render student form when clicking on the button", () => {
     render(<UserPage />);
-    fireEvent.click(screen.getByText(AdminDashboardSignupTeacherButtonText));
-    screen.getByText("Nuevo profesor");
-    Object.values(TeacherSignupFormPlaceHolders).forEach(placeHolder => {
+    fireEvent.click(screen.getByText(AdminDashboardSignupStudentButtonText));
+    screen.getByText("Nuevo estudiante");
+    Object.values(StudentSignupFormPlaceHolders).forEach(placeHolder => {
       screen.getByPlaceholderText(placeHolder)
     })
-    screen.getByText("Crear profesor");
+    screen.getByText("Crear estudiante");
   })
   it("should render error message if any field is empty", () => {
     render(<UserPage />);
-    fireEvent.click(screen.getByText(AdminDashboardSignupTeacherButtonText));
-    fireEvent.click(screen.getByText("Crear profesor"));
-    screen.getByText(TeacherSignupFormMessages.emptyFields)
+    fireEvent.click(screen.getByText(AdminDashboardSignupStudentButtonText));
+    fireEvent.click(screen.getByText("Crear estudiante"));
+    screen.getByText(StudentSignupFormMessages.emptyFields)
   })
 });

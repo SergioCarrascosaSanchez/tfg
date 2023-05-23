@@ -1,10 +1,10 @@
 import { cleanup, render, screen, fireEvent } from "@testing-library/react";
 import { describe, it } from "vitest";
-import { UserPage } from "../../src/pages/UserPage/UserPage";
+import { UserPage } from "../../../src/pages/UserPage/UserPage";
 import {
   AdminDashboardSignupStudentButtonText,
-} from "../../src/components/AdminDashboard/AdminDashboard";
-import { StudentSignupFormPlaceHolders, StudentSignupFormMessages } from "../../src/components/StudentSignupForm/StudentSignupForm";
+} from "../../../src/components/AdminDashboard/AdminDashboard";
+import { StudentSignupFormPlaceHolders, StudentSignupFormMessages } from "../../../src/components/StudentSignupForm/StudentSignupForm";
 
 describe("UserPage rendering AdminDashboard", () => {
   vi.mock("react-router-dom", async () => {
@@ -15,7 +15,7 @@ describe("UserPage rendering AdminDashboard", () => {
     };
   });
 
-  vi.mock("../../src/hooks/useGetUserData", () => {
+  vi.mock("../../../src/hooks/useGetUserData", () => {
     const useGetUserData = vi.fn();
     useGetUserData.mockReturnValue({
       loading: false,
@@ -31,12 +31,12 @@ describe("UserPage rendering AdminDashboard", () => {
     };
   });
 
-  vi.mock("../../src/hooks/useSignupUser", () => {
+  vi.mock("../../../src/hooks/useSignupUser", () => {
     const useSignupUser = vi.fn();
     useSignupUser.mockReturnValue({
       loading: false,
       error: true,
-      statusCode: 409,
+      statusCode: 400,
       signupUser : vi.fn()
     });
     return {
@@ -46,7 +46,7 @@ describe("UserPage rendering AdminDashboard", () => {
 
   afterEach(cleanup);
 
-  it("should message if username already used", () => {
+  it("should message if correct operation", () => {
     render(<UserPage />);
     fireEvent.click(screen.getByText(AdminDashboardSignupStudentButtonText));
     Object.values(StudentSignupFormPlaceHolders).forEach((placeHolder) => {
@@ -62,6 +62,6 @@ describe("UserPage rendering AdminDashboard", () => {
       }
     });
     fireEvent.click(screen.getByText("Crear estudiante"));
-    screen.getByText(StudentSignupFormMessages.alreadyCreated)
+    screen.getByText(StudentSignupFormMessages.unexpectedError)
   });
 });

@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
-import { UserPage, UserPageError } from "../../src/pages/UserPage/UserPage";
+import { UserPage, AuthorizationError } from "../../../src/pages/UserPage/UserPage";
 
 const username = "Sergio";
 
@@ -16,12 +16,12 @@ describe("UserPage", () => {
         };
       });
     
-      vi.mock("../../src/hooks/useGetUserData", () => {
+      vi.mock("../../../src/hooks/useGetUserData", () => {
         const useGetUserData = vi.fn();
         useGetUserData.mockReturnValue({
-          loading: true,
-          error: false,
-          statusCode: null,
+          loading: false,
+          error: true,
+          statusCode: 403,
           data: [],
         });
         return {
@@ -34,6 +34,6 @@ describe("UserPage", () => {
       it("should render error", () => {
         render(<UserPage />);
         screen.getByText(username);
-        screen.getByRole("progressbar");
+        screen.getByText(AuthorizationError);
       });
 })

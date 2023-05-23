@@ -1,8 +1,8 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
-import { TeacherDashboardTitle } from "../../src/components/TeacherDashboard/TeacherDashboard";
-import { UserPage } from "../../src/pages/UserPage/UserPage";
-import { NoTradesMessage } from "../../src/components/StudentTradingInfo/StudentTradingInfo";
+import { TeacherDashboardTitle } from "../../../src/components/TeacherDashboard/TeacherDashboard";
+import { UserPage } from "../../../src/pages/UserPage/UserPage";
+import { NoTradesMessage } from "../../../src/components/StudentTradingInfo/StudentTradingInfo";
 
 const teacherName = "Sergio";
 
@@ -22,7 +22,7 @@ describe("UserPage rendering TeacherDashBoard", () => {
     }
   })
 
-  vi.mock("../../src/context/UserContext", () => {
+  vi.mock("../../../src/context/UserContext", () => {
     const UserContext = vi.fn();
     UserContext.mockReturnValue({});
     return {
@@ -30,7 +30,7 @@ describe("UserPage rendering TeacherDashBoard", () => {
     };
   })
 
-  vi.mock("../../src/hooks/useGetUserData", () => {
+  vi.mock("../../../src/hooks/useGetUserData", () => {
     const useGetUserData = vi.fn();
     useGetUserData.mockReturnValue({
       loading: false,

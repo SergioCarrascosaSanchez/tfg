@@ -1,10 +1,11 @@
 import { cleanup, render, screen, fireEvent } from "@testing-library/react";
 import { describe, it } from "vitest";
-import { UserPage } from "../../src/pages/UserPage/UserPage";
+import { UserPage } from "../../../src/pages/UserPage/UserPage";
+import { AdminDashboardSignupTeacherButtonText } from "../../../src/components/AdminDashboard/AdminDashboard";
 import {
-  AdminDashboardSignupTeacherButtonText,
-} from "../../src/components/AdminDashboard/AdminDashboard";
-import { TeacherSignupFormPlaceHolders, TeacherSignupFormMessages } from "../../src/components/TeacherSignupForm/TeacherSignupForm";
+  TeacherSignupFormPlaceHolders,
+  TeacherSignupFormMessages,
+} from "../../../src/components/TeacherSignupForm/TeacherSignupForm";
 
 describe("UserPage rendering AdminDashboard", () => {
   vi.mock("react-router-dom", async () => {
@@ -15,7 +16,7 @@ describe("UserPage rendering AdminDashboard", () => {
     };
   });
 
-  vi.mock("../../src/hooks/useGetUserData", () => {
+  vi.mock("../../../src/hooks/useGetUserData", () => {
     const useGetUserData = vi.fn();
     useGetUserData.mockReturnValue({
       loading: false,
@@ -31,13 +32,13 @@ describe("UserPage rendering AdminDashboard", () => {
     };
   });
 
-  vi.mock("../../src/hooks/useSignupUser", () => {
+  vi.mock("../../../src/hooks/useSignupUser", () => {
     const useSignupUser = vi.fn();
     useSignupUser.mockReturnValue({
       loading: false,
       error: false,
       statusCode: 200,
-      signupUser : vi.fn()
+      signupUser: vi.fn(),
     });
     return {
       useSignupUser,
@@ -50,12 +51,12 @@ describe("UserPage rendering AdminDashboard", () => {
     render(<UserPage />);
     fireEvent.click(screen.getByText(AdminDashboardSignupTeacherButtonText));
     Object.values(TeacherSignupFormPlaceHolders).forEach((placeHolder) => {
-      console.log("Hola")
+      console.log("Hola");
       fireEvent.change(screen.getByPlaceholderText(placeHolder), {
         target: { value: "TestValues" },
       });
     });
     fireEvent.click(screen.getByText("Crear profesor"));
-    screen.getByText(TeacherSignupFormMessages.correctOperation)
+    screen.getByText(TeacherSignupFormMessages.correctOperation);
   });
 });

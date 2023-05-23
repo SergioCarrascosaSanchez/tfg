@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
-import { UserPage, UnexpectedUserPageError } from "../../src/pages/UserPage/UserPage";
+import { UserPage, UnexpectedUserPageError } from "../../../src/pages/UserPage/UserPage";
 
 const username = "Sergio";
 
@@ -16,7 +16,7 @@ describe("UserPage", () => {
         };
       });
     
-      vi.mock("../../src/hooks/useGetUserData", () => {
+      vi.mock("../../../src/hooks/useGetUserData", () => {
         const useGetUserData = vi.fn();
         useGetUserData.mockReturnValue({
           loading: false,

@@ -1,10 +1,11 @@
 import { cleanup, render, screen, fireEvent } from "@testing-library/react";
 import { describe, it } from "vitest";
-import { UserPage } from "../../src/pages/UserPage/UserPage";
+import { UserPage } from "../../../src/pages/UserPage/UserPage";
+import { AdminDashboardSignupTeacherButtonText } from "../../../src/components/AdminDashboard/AdminDashboard";
 import {
-  AdminDashboardSignupTeacherButtonText,
-} from "../../src/components/AdminDashboard/AdminDashboard";
-import { TeacherSignupFormPlaceHolders, TeacherSignupFormMessages } from "../../src/components/TeacherSignupForm/TeacherSignupForm";
+  TeacherSignupFormPlaceHolders,
+  TeacherSignupFormMessages,
+} from "../../../src/components/TeacherSignupForm/TeacherSignupForm";
 
 describe("UserPage rendering AdminDashboard", () => {
   vi.mock("react-router-dom", async () => {
@@ -15,7 +16,7 @@ describe("UserPage rendering AdminDashboard", () => {
     };
   });
 
-  vi.mock("../../src/hooks/useGetUserData", () => {
+  vi.mock("../../../src/hooks/useGetUserData", () => {
     const useGetUserData = vi.fn();
     useGetUserData.mockReturnValue({
       loading: false,
@@ -31,13 +32,13 @@ describe("UserPage rendering AdminDashboard", () => {
     };
   });
 
-  vi.mock("../../src/hooks/useSignupUser", () => {
+  vi.mock("../../../src/hooks/useSignupUser", () => {
     const useSignupUser = vi.fn();
     useSignupUser.mockReturnValue({
       loading: false,
       error: true,
-      statusCode: 400,
-      signupUser : vi.fn()
+      statusCode: 409,
+      signupUser: vi.fn(),
     });
     return {
       useSignupUser,
@@ -46,7 +47,7 @@ describe("UserPage rendering AdminDashboard", () => {
 
   afterEach(cleanup);
 
-  it("should message if unexpected error on api call", () => {
+  it("should message if username already used", () => {
     render(<UserPage />);
     fireEvent.click(screen.getByText(AdminDashboardSignupTeacherButtonText));
     Object.values(TeacherSignupFormPlaceHolders).forEach((placeHolder) => {
@@ -55,6 +56,6 @@ describe("UserPage rendering AdminDashboard", () => {
       });
     });
     fireEvent.click(screen.getByText("Crear profesor"));
-    screen.getByText(TeacherSignupFormMessages.unexpectedError)
+    screen.getByText(TeacherSignupFormMessages.alreadyCreated);
   });
 });

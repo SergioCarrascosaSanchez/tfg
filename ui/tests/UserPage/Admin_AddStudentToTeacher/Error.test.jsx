@@ -1,14 +1,14 @@
 import { cleanup, render, screen, fireEvent } from "@testing-library/react";
 import { describe, it } from "vitest";
-import { UserPage } from "../../src/pages/UserPage/UserPage";
+import { UserPage } from "../../../src/pages/UserPage/UserPage";
 import {
   AdminDashboardAddStudentToTeacherButtonText,
-} from "../../src/components/AdminDashboard/AdminDashboard";
+} from "../../../src/components/AdminDashboard/AdminDashboard";
 import {
   AddStudentToTeacherUnsucessfulOperationMessage,
   AddStudentToTeacherFormSubmitButton,
   AddStudentToTeacherUnexpectedErrorOperationMessage
-} from "../../src/components/AddStudentToTeacherForm/AddStudentToTeacherForm";
+} from "../../../src/components/AddStudentToTeacherForm/AddStudentToTeacherForm";
 
 describe("UserPage rendering AdminDashboard", () => {
   vi.mock("react-router-dom", async () => {
@@ -19,7 +19,7 @@ describe("UserPage rendering AdminDashboard", () => {
     };
   });
 
-  vi.mock("../../src/hooks/useGetUserData", () => {
+  vi.mock("../../../src/hooks/useGetUserData", () => {
     const useGetUserData = vi.fn();
     useGetUserData.mockReturnValue({
       loading: false,
@@ -35,7 +35,7 @@ describe("UserPage rendering AdminDashboard", () => {
     };
   });
 
-  vi.mock("../../src/hooks/useAddStudentsToTeacher", () => {
+  vi.mock("../../../src/hooks/useAddStudentsToTeacher", () => {
     const useAddStudentsToTeacher = vi.fn();
     useAddStudentsToTeacher.mockReturnValueOnce({
       loading: false,

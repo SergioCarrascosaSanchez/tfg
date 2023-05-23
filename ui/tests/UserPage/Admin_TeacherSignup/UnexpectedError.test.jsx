@@ -1,10 +1,10 @@
 import { cleanup, render, screen, fireEvent } from "@testing-library/react";
 import { describe, it } from "vitest";
-import { UserPage } from "../../src/pages/UserPage/UserPage";
+import { UserPage } from "../../../src/pages/UserPage/UserPage";
 import {
   AdminDashboardSignupTeacherButtonText,
-} from "../../src/components/AdminDashboard/AdminDashboard";
-import { TeacherSignupFormPlaceHolders, TeacherSignupFormMessages } from "../../src/components/TeacherSignupForm/TeacherSignupForm";
+} from "../../../src/components/AdminDashboard/AdminDashboard";
+import { TeacherSignupFormPlaceHolders, TeacherSignupFormMessages } from "../../../src/components/TeacherSignupForm/TeacherSignupForm";
 
 describe("UserPage rendering AdminDashboard", () => {
   vi.mock("react-router-dom", async () => {
@@ -15,7 +15,7 @@ describe("UserPage rendering AdminDashboard", () => {
     };
   });
 
-  vi.mock("../../src/hooks/useGetUserData", () => {
+  vi.mock("../../../src/hooks/useGetUserData", () => {
     const useGetUserData = vi.fn();
     useGetUserData.mockReturnValue({
       loading: false,
@@ -31,12 +31,12 @@ describe("UserPage rendering AdminDashboard", () => {
     };
   });
 
-  vi.mock("../../src/hooks/useSignupUser", () => {
+  vi.mock("../../../src/hooks/useSignupUser", () => {
     const useSignupUser = vi.fn();
     useSignupUser.mockReturnValue({
       loading: false,
       error: true,
-      statusCode: 409,
+      statusCode: 400,
       signupUser : vi.fn()
     });
     return {
@@ -46,7 +46,7 @@ describe("UserPage rendering AdminDashboard", () => {
 
   afterEach(cleanup);
 
-  it("should message if username already used", () => {
+  it("should message if unexpected error on api call", () => {
     render(<UserPage />);
     fireEvent.click(screen.getByText(AdminDashboardSignupTeacherButtonText));
     Object.values(TeacherSignupFormPlaceHolders).forEach((placeHolder) => {
@@ -55,6 +55,6 @@ describe("UserPage rendering AdminDashboard", () => {
       });
     });
     fireEvent.click(screen.getByText("Crear profesor"));
-    screen.getByText(TeacherSignupFormMessages.alreadyCreated)
+    screen.getByText(TeacherSignupFormMessages.unexpectedError)
   });
 });

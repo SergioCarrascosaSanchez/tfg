@@ -1,13 +1,13 @@
 import { cleanup, render, screen, fireEvent } from "@testing-library/react";
 import { describe, it } from "vitest";
-import { UserPage } from "../../src/pages/UserPage/UserPage";
+import { UserPage } from "../../../src/pages/UserPage/UserPage";
 import {
   AdminDashboardAddStudentToTeacherButtonText,
-} from "../../src/components/AdminDashboard/AdminDashboard";
+} from "../../../src/components/AdminDashboard/AdminDashboard";
 import {
-  AddStudentToTeacherFormSubmitButton,
-  AddStudentToTeacherUnexpectedErrorOperationMessage
-} from "../../src/components/AddStudentToTeacherForm/AddStudentToTeacherForm";
+  AddStudentToTeacherSucessfulOperationMessage,
+  AddStudentToTeacherFormSubmitButton
+} from "../../../src/components/AddStudentToTeacherForm/AddStudentToTeacherForm";
 
 describe("UserPage rendering AdminDashboard", () => {
   vi.mock("react-router-dom", async () => {
@@ -18,7 +18,7 @@ describe("UserPage rendering AdminDashboard", () => {
     };
   });
 
-  vi.mock("../../src/hooks/useGetUserData", () => {
+  vi.mock("../../../src/hooks/useGetUserData", () => {
     const useGetUserData = vi.fn();
     useGetUserData.mockReturnValue({
       loading: false,
@@ -34,13 +34,13 @@ describe("UserPage rendering AdminDashboard", () => {
     };
   });
 
-  vi.mock("../../src/hooks/useAddStudentsToTeacher", () => {
+  vi.mock("../../../src/hooks/useAddStudentsToTeacher", () => {
     const useAddStudentsToTeacher = vi.fn();
     useAddStudentsToTeacher.mockReturnValue({
       loading: false,
-      error: true,
-      statusCode: 500,
-      addStudentsToUsers: vi.fn()
+      error: false,
+      statusCode: 200,
+      addStudentsToUsers: () => {}
     });
     return {
       useAddStudentsToTeacher,
@@ -48,7 +48,8 @@ describe("UserPage rendering AdminDashboard", () => {
   });
 
   afterEach(cleanup);
-  it("should render message if UnsucessfulOperation 500", () => {
+
+  it("should render message if successful operation", () => {
     render(<UserPage />);
     fireEvent.click(
       screen.getByText(AdminDashboardAddStudentToTeacherButtonText)
@@ -57,11 +58,6 @@ describe("UserPage rendering AdminDashboard", () => {
     fireEvent.change(screen.getByPlaceholderText("Nombre del profesor"), {
       target: { value: "TeacherName" },
     });
-
-    fireEvent.click(
-      screen.getByText(AddStudentToTeacherFormSubmitButton)
-    );
-    screen.getByText("Debes rellenar todos los campos")
 
     fireEvent.change(screen.getByPlaceholderText("Nombre del alumno 1"), {
       target: { value: "Alumno 1" },
@@ -86,7 +82,6 @@ describe("UserPage rendering AdminDashboard", () => {
     fireEvent.click(
       screen.getByText(AddStudentToTeacherFormSubmitButton)
     );
-    screen.getByText(AddStudentToTeacherUnexpectedErrorOperationMessage)
-    
+    screen.getByText(AddStudentToTeacherSucessfulOperationMessage)
   });
 });

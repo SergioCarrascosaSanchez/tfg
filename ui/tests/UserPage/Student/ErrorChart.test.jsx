@@ -1,8 +1,8 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
-import { StudentTitles } from "../../src/components/StudentDashboard/StudentDashboard";
-import { UserPage } from "../../src/pages/UserPage/UserPage";
-import { chartError } from "../../src/components/DoughnutChart/DoughnutChart";
+import { StudentTitles } from "../../../src/components/StudentDashboard/StudentDashboard";
+import { UserPage } from "../../../src/pages/UserPage/UserPage";
+import { chartError } from "../../../src/components/DoughnutChart/DoughnutChart";
 
 const studentName = "Sergio";
 
@@ -15,7 +15,7 @@ describe("UserPage rendering StudentDashBoard", () => {
     };
   });
 
-  vi.mock("../../src/hooks/useGetUserData", () => {
+  vi.mock("../../../src/hooks/useGetUserData", () => {
     const useGetUserData = vi.fn();
     useGetUserData.mockReturnValue({
       loading: false,
@@ -43,7 +43,7 @@ describe("UserPage rendering StudentDashBoard", () => {
     };
   });
 
-  vi.mock("../../src/hooks/useGetListOfPrices", () => {
+  vi.mock("../../../src/hooks/useGetListOfPrices", () => {
     const useGetListOfPrices = vi.fn();
     useGetListOfPrices.mockReturnValue({
       loading: false,
@@ -56,7 +56,7 @@ describe("UserPage rendering StudentDashBoard", () => {
     };
   });
 
-  vi.mock("../../src/hooks/useGetPrice", () => {
+  vi.mock("../../../src/hooks/useGetPrice", () => {
     const useGetPrice = vi.fn();
     useGetPrice.mockReturnValue({
       loading: false,

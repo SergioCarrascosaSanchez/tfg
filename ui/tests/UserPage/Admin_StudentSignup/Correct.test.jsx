@@ -1,10 +1,10 @@
 import { cleanup, render, screen, fireEvent } from "@testing-library/react";
 import { describe, it } from "vitest";
-import { UserPage } from "../../src/pages/UserPage/UserPage";
+import { UserPage } from "../../../src/pages/UserPage/UserPage";
 import {
   AdminDashboardSignupStudentButtonText,
-} from "../../src/components/AdminDashboard/AdminDashboard";
-import {StudentSignupFormMessages, StudentSignupFormPlaceHolders} from "../../src/components/StudentSignupForm/StudentSignupForm"
+} from "../../../src/components/AdminDashboard/AdminDashboard";
+import {StudentSignupFormMessages, StudentSignupFormPlaceHolders} from "../../../src/components/StudentSignupForm/StudentSignupForm"
 
 describe("UserPage rendering AdminDashboard", () => {
   vi.mock("react-router-dom", async () => {
@@ -15,7 +15,7 @@ describe("UserPage rendering AdminDashboard", () => {
     };
   });
 
-  vi.mock("../../src/hooks/useGetUserData", () => {
+  vi.mock("../../../src/hooks/useGetUserData", () => {
     const useGetUserData = vi.fn();
     useGetUserData.mockReturnValue({
       loading: false,
@@ -31,7 +31,7 @@ describe("UserPage rendering AdminDashboard", () => {
     };
   });
 
-  vi.mock("../../src/hooks/useSignupUser", () => {
+  vi.mock("../../../src/hooks/useSignupUser", () => {
     const useSignupUser = vi.fn();
     useSignupUser.mockReturnValue({
       loading: false,
