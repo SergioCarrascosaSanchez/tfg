@@ -4,11 +4,11 @@ import {
   MarketPage,
   MarketName,
   popularCryptocurrencies,
-} from "../src/pages/MarketPage/MarketPage";
+} from "../../src/pages/MarketPage/MarketPage";
 import { MemoryRouter } from "react-router-dom";
 
 describe("MarketPage", () => {
-  vi.mock("../src/hooks/useGetPrice", () => {
+  vi.mock("../../src/hooks/useGetPrice", () => {
     const useGetPrice = vi.fn();
     useGetPrice.mockReturnValue({
       loading: false,

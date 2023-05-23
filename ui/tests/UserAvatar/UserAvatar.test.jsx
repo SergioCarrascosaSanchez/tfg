@@ -1,6 +1,6 @@
 import { afterEach, describe, it } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
-import { UserAvatar } from "../src/components/UserAvatar/UserAvatar";
+import { UserAvatar } from "../../src/components/UserAvatar/UserAvatar";
 
 describe("UserAvatar", () => {
 

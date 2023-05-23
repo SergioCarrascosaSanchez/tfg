@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { stringBUSD } from "../src/utils/stringBUSD";
+import { stringBUSD } from "../../src/utils/stringBUSD";
 
 describe("stringBUSD", () => {
   const termination = "BUSD";

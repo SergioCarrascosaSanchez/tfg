@@ -1,10 +1,10 @@
-import { cleanup, render, screen, fireEvent } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import { describe, it } from "vitest";
 import {
   MainPage,
   MainPageAltImages,
   mainPageTexts,
-} from "../src/pages/MainPage/MainPage";
+} from "../../src/pages/MainPage/MainPage";
 
 describe("MainPage", () => {
   afterEach(cleanup);

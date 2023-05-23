@@ -1,7 +1,6 @@
-import { cleanup, render, screen, fireEvent } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { Navbar, options, appName } from "../src/components/Navbar/Navbar";
-import { MemoryRouter, Routes, Route } from "react-router-dom";
+import { Navbar, options, appName } from "../../src/components/Navbar/Navbar";
 
 describe("Navbar", () => {
   vi.mock("react-router-dom", async () => {
