@@ -4,9 +4,9 @@ public class BinanceResponseDTO {
     private String symbol;
     private Double price;
     
-    private BinanceResponseDTO() {}
+    public BinanceResponseDTO() {}
     
-    private BinanceResponseDTO(String symbol, Double price) {
+    public BinanceResponseDTO(String symbol, Double price) {
         this.price = price;
         this.symbol = symbol;
     }
