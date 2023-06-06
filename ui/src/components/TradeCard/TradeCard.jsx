@@ -115,7 +115,12 @@ export const TradeCard = ({ username, trade, id, role }) => {
                 {trade.coin}
               </Typography>
             </Box>
-            <Box sx={{ gridColumn: 2 }}>
+            <Box sx={{ gridColumn: 2, marginLeft: {
+                xs: "5px",
+                md: "20px",
+                lg: "25px",
+                xl: "20px",
+              },}}>
               <TradeTypeChip type={trade.type} />
             </Box>
           </Box>
@@ -151,7 +156,7 @@ export const TradeCard = ({ username, trade, id, role }) => {
               level="body2"
               component="p"
               sx={{
-                maxWidth: "80%",
+                maxWidth: "70%",
                 gridColumn: 2,
                 textAlign: {
                   xs: "right",
