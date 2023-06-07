@@ -35,6 +35,9 @@ export function useGetPrice(time, coin, refresh) {
       const intervalCall = setInterval(() => {
         fetch(`${URL}/last/${coin}`, {
           method: "GET",
+          headers: {
+            'Cache-Control': 'no-store'
+          }
         })
           .then((res) => {
             if (res.status === 200) {
@@ -55,7 +58,7 @@ export function useGetPrice(time, coin, refresh) {
           .catch((err) => {
             console.log("error", err);
           });
-      }, 10000);
+      }, 11000);
       return () => {
         clearInterval(intervalCall);
       };
