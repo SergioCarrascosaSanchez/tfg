@@ -8,6 +8,8 @@ export const CoinChartCardErrorMessage = "Ha ocurrido un error con ";
 export const CoinChartCardQuantityText = "Cantidad: "
 export const CoinChartCard = ({ name, time, quantity }) => {
   const data = useGetPrice(`${time}`, `${name}BUSD`);
+  console.log(data, data.data[data.data.length - 1])
+  
   return (
     <Card
       key={`${name}Card`}
@@ -77,7 +79,7 @@ export const CoinChartCard = ({ name, time, quantity }) => {
                 },
               }}
             >
-              {data.data[data.data.length - 1]}
+              {`${data.data[data.data.length - 1]}$`}
             </Typography>
           </Box>
           {quantity && (

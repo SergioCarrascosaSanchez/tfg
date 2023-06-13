@@ -80,7 +80,7 @@ export const CoinPage = () => {
                 },
               }}
             >
-              {`${data.data[data.data.length - 1]} $`}
+              {`${data.data[data.data.length - 1]}$`}
             </Typography>
           )}
         </Box>

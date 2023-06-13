@@ -33,7 +33,7 @@ describe("CoinChartCard Loading", () => {
     render(<CoinChartCard name={name} time="30m" />);
     screen.getByText(name);
     screen.getByRole("img", { name: `${name}` });
-    screen.getByText("22844");
+    screen.getByText("22844$");
     expect(screen.queryAllByText("Cantidad").length).toBe(0)
     screen.getByTestId(`${name}Graph`);
   });
@@ -42,7 +42,7 @@ describe("CoinChartCard Loading", () => {
     render(<CoinChartCard name={name} time="30m" quantity="1000" />);
     screen.getByText(name);
     screen.getByRole("img", { name: `${name}` });
-    screen.getByText("22844");
+    screen.getByText("22844$");
     screen.getByText("Cantidad: 1000");
     screen.getByTestId(`${name}Graph`);
   });
