@@ -66,7 +66,7 @@ describe("CoinChartCard Loading", () => {
     expect(screen.queryAllByText("Cantidad: 0.2").length).toBe(0)
     screen.getByTestId(`${"ADA"}Graph`);
 
-    expect(screen.queryAllByText("22844").length).toBe(3)
+    expect(screen.queryAllByText("22844$").length).toBe(3)
     
   });
 
@@ -101,7 +101,7 @@ describe("CoinChartCard Loading", () => {
     expect(screen.queryAllByText("Cantidad: 0.2").length).toBe(0)
     screen.getByTestId(`${"ADA"}Graph`);
 
-    expect(screen.queryAllByText("22844").length).toBe(3)
+    expect(screen.queryAllByText("22844$").length).toBe(3)
     
   });
 
@@ -136,7 +136,7 @@ describe("CoinChartCard Loading", () => {
     screen.getByText("Cantidad: 0.2")
     screen.getByTestId(`${"ADA"}Graph`);
 
-    expect(screen.queryAllByText("22844").length).toBe(3)
+    expect(screen.queryAllByText("22844$").length).toBe(3)
     
   });
 
@@ -171,7 +171,7 @@ describe("CoinChartCard Loading", () => {
     screen.getByText("Cantidad: 0.2")
     screen.getByTestId(`${"ADA"}Graph`);
 
-    expect(screen.queryAllByText("22844").length).toBe(3)
+    expect(screen.queryAllByText("22844$").length).toBe(3)
     
   });
 });

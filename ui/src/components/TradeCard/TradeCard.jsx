@@ -166,7 +166,7 @@ export const TradeCard = ({ username, trade, id, role }) => {
                 },
               }}
             >
-              {`Precio: ${trade.price}`}
+              {`Precio: ${trade.price}$`}
             </Typography>
           </Box>
 

@@ -97,7 +97,7 @@ describe("StudentSummaryCard", () => {
       screen.getByText("Compra");
       screen.getByText("ADA");
       screen.getByText("Cantidad: 129.7");
-      screen.getByText("Precio: 0.2");
+      screen.getByText("Precio: 0.2$");
       screen.getByText("justification sample 1");
       screen.getByText("2023-03-17 08:14:38");
       screen.getByText("Buen trabajo 1");
