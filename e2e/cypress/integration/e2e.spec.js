@@ -46,7 +46,7 @@ describe("Complete app", () => {
       cy.get('[data-testid="ADAPrice"]')
         .invoke("text")
         .then((text) => {
-          const price = text.slice(0, -2);
+          const price = text.slice(0, -1);
           cy.wrap(Number(price)).as("price");
         });
       cy.contains("Transacción");
@@ -80,7 +80,7 @@ describe("Complete app", () => {
       cy.get('[data-testid="ADAPrice"]')
         .invoke("text")
         .then((text) => {
-          const price = text.slice(0, -2);
+          const price = text.slice(0, -1);
           cy.wrap(Number(price)).as("priceFirstSell");
         });
       cy.contains("Transacción");
@@ -116,7 +116,7 @@ describe("Complete app", () => {
       cy.get('[data-testid="ADAPrice"]')
         .invoke("text")
         .then((text) => {
-          const price = text.slice(0, -2);
+          const price = text.slice(0, -1);
           cy.wrap(Number(price)).as("priceSecondSell");
         });
       cy.contains("Transacción");
@@ -243,7 +243,7 @@ describe("Complete app", () => {
       cy.get('[data-testid="ADAPrice"]')
         .invoke("text")
         .then((text) => {
-          const price = text.slice(0, -2);
+          const price = text.slice(0, -1);
           cy.wrap(Number(price)).as("price");
         });
       cy.contains("Transacción");
@@ -258,7 +258,7 @@ describe("Complete app", () => {
       cy.get('[data-testid="ADAPrice"]')
         .invoke("text")
         .then((text) => {
-          const price = text.slice(0, -2);
+          const price = text.slice(0, -1);
           cy.wrap(Number(price)).as("price2");
         });
       cy.contains("Transacción");
