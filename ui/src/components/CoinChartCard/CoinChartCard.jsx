@@ -5,11 +5,10 @@ import CircularProgress from "@mui/joy/CircularProgress";
 import { CoinLogo } from "../CoinLogo/CoinLogo";
 
 export const CoinChartCardErrorMessage = "Ha ocurrido un error con ";
-export const CoinChartCardQuantityText = "Cantidad: "
+export const CoinChartCardQuantityText = "Cantidad: ";
 export const CoinChartCard = ({ name, time, quantity }) => {
   const data = useGetPrice(`${time}`, `${name}BUSD`);
-  console.log(data, data.data[data.data.length - 1])
-  
+
   return (
     <Card
       key={`${name}Card`}
@@ -79,7 +78,12 @@ export const CoinChartCard = ({ name, time, quantity }) => {
                 },
               }}
             >
-              {`${data.data[data.data.length - 1]}$`}
+              {`${
+                data.data.filter((element) => typeof element === "number")[
+                  data.data.filter((element) => typeof element === "number")
+                      .length - 1
+                ]
+              }$`}
             </Typography>
           </Box>
           {quantity && (
